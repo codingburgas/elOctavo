@@ -17,7 +17,7 @@ int main()
     square.setFillColor(Color::Red);
 
     //setting position of the characater
-    square.setPosition(window.getSize().x / 2, window.getSize().y / 2);
+    square.setPosition(150, window.getSize().y / 2 + 150);
 
     while (window.isOpen())
     {
@@ -69,7 +69,7 @@ void update(int& keyTime, RectangleShape &square, RenderWindow& window)
         keyTime = 0;
     }
 
-    if (Keyboard::isKeyPressed(Keyboard::S) && keyTime >= 1 && square.getPosition().y + square.getSize().y < window.getSize().y)
+    if (Keyboard::isKeyPressed(Keyboard::S) && keyTime >= 1 && square.getPosition().y + square.getSize().y < window.getSize().y - 150)
     {
         square.move(0.f, 5.f);
         keyTime = 0;
