@@ -4,11 +4,12 @@ using namespace sf;
 void update(int &keyTime, RectangleShape &square, RenderWindow& window);
 
 void draw(RenderWindow &window, RectangleShape& square);
+
 int main()
 { 
     int keyTime = 0;
    
-    sf::RenderWindow window(sf::VideoMode(1300, 800), "The legend of Kurabirov", sf::Style::Titlebar | sf::Style::Close);
+    sf::RenderWindow window(sf::VideoMode(1500, 800), "The legend of Kurabirov", sf::Style::Titlebar | sf::Style::Close);
     sf::Event ev;
 
     window.setFramerateLimit(60);
@@ -36,9 +37,7 @@ int main()
         update(keyTime, square, window);
 
         draw(window, square);
-
     }
-
 }
 
 void update(int& keyTime, RectangleShape &square, RenderWindow& window)
@@ -51,40 +50,55 @@ void update(int& keyTime, RectangleShape &square, RenderWindow& window)
 
 
     //WASD moving
-    if (Keyboard::isKeyPressed(Keyboard::A) && keyTime >= 1 && square.getPosition().x > 0)
+    if (keyTime >= 1)
     {
-        square.move(-5.f, 0.f);
-        keyTime = 0;
-    }
+        if (Keyboard::isKeyPressed(Keyboard::A))
+        {
+            if (square.getPosition().x > 0)
+            {
+                square.move(-5.f, 0.f);
+                keyTime = 0;
+            }
+        }
 
-    if (Keyboard::isKeyPressed(Keyboard::D) && keyTime >= 1 && square.getPosition().x + square.getSize().x < window.getSize().x)
-    {
-        square.move(5.f, 0.f);
-        keyTime = 0;
-    }
+        if (Keyboard::isKeyPressed(Keyboard::D))
+        {
+            if (square.getPosition().x + square.getSize().x < window.getSize().x)
+            {
+                square.move(5.f, 0.f);
+                keyTime = 0;
+            }
+        }
 
-    if (Keyboard::isKeyPressed(Keyboard::W) && keyTime >= 1 && square.getPosition().y > 0)
-    {
-        square.move(0.f, -5.f);
-        keyTime = 0;
-    }
+        if (Keyboard::isKeyPressed(Keyboard::W))
+        {
+            if (square.getPosition().y > 0)
+            {
+                square.move(0.f, -5.f);
+                keyTime = 0;
+            }
+        }
 
-    if (Keyboard::isKeyPressed(Keyboard::S) && keyTime >= 1 && square.getPosition().y + square.getSize().y < window.getSize().y - 150)
-    {
-        square.move(0.f, 5.f);
-        keyTime = 0;
-    }
+        if (Keyboard::isKeyPressed(Keyboard::S))
+        {
+            if (square.getPosition().y + square.getSize().y < window.getSize().y - 150)
+            {
+                square.move(0.f, 5.f);
+                keyTime = 0;
+            }
+        }
 
-    //left click of the mouse
-    if (Mouse::isButtonPressed(Mouse::Left) && keyTime >= 1)
-    {
-        square.setFillColor(Color::Blue);
-        keyTime = 0;
+        if (Mouse::isButtonPressed(Mouse::Left))
+        {
+            square.setFillColor(Color::Blue);
+            keyTime = 0;
+        }
+        else {
+            square.setFillColor(Color::Red);
+            keyTime = 0;
+        }
     }
-    else {
-        square.setFillColor(Color::Red);
-        keyTime = 0;
-    }
+   
 }
 
 void draw(RenderWindow &window, RectangleShape& square)
