@@ -1,5 +1,4 @@
 #include "Project.h"
-using namespace sf;
 
 void update(int &keyTime, RectangleShape &square, RenderWindow& window);
 
@@ -9,8 +8,8 @@ int main()
 { 
     int keyTime = 0;
    
-    sf::RenderWindow window(sf::VideoMode(1500, 800), "The legend of Kurabirov", sf::Style::Titlebar | sf::Style::Close);
-    sf::Event ev;
+    RenderWindow window(sf::VideoMode(1500, 800), "The legend of Kurabirov", sf::Style::Titlebar | sf::Style::Close);
+    Event ev;
 
     window.setFramerateLimit(60);
 
@@ -44,10 +43,8 @@ void update(int& keyTime, RectangleShape &square, RenderWindow& window)
 {
     if (keyTime < 1)
     {
-        //trq go napravq na po - malko
         keyTime++;
     }
-
 
     //WASD moving
     if (keyTime >= 1)

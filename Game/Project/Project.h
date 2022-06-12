@@ -13,3 +13,4 @@
 #include <SFML/Network.hpp>
 
 using namespace std;
+using namespace sf;
