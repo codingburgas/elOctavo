@@ -14,7 +14,7 @@ class Game
 		
 		void setVars(RenderWindow window, int keyTime, Event ev, RectangleShape square)
 		{
-			this->window = window;
+			//this->window = window;
 			this->keyTime = keyTime;
 			this->ev = ev;
 			this->square = square;
