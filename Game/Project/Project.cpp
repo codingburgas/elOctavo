@@ -1,23 +1,37 @@
 #include "Project.h"
 
 void update(int &keyTime, RectangleShape &square, RenderWindow& window);
+void moveCamera(string direction, Sprite &image);
 
-void draw(RenderWindow &window, RectangleShape& square);
+Texture bgTexture;
+Sprite bgImage;
 
 int main()
-{ 
+{
     int keyTime = 0;
-   
+
     RenderWindow window(sf::VideoMode(1500, 800), "The legend of Kurabirov", sf::Style::Titlebar | sf::Style::Close);
     Event ev;
 
+
     window.setFramerateLimit(60);
+
+    if (!bgTexture.loadFromFile("images/test.png")) {
+        cout << "background didn't load" << endl;
+    }
+    else {
+        cout << "background loaded" << endl;
+    }
+
+    bgImage.setTexture(bgTexture);
 
     RectangleShape square(Vector2f(100.f, 100.f));
     square.setFillColor(Color::Red);
 
     //setting position of the characater
-    square.setPosition(150, window.getSize().y / 2 + 150);
+    square.setPosition(window.getSize().x / 2 - 50, window.getSize().y / 2 - 50);
+    bgImage.setOrigin(1920, 1080);
+    bgImage.setPosition(window.getSize().x / 2, window.getSize().y / 2);
 
     while (window.isOpen())
     {
@@ -35,7 +49,29 @@ int main()
         }
         update(keyTime, square, window);
 
-        draw(window, square);
+        window.clear(Color::Green);
+
+        window.draw(bgImage);
+
+        //display character
+        window.draw(square);
+
+        window.display();
+    }
+}
+
+void moveCamera(string direction, Sprite &image) {
+    if (direction == "left" && image.getPosition().x != 1920) {
+        image.move(5.f, 0.f);
+    }
+    else if (direction == "right" && image.getPosition().x != -420) {
+        image.move(-5.f, 0.f);
+    }
+    else if (direction == "up" && image.getPosition().y != 1100) {
+        image.move(0.f, 5.f);
+    }
+    else if (direction == "down" && image.getPosition().y != -300) {
+        image.move(0.f, -5.f);
     }
 }
 
@@ -51,38 +87,23 @@ void update(int& keyTime, RectangleShape &square, RenderWindow& window)
     {
         if (Keyboard::isKeyPressed(Keyboard::A))
         {
-            if (square.getPosition().x > 0)
-            {
-                square.move(-5.f, 0.f);
-                keyTime = 0;
-            }
+            moveCamera("left", bgImage);
         }
 
         if (Keyboard::isKeyPressed(Keyboard::D))
         {
-            if (square.getPosition().x + square.getSize().x < window.getSize().x)
-            {
-                square.move(5.f, 0.f);
-                keyTime = 0;
-            }
+            moveCamera("right", bgImage);
         }
 
         if (Keyboard::isKeyPressed(Keyboard::W))
         {
-            if (square.getPosition().y > 0)
-            {
-                square.move(0.f, -5.f);
-                keyTime = 0;
-            }
+
+            moveCamera("up", bgImage);
         }
 
         if (Keyboard::isKeyPressed(Keyboard::S))
         {
-            if (square.getPosition().y + square.getSize().y < window.getSize().y - 150)
-            {
-                square.move(0.f, 5.f);
-                keyTime = 0;
-            }
+            moveCamera("down", bgImage);
         }
 
         if (Mouse::isButtonPressed(Mouse::Left))
@@ -96,14 +117,4 @@ void update(int& keyTime, RectangleShape &square, RenderWindow& window)
         }
     }
    
-}
-
-void draw(RenderWindow &window, RectangleShape& square)
-{
-    window.clear(Color::Green);
-
-    //disdplay character
-    window.draw(square);
-
-    window.display();
 }
