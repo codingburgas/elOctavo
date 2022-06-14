@@ -1,73 +1,20 @@
-#include "GameClasses.h"
-#include "Precompile.h"
+// Game.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
 
-namespace variables {
-    RectangleShape square(Vector2f(120, 50));
-}
+#include <iostream>
 
-using namespace variables;
-
-void Game::variables()
+int main()
 {
-    this->window = nullptr;
-    this->keyTime = 0;
-
-    square.setFillColor(Color::Red);
-
-    bgTexture.loadFromFile("../images/test.png");
-    bgImage.setTexture(bgTexture);
+    std::cout << "Hello World!\n";
 }
 
-void Game::windowInIt()
-{
-    this->videoMode.height = 1280;
-    this->videoMode.width = 720;
-    this->window = new RenderWindow(this->videoMode, "The legend of Kurabirov", sf::Style::Titlebar | sf::Style::Close);
-    this->window->setFramerateLimit(60);
-}
+// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
+// Debug program: F5 or Debug > Start Debugging menu
 
-const bool Game::running() const
-{
-    return this->window->isOpen();
-}
-
-Game::Game()
-{
-    this->variables();
-    this->windowInIt();
-}
-
-Game::~Game()
-{
-    delete this->window;
-}
-
-void Game::update()
-{
-    while (this->window->isOpen())
-    {
-        while (this->window->pollEvent(this->ev))
-        {
-            if (this->ev->type == Event::Closed)
-            {
-                window->close();
-            }
-
-            if (this->ev->KeyPressed && this->ev->key.code == Keyboard::Escape)
-            {
-                window->close();
-            }
-        }
-    }
-}
-
-void Game::render()
-{
-
-}
-
-//we will put everything here
-void setup()
-{
-
-}
+// Tips for Getting Started: 
+//   1. Use the Solution Explorer window to add/manage files
+//   2. Use the Team Explorer window to connect to source control
+//   3. Use the Output window to see build output and other messages
+//   4. Use the Error List window to view errors
+//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
+//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
