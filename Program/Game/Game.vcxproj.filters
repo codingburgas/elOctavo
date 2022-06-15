@@ -21,12 +21,18 @@
     <ClCompile Include="Menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="El Octavo-Functions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Precompile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="El Octavo-Functions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

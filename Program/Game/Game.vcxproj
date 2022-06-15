@@ -145,10 +145,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="El Octavo-Functions.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Menu.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="El Octavo-Functions.h" />
     <ClInclude Include="GameClass.h" />
     <ClInclude Include="Precompile.h" />
   </ItemGroup>
