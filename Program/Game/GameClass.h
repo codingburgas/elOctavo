@@ -6,42 +6,71 @@ private:
 
 	// init variables
 
-	int* posX;
-	int* posY;
-	int* hp;
-	Sprite spriteMainCharacter;
+	float posX;
+	float posY;
+	int hp;
+	int pSC;
+	bool pMoved;
+	Sprite pSprite;
 
 public:
 
-	// init constructor
-	// probable error
-
-	Player(int* posX, int* posY, int* hp, Sprite sprite) : posX(posX), posY(posY), hp(hp), spriteMainCharacter(sprite) {
-		updatePos(this->posX, this->posY);
+	void setPublicVariables(float posX, float posY, int hp, Sprite pSprite)
+	{
+		this->posX = posX;
+		this->posY = posY;
+		this->hp = hp;
+		this->pSprite = pSprite;
+		this->pMoved = false;
 	}
+
+	void setValues()
+	{
+		this->pSprite.setPosition(this->posX, this->posY);
+	}
+	// misc functions
+
+	float getPos(char cord) {
+		if (cord == 'x') {
+			return this->posX;
+		}
+		else {
+			return this->posY;
+		}
+	}
+
+	bool getMoved() {
+		return this->pMoved;
+	}
+
 
 	// update functions
 
-	void updatePos(int* newX, int* newY) {
-		this->posX = newX;
-		this->posY = newY;
-		this->spriteMainCharacter.move(*newX, *newY);
-	};
+	void updatePos(float moveX, float moveY) {
+		this->pSprite.move(moveX, moveY);
+
+		this->posX = pSprite.getPosition().x;
+		this->posY = pSprite.getPosition().y;
+	}
 
 	void changeSprite(Texture* newTexture) {
-		this->spriteMainCharacter.setTexture(*newTexture);
-	};
+		this->pSprite.setTexture(*newTexture);
+	}
 
-	void updateHealth(int* newHp) {
+	void updateHealth(int newHp) {
 		this->hp = newHp;
-	};
+	}
+
+	void draw(RenderWindow& window) {
+		window.draw(pSprite);
+	}
+
 
 	// combat functions
 
 	void takeDamage(int damage) {
 		this->hp -= damage;
-	};
-
+	}
 };
 
 class Npc {
@@ -70,19 +99,19 @@ public:
 		this->posX = newX;
 		this->posY = newY;
 		this->spriteNpc.move(*newX, *newY);
-	};
+	}
 
 	void changeSprite(Texture* newTexture) {
 		this->spriteNpc.setTexture(*newTexture);
-	};
+	}
 
 	void updateHealth(int* newHp) {
 		this->hp = newHp;
-	};
+	}
 
 	// combat functions
 
 	void takeDamage(int damage) {
 		this->hp -= damage;
-	};
+	}
 };

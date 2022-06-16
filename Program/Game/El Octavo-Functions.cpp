@@ -1,5 +1,6 @@
 #include "Precompile.h"
 #include "El Octavo-Functions.h";
+#include "GameClass.h";
 
 namespace variables {
     int keyTime = 0;
@@ -7,7 +8,9 @@ namespace variables {
     Event ev;
     Texture bgTexture;
     Sprite bgImage;
-    RectangleShape square(Vector2f(100.f, 100.f));
+    Player plr;
+    Texture plrT;
+    Sprite plrS;
 }
 
 using namespace variables;
@@ -21,14 +24,17 @@ void setVars()
 
     window.setFramerateLimit(60);
 
-    bgTexture.loadFromFile("../images/test.png");
-
+    bgTexture.loadFromFile("../Images and fonts/Bg/test bg.png");
     bgImage.setTexture(bgTexture);
 
-    square.setFillColor(Color::Red);
+    plrT.loadFromFile("../Images and fonts/Main character/Main Character 81x129.png");
+    plrS.setTexture(plrT);
 
-    //setting position of the characater
-    square.setPosition(window.getSize().x / 2 - 50, window.getSize().y / 2 - 50);
+
+    plr.setPublicVariables(window.getSize().x / 2, window.getSize().y / 2, 100, plrS);
+    plr.setValues();
+
+    //setting position of the background
     bgImage.setOrigin(1920, 1080);
     bgImage.setPosition(window.getSize().x / 2, window.getSize().y / 2);
 }
@@ -44,10 +50,22 @@ void moveCamera(string direction, Sprite& image) {
         image.move(-5.f, 0.f);
     }
 
-    if (direction == "up" && image.getPosition().y != 1080) 
+    if (direction == "up") 
     {
-        image.move(0.f, 5.f);
+        if (image.getPosition().y != 1080) {
+            image.move(0.f, 5.f);
+        }
+        else {
+            if (!plr.getMoved()) {
+                plr.updatePos(0.f, 5.f);
+                
+                if (plr.getPos('y') >= ) {
+
+                }
+            }
+        }
     }
+
 
     if (direction == "down" && image.getPosition().y != -280) 
     {
@@ -120,14 +138,13 @@ void setup()
                 window.close();
             }
         }
-        update(keyTime, square, window);
 
         window.clear(Color::Green);
 
         window.draw(bgImage);
 
         //display character
-        window.draw(square);
+        plr.draw(window);
 
         window.display();
     }
