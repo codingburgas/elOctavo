@@ -11,23 +11,27 @@ private:
 	int hp;
 	int pSC;
 	bool pMoved;
-	Sprite pSprite;
+	float totalTime;
+	float switchTime;
+	Vector2u imageCount;
+	Vector2u currentImage;
 
 public:
+	IntRect uvRect;
 
-	void setPublicVariables(float posX, float posY, int hp, Sprite pSprite)
+	Player(Texture* texture, Vector2u imageCount, float switchTime);
+	~Player();
+
+	void update(int row, float deltaTime);
+
+	void setPublicVariables(float posX, float posY, int hp)
 	{
 		this->posX = posX;
 		this->posY = posY;
 		this->hp = hp;
-		this->pSprite = pSprite;
 		this->pMoved = false;
 	}
 
-	void setValues()
-	{
-		this->pSprite.setPosition(this->posX, this->posY);
-	}
 	// misc functions
 
 	float getPos(char cord) {
@@ -46,23 +50,8 @@ public:
 
 	// update functions
 
-	void updatePos(float moveX, float moveY) {
-		this->pSprite.move(moveX, moveY);
-
-		this->posX = pSprite.getPosition().x;
-		this->posY = pSprite.getPosition().y;
-	}
-
-	void changeSprite(Texture* newTexture) {
-		this->pSprite.setTexture(*newTexture);
-	}
-
 	void updateHealth(int newHp) {
 		this->hp = newHp;
-	}
-
-	void draw(RenderWindow& window) {
-		window.draw(pSprite);
 	}
 
 
