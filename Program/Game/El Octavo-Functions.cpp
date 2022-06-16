@@ -20,7 +20,7 @@ namespace variables {
 
 using namespace variables;
 
-//void update(int& keyTime, RectangleShape& square, RenderWindow& window);
+void inp(int& keyTime, RenderWindow& window);
 void moveCamera(string direction, Sprite& image);
 
 void setVars()
@@ -56,6 +56,7 @@ void setup()
     while (window.isOpen())
     {
         deltaTime = clock.restart().asSeconds();
+        window.setKeyRepeatEnabled(true);
 
         while (window.pollEvent(ev))
         {
@@ -69,15 +70,17 @@ void setup()
                 window.close();
             }
         }
+        inp(keyTime, window);
 
         //cout << plrRect.getPosition().x << " " << plrRect.getPosition().y << endl;
 
         plr.update(0, deltaTime);
         plrRect.setTextureRect(plr.uvRect);
 
+
         window.clear(Color::Green);
 
-        //window.draw(bgImage);
+        window.draw(bgImage);
         window.draw(plrRect);
 
         //display character
@@ -109,48 +112,48 @@ void moveCamera(string direction, Sprite& image) {
     }
 }
 
-//void update(int& keyTime, RectangleShape& square, RenderWindow& window)
-//{
-//    if (keyTime < 1)
-//    {
-//        keyTime++;
-//    }
-//
-//    //WASD moving
-//    if (keyTime >= 1)
-//    {
-//        if (Keyboard::isKeyPressed(Keyboard::A))
-//        {
-//            moveCamera("left", bgImage);
-//            keyTime = 0;
-//        }
-//
-//        if (Keyboard::isKeyPressed(Keyboard::D))
-//        {
-//            moveCamera("right", bgImage);
-//            keyTime = 0;
-//        }
-//
-//        if (Keyboard::isKeyPressed(Keyboard::W))
-//        {
-//            moveCamera("up", bgImage);
-//            keyTime = 0;
-//        }
-//
-//        if (Keyboard::isKeyPressed(Keyboard::S))
-//        {
-//            moveCamera("down", bgImage);
-//            keyTime = 0;
-//        }
-//
-//        if (Mouse::isButtonPressed(Mouse::Left))
-//        {
-//            square.setFillColor(Color::Blue);
-//            keyTime = 0;
-//        }
-//        else {
-//            square.setFillColor(Color::Red);
-//            keyTime = 0;
-//        }
-//    }
-//}
+void inp(int& keyTime, RenderWindow& window)
+{
+    if (keyTime < 1)
+    {
+        keyTime++;
+    }
+
+    //WASD moving
+    if (keyTime >= 1)
+    {
+        if (Keyboard::isKeyPressed(Keyboard::A))
+        {
+            moveCamera("left", bgImage);
+            keyTime = 0;
+        }
+
+        if (Keyboard::isKeyPressed(Keyboard::D))
+        {
+            moveCamera("right", bgImage);
+            keyTime = 0;
+        }
+
+        if (Keyboard::isKeyPressed(Keyboard::W))
+        {
+            moveCamera("up", bgImage);
+            keyTime = 0;
+        }
+
+        if (Keyboard::isKeyPressed(Keyboard::S))
+        {
+            moveCamera("down", bgImage);
+            keyTime = 0;
+        }
+
+        /*if (Mouse::isButtonPressed(Mouse::Left))
+        {
+            square.setFillColor(Color::Blue);
+            keyTime = 0;
+        }
+        else {
+            square.setFillColor(Color::Red);
+            keyTime = 0;
+        }*/
+    }
+}
