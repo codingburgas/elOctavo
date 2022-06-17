@@ -18,7 +18,7 @@ Player::Player(Texture* texture, Vector2u imageCount, float switchTime, float sp
 	row = 0;
 
 	body.setSize(Vector2f(81.0f, 129.0f));
-	body.setPosition(540.0f, 360.0f);
+	body.setPosition(1280/2 + 47.5f, 720/2);
 	body.setTexture(texture);
 }
 
@@ -43,15 +43,15 @@ void Player::update(int row, float deltaTime, bool faceLeft)
 	}
 
 	uvRect.top = currentImage.y * uvRect.height;
-	if (!faceLeft)
-	{
-		uvRect.left = currentImage.x * uvRect.width;
-		uvRect.width = abs(uvRect.width);
+	if (faceLeft)
+	{	
+		uvRect.left = (currentImage.x + 1) * abs(uvRect.width);
+		uvRect.width = -abs(uvRect.width);
 	}
 	else
 	{
-		uvRect.left = (currentImage.x + 1) * abs(uvRect.width);
-		uvRect.width = -abs(uvRect.width);
+		uvRect.left = currentImage.x * uvRect.width;
+		uvRect.width = abs(uvRect.width);
 	}
 }
 
@@ -75,21 +75,20 @@ void Player::updateMovement(float deltaTime)
 	}
 	else
 	{
-		row = 1;
 
 		if (movement.x > 0.0f)
 		{
-			faceLeft = false;
+			faceLeft = true;
 		}
 		else
 		{
-			faceLeft = true;
+			faceLeft = false;
 		}
 	}
 
 	update(row, deltaTime, faceLeft);
 	body.setTextureRect(uvRect);
-	body.move(movement);
+	//body.move(movement);
 }
 
 void Player::draw(RenderWindow& window)

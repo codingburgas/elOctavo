@@ -41,7 +41,7 @@ void setup()
     // start of sussy variables
 
     Clock clock;
-    Player plr(&plrT, Vector2u(3, 2), 0.3f, 100.0f);
+    Player plr(&plrT, Vector2u(3, 2), 0.3f, 150.0f);
 
     // end of sussy variables
 
@@ -64,7 +64,7 @@ void setup()
         }
 
         plr.updateMovement(deltaTime);
-
+        inp(keyTime, window);
 
         window.clear(Color::Green);
 
@@ -78,25 +78,25 @@ void setup()
 }
 
 void moveCamera(string direction, Sprite& image) {
-    if (direction == "left" && image.getPosition().x != 1920) 
+    if (direction == "left" && image.getPosition().x <= 1920) 
     {
-        image.move(5.f, 0.f);
+        image.move(200.0f * deltaTime, 0.f);
     }
 
-    if (direction == "right" && image.getPosition().x != -420) 
+    if (direction == "right" && image.getPosition().x >= -420) 
     {
-        image.move(-5.f, 0.f);
+        image.move(-(200.0f * deltaTime), 0.f);
     }
 
-    if (direction == "up" && image.getPosition().y != 1080)
+    if (direction == "up" && image.getPosition().y <= 1080)
     {
-        image.move(0.f, 5.f);
+        image.move(0.f, 200.0f * deltaTime);
     }
 
 
-    if (direction == "down" && image.getPosition().y != -280) 
+    if (direction == "down" && image.getPosition().y >= -280) 
     {
-        image.move(0.f, -5.f);
+        image.move(0.f, -(200.0f * deltaTime));
     }
 }
 
