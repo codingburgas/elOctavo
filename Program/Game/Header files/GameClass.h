@@ -15,6 +15,9 @@ private:
 	unsigned int row;
 	float speed;
 	bool faceLeft;
+	Vector2f velocity;
+	bool canJump;
+	float jumpY = 0.0f;
 
 public:
 	IntRect uvRect;
@@ -28,6 +31,7 @@ public:
 	//movement functions
 	void updateMovement(float deltaTime);
 	void draw(RenderWindow& window);
+	void jump(float deltaTime, float jumpHeight);
 };
 
 class Npc {

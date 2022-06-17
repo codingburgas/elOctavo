@@ -62,26 +62,46 @@ void Player::update(int row, float deltaTime, bool faceLeft)
 //update for moving character
 void Player::updateMovement(float deltaTime)
 {
-	Vector2f movement(0.0f, 0.0f);
+	velocity.x = 0;
+
+	if (jumpY == 0.0f) {
+		jumpY = body.getPosition().y;
+	}
+
+	if (jumpY <= body.getPosition().y) {
+		canJump = true;
+		body.setPosition(body.getPosition().x, jumpY);
+	}
+	else {
+		canJump = false;
+	}
 
 	if (Keyboard::isKeyPressed(Keyboard::A))
 	{
-		movement.x -= speed * deltaTime;
+		velocity.x -= speed * deltaTime;
 	}
 
 	if (Keyboard::isKeyPressed(Keyboard::D))
 	{
-		movement.x += speed * deltaTime;
+		velocity.x += speed * deltaTime;
 	}
 
-	if (movement.x == 0.0f)
+	if (Keyboard::isKeyPressed(Keyboard::Space)) {
+		if (canJump) {
+			canJump = false;
+			jump(deltaTime, 3.2);
+			jumpY = body.getPosition().y;
+		}
+	}
+
+	if (velocity.x == 0.0f)
 	{
 		row = 0;
 	}
 	else
 	{
 		row = 1;
-		if (movement.x > 0.0f)
+		if (velocity.x > 0.0f)
 		{
 			faceLeft = true;
 		}
@@ -94,9 +114,21 @@ void Player::updateMovement(float deltaTime)
 
 	update(row, deltaTime, faceLeft);
 	body.setTextureRect(uvRect);
+
+	if (!canJump) {
+		velocity.y += 160.0f * deltaTime;
+	}
+	else {
+		velocity.y = 0;
+	}
+	body.move(0.0f, velocity.y);
 }
 
 void Player::draw(RenderWindow& window)
 {
 	window.draw(body);
+}
+
+void Player::jump(float deltaTime, float jumpHeight) {
+	velocity.y = -sqrtf(2.0f * 160.0f * jumpHeight);
 }
