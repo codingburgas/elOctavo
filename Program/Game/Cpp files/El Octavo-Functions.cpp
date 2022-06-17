@@ -1,6 +1,6 @@
-#include "Precompile.h"
-#include "El Octavo-Functions.h"
-#include "GameClass.h"
+#include "../Header files/Precompile.h"
+#include "../Header files/El Octavo-Functions.h"
+#include "../Header files/GameClass.h"
 
 namespace variables {
     int keyTime = 0;

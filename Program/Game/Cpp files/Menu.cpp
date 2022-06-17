@@ -1,6 +1,6 @@
-#include "Precompile.h"
-#include "Menu.h"
-#include "El Octavo-Functions.h"
+#include "../Header files/Precompile.h"
+#include "../Header files/Menu.h"
+#include "../Header files/El Octavo-Functions.h"
 
 namespace variables {
     Event evMenu;
