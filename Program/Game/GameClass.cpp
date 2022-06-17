@@ -19,6 +19,7 @@ Player::Player(Texture* texture, Vector2u imageCount, float switchTime, float sp
 	row = 0;
 
 	body.setSize(Vector2f(81.0f, 129.0f));
+	body.setOrigin(81.0f / 2, 129.0f / 2);
 	body.setPosition(1280/2 + 47.5f, 720/2);
 	body.setTexture(texture);
 }
@@ -79,11 +80,11 @@ void Player::updateMovement(float deltaTime)
 	}
 	else
 	{
-
 		if (movement.x > 0.0f)
 		{
 			faceLeft = true;
 		}
+
 		else
 		{
 			faceLeft = false;
