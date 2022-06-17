@@ -4,62 +4,31 @@
 class Player {
 private:
 
-	// init variables
-
-	float posX;
-	float posY;
-	int hp;
-	int pSC;
-	bool pMoved;
+	//startup(building) variables
 	float totalTime;
 	float switchTime;
 	Vector2u imageCount;
 	Vector2u currentImage;
 
+	//movement variables
+	RectangleShape body;
+	unsigned int row;
+	float speed;
+	bool faceLeft;
+
 public:
 	IntRect uvRect;
 
-	Player(Texture* texture, Vector2u imageCount, float switchTime);
+	//constuctor/destructor
+	Player(Texture* texture, Vector2u imageCount, float switchTime, float speed);
 	~Player();
 
-	void update(int row, float deltaTime);
+	//startup(building) functions
+	void update(int row, float deltaTime, bool faceLeft);
 
-	void setPublicVariables(float posX, float posY, int hp)
-	{
-		this->posX = posX;
-		this->posY = posY;
-		this->hp = hp;
-		this->pMoved = false;
-	}
-
-	// misc functions
-
-	float getPos(char cord) {
-		if (cord == 'x') {
-			return this->posX;
-		}
-		else {
-			return this->posY;
-		}
-	}
-
-	bool getMoved() {
-		return this->pMoved;
-	}
-
-
-	// update functions
-
-	void updateHealth(int newHp) {
-		this->hp = newHp;
-	}
-
-
-	// combat functions
-
-	void takeDamage(int damage) {
-		this->hp -= damage;
-	}
+	//movement functions
+	void updateMovement(float deltaTime);
+	void draw(RenderWindow& window);
 };
 
 class Npc {
