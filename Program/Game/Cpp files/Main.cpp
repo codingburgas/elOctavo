@@ -1,6 +1,6 @@
-#include "Precompile.h"
-#include "El Octavo-Functions.h";
-#include "Menu.h";
+#include "../Header files/Precompile.h"
+#include "../Header files/El Octavo-Functions.h";
+#include "../Header files/Menu.h";
 
 int main()
 {

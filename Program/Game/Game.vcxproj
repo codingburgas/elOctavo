@@ -18,6 +18,31 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Header files\El Octavo-Functions.h" />
+    <ClInclude Include="Header files\GameClass.h" />
+    <ClInclude Include="Header files\Menu.h" />
+    <ClInclude Include="Header files\Precompile.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Cpp files\El Octavo-Functions.cpp" />
+    <ClCompile Include="Cpp files\GameClass.cpp" />
+    <ClCompile Include="Cpp files\Main.cpp" />
+    <ClCompile Include="Cpp files\Menu.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="openal32.dll" />
+    <None Include="sfml-audio-2.dll" />
+    <None Include="sfml-audio-d-2.dll" />
+    <None Include="sfml-graphics-2.dll" />
+    <None Include="sfml-graphics-d-2.dll" />
+    <None Include="sfml-network-2.dll" />
+    <None Include="sfml-network-d-2.dll" />
+    <None Include="sfml-system-2.dll" />
+    <None Include="sfml-system-d-2.dll" />
+    <None Include="sfml-window-2.dll" />
+    <None Include="sfml-window-d-2.dll" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -144,18 +169,6 @@
       <AdditionalDependencies>sfml-system-d.lib;sfml-graphics-d.lib;sfml-window-d.lib;sfml-audio-d.lib;sfml-network-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="El Octavo-Functions.cpp" />
-    <ClCompile Include="GameClass.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Menu.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="El Octavo-Functions.h" />
-    <ClInclude Include="GameClass.h" />
-    <ClInclude Include="Menu.h" />
-    <ClInclude Include="Precompile.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
