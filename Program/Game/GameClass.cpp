@@ -17,7 +17,7 @@ Player::Player(Texture* texture, Vector2u imageCount, float switchTime, float sp
 	faceLeft = true;
 	row = 0;
 
-	body.setSize(Vector2f(263.0f, 129.0f));
+	body.setSize(Vector2f(81.0f, 129.0f));
 	body.setPosition(540.0f, 360.0f);
 	body.setTexture(texture);
 }
