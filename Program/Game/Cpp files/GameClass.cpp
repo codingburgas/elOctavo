@@ -80,6 +80,7 @@ void Player::updateMovement(float deltaTime)
 	}
 	else
 	{
+		row = 1;
 		if (movement.x > 0.0f)
 		{
 			faceLeft = true;

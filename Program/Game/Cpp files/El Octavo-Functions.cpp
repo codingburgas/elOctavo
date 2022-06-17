@@ -30,7 +30,7 @@ void setVars()
     //setting position of the background
     bgImage.setOrigin(1920, 1080);
 
-    plrT.loadFromFile("../Images and fonts/Main character/Main character walking sheet.png");
+    plrT.loadFromFile("../Images and fonts/Main character/Sprite sheet.png");
     plrT.setRepeated(true); 
 }
 
