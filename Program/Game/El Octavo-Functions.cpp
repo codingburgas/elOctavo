@@ -1,21 +1,16 @@
 #include "Precompile.h"
 #include "El Octavo-Functions.h";
-
 #include "GameClass.h";
 
 namespace variables {
     int keyTime = 0;
     float deltaTime = 0.0f;
-
     RenderWindow window(VideoMode(1500, 800), "The legend of Kurabirov", sf::Style::Titlebar | sf::Style::Close);;
     Event ev;
-
     Texture bgTexture;
     Sprite bgImage;
 
     Texture plrT;
-    Sprite plrRect;
-    
 }
 
 using namespace variables;
@@ -31,9 +26,6 @@ void setVars()
 
     bgTexture.loadFromFile("../Images and fonts/Bg/test bg.png");
     bgImage.setTexture(bgTexture);
-
-    plrRect.setTexture(plrT);
-    plrRect.setPosition(window.getSize().x / 2, window.getSize().y / 2);
     plrT.loadFromFile("../Images and fonts/Main character/Main character walking sheet.png");
     
     //setting position of the background
@@ -49,7 +41,7 @@ void setup()
     // start of sussy variables
 
     Clock clock;
-    Player plr(&plrT, Vector2u(3, 2), 0.3f);
+    Player plr(&plrT, Vector2u(3, 2), 0.3f, 100.0f);
 
     // end of sussy variables
 
@@ -70,18 +62,14 @@ void setup()
                 window.close();
             }
         }
-        inp(keyTime, window);
 
-        //cout << plrRect.getPosition().x << " " << plrRect.getPosition().y << endl;
-
-        plr.update(0, deltaTime);
-        plrRect.setTextureRect(plr.uvRect);
+        plr.updateMovement(deltaTime);
 
 
         window.clear(Color::Green);
 
         window.draw(bgImage);
-        window.draw(plrRect);
+        plr.draw(window);
 
         //display character
 
