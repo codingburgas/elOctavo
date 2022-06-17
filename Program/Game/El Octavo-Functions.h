@@ -1,7 +1,6 @@
 #pragma once
 
-
-void update(int& keyTime, RectangleShape& square, RenderWindow& window);
+void moveCharacter(int& keyTime, RenderWindow& window);
 
 void moveCamera(string direction, Sprite& image);
 

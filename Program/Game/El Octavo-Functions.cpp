@@ -5,17 +5,18 @@
 namespace variables {
     int keyTime = 0;
     float deltaTime = 0.0f;
+
     RenderWindow window(VideoMode(1500, 800), "The legend of Kurabirov", sf::Style::Titlebar | sf::Style::Close);;
     Event ev;
+
     Texture bgTexture;
     Sprite bgImage;
-
     Texture plrT;
 }
 
 using namespace variables;
 
-void inp(int& keyTime, RenderWindow& window);
+void moveCharacter(int& keyTime, RenderWindow& window);
 void moveCamera(string direction, Sprite& image);
 
 void setVars()
@@ -25,13 +26,15 @@ void setVars()
     window.setFramerateLimit(60);
 
     bgTexture.loadFromFile("../Images and fonts/Bg/test bg.png");
+
     bgImage.setTexture(bgTexture);
-    plrT.loadFromFile("../Images and fonts/Main character/Main character walking sheet.png");
-    
+
     //setting position of the background
     bgImage.setOrigin(1920, 1080);
     bgImage.setPosition(window.getSize().x / 2, window.getSize().y / 2);
-    
+
+    plrT.loadFromFile("../Images and fonts/Main character/Main character walking sheet.png");
+    plrT.setRepeated(true); 
 }
 
 void setup()
@@ -48,6 +51,7 @@ void setup()
     while (window.isOpen())
     {
         deltaTime = clock.restart().asSeconds();
+
         window.setKeyRepeatEnabled(true);
 
         while (window.pollEvent(ev))
@@ -64,7 +68,7 @@ void setup()
         }
 
         plr.updateMovement(deltaTime);
-        inp(keyTime, window);
+        moveCharacter(keyTime, window);
 
         window.clear(Color::Green);
 
@@ -72,12 +76,12 @@ void setup()
         plr.draw(window);
 
         //display character
-
         window.display();
     }
 }
 
 void moveCamera(string direction, Sprite& image) {
+    //move camera of the window when character is moving
     if (direction == "left" && image.getPosition().x <= 1920) 
     {
         image.move(200.0f * deltaTime, 0.f);
@@ -93,14 +97,13 @@ void moveCamera(string direction, Sprite& image) {
         image.move(0.f, 200.0f * deltaTime);
     }
 
-
     if (direction == "down" && image.getPosition().y >= -280) 
     {
         image.move(0.f, -(200.0f * deltaTime));
     }
 }
 
-void inp(int& keyTime, RenderWindow& window)
+void moveCharacter(int& keyTime, RenderWindow& window)
 {
     if (keyTime < 1)
     {
@@ -134,6 +137,7 @@ void inp(int& keyTime, RenderWindow& window)
             keyTime = 0;
         }
 
+        //Mouse events
         /*if (Mouse::isButtonPressed(Mouse::Left))
         {
             square.setFillColor(Color::Blue);

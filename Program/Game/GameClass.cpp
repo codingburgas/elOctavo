@@ -1,5 +1,6 @@
 #include "GameClass.h";
 
+//consturctors - setup variables
 Player::Player(Texture* texture, Vector2u imageCount, float switchTime, float speed)
 {
 	this->imageCount = imageCount;
@@ -22,10 +23,12 @@ Player::Player(Texture* texture, Vector2u imageCount, float switchTime, float sp
 	body.setTexture(texture);
 }
 
+//destructor
 Player::~Player()
 {
 }
 
+//update for displaying character
 void Player::update(int row, float deltaTime, bool faceLeft)
 {
 	currentImage.y = row;
@@ -55,6 +58,7 @@ void Player::update(int row, float deltaTime, bool faceLeft)
 	}
 }
 
+//update for moving character
 void Player::updateMovement(float deltaTime)
 {
 	Vector2f movement(0.0f, 0.0f);
@@ -88,7 +92,6 @@ void Player::updateMovement(float deltaTime)
 
 	update(row, deltaTime, faceLeft);
 	body.setTextureRect(uvRect);
-	//body.move(movement);
 }
 
 void Player::draw(RenderWindow& window)
