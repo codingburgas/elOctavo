@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="El Octavo-Functions.h" />
     <ClInclude Include="GameClass.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="Precompile.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
