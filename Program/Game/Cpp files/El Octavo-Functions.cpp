@@ -137,22 +137,7 @@ void setup(RenderWindow& window)
 
 void moveCameraSecondStage(string direction, Sprite& image)
 {
-
-    //in first stage we have AD moving so we have two side moving
-    if (direction == "left" && image.getPosition().x <= 1920)
-    {
-        image.move(200.0f * deltaTime, 0.f);
-    }
-
-    if (direction == "right" && image.getPosition().x >= -420)
-    {
-        image.move(-(200.0f * deltaTime), 0.f);
-    }
-}
-
-void moveCameraFirstStage(string direction, Sprite& image) 
-{    
-    //in first stage we have WASD moving so we have four side moving
+   //in second stage we have AD moving so we have two side moving
     if (direction == "up" && image.getPosition().y <= 1080)
     {
         image.move(0.f, 200.0f * deltaTime);
@@ -162,7 +147,23 @@ void moveCameraFirstStage(string direction, Sprite& image)
     {
         image.move(0.f, -(200.0f * deltaTime));
     }
+    
+}
 
+void moveCameraFirstStage(string direction, Sprite& image) 
+{    
+    //in first stage we have WASD moving so we have four side moving
+    
+
+    if (direction == "left" && image.getPosition().x <= 1920)
+    {
+        image.move(200.0f * deltaTime, 0.f);
+    }
+
+    if (direction == "right" && image.getPosition().x >= -420)
+    {
+        image.move(-(200.0f * deltaTime), 0.f);
+    }
     moveCameraSecondStage(direction, image);
 }
 
@@ -178,25 +179,25 @@ void moveCharacter(int& keyTime, RenderWindow& window)
     {
         if (Keyboard::isKeyPressed(Keyboard::A))
         {
-            moveCameraSecondStage("left", bgImage);
+            moveCameraFirstStage("left", bgImage);
             keyTime = 0;
         }
 
         if (Keyboard::isKeyPressed(Keyboard::D))
         {
-            moveCameraSecondStage("right", bgImage);
+            moveCameraFirstStage("right", bgImage);
             keyTime = 0;
         }
 
         if (Keyboard::isKeyPressed(Keyboard::W))
         {
-            moveCameraSecondStage("up", bgImage);
+            moveCameraFirstStage("up", bgImage);
             keyTime = 0;
         }
 
         if (Keyboard::isKeyPressed(Keyboard::S))
         {
-            moveCameraSecondStage("down", bgImage);
+            moveCameraFirstStage("down", bgImage);
             keyTime = 0;
         }
     }
