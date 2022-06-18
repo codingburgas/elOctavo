@@ -5,6 +5,7 @@
 namespace variables {
     int keyTime = 0;
     float deltaTime = 0.0f;
+    bool movementToggle = false;
 
     Event ev;
 
@@ -84,13 +85,17 @@ void setup(RenderWindow& window)
             }
         }
 
-        plr.updateMovement(deltaTime, soundWalk, soundJump);
+        plr.updateMovement(deltaTime, soundWalk, soundJump, movementToggle);
         moveCharacter(keyTime, window);
 
         window.clear(Color::Green);
 
         window.draw(bgImage);
-        window.draw(ground);
+        
+        if (movementToggle) {
+            window.draw(ground);
+        }
+
         plr.draw(window);
 
         //display character

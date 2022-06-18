@@ -69,7 +69,7 @@ void Player::update(int row, float deltaTime, bool faceLeft)
 }
 
 //Update for moving character
-void Player::updateMovement(float deltaTime, Sound& soundWalk, Sound& soundJump)
+void Player::updateMovement(float deltaTime, Sound& soundWalk, Sound& soundJump, bool& toggle)
 {
 
 	velocity.x = 0;
@@ -90,21 +90,49 @@ void Player::updateMovement(float deltaTime, Sound& soundWalk, Sound& soundJump)
 		}
 
 		velocity.x += speed * deltaTime;
-
-		//walk.stop()
 	}
 
-	if (Keyboard::isKeyPressed(Keyboard::Space)) {
-
-		currTime = variables::clock.getElapsedTime();
-		if (currTime.asSeconds() >= 1.0f && !jumped) {
-			soundJump.play();
-			variables::clock.restart();
-			jumpY = body.getPosition().y;
-			jump(deltaTime, 3.0);
-			jumped = true;
+	if (!Keyboard::isKeyPressed(Keyboard::D) && !Keyboard::isKeyPressed(Keyboard::A) && !Keyboard::isKeyPressed(Keyboard::W) && !Keyboard::isKeyPressed(Keyboard::S)) {
+		if (soundWalk.getStatus() == 2) {
+			soundWalk.stop();
 		}
 	}
+	
+
+	if (toggle) {
+		if (Keyboard::isKeyPressed(Keyboard::Space)) {
+
+			currTime = variables::clock.getElapsedTime();
+			if (currTime.asSeconds() >= 1.0f && !jumped) {
+				soundJump.play();
+				variables::clock.restart();
+				jumpY = body.getPosition().y;
+				jump(deltaTime, 3.0);
+				jumped = true;
+			}
+		}
+	}
+	else {
+		velocity.y = 0;
+		if (Keyboard::isKeyPressed(Keyboard::W))
+		{
+			if (soundWalk.getStatus() == 0) {
+				soundWalk.play();
+			}
+
+			velocity.y -= speed * deltaTime;
+		}
+
+		if (Keyboard::isKeyPressed(Keyboard::S))
+		{
+			if (soundWalk.getStatus() == 0) {
+				soundWalk.play();
+			}
+
+			velocity.y += speed * deltaTime;
+		}
+	}
+		
 
 	if (velocity.x == 0.0f)
 	{
@@ -127,17 +155,18 @@ void Player::updateMovement(float deltaTime, Sound& soundWalk, Sound& soundJump)
 	update(row, deltaTime, faceLeft);
 	body.setTextureRect(uvRect);
 
-	if (checkCollideWithGround(body)) {
-		body.setPosition(body.getPosition().x, 520.0f);
-	}
+	if (toggle) {
+		if (checkCollideWithGround(body)) {
+			body.setPosition(body.getPosition().x, 520.0f);
+		}
 
-	if (checkCollideWithGround(body) && !jumped) {
-		velocity.y = 0;
+		if (checkCollideWithGround(body) && !jumped) {
+			velocity.y = 0;
+		}
+		else {
+			velocity.y += 160.0f * deltaTime;
+		}
 	}
-	else {
-		velocity.y += 160.0f * deltaTime;
-	}
-
 	body.move(0.0f, velocity.y);
 }
 
