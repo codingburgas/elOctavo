@@ -1,6 +1,6 @@
 #pragma once
 
-
+bool checkCollideWithGround(RectangleShape& body);
 
 void moveCharacter(int& keyTime, RenderWindow& window);
 

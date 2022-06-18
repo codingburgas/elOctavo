@@ -11,6 +11,8 @@ namespace variables {
     Texture bgTexture;
     Sprite bgImage;
     Texture plrT;
+    RectangleShape ground;
+    //0, 570, 1280, 150
 }
 
 using namespace variables;
@@ -29,6 +31,10 @@ void setVars()
 
     //setting position of the background
     bgImage.setOrigin(1920, 1080);
+
+    ground.setSize(Vector2f(1280, 150));
+    ground.setPosition(Vector2f(0, 570));
+    ground.setFillColor(Color::Black);
 
     plrT.loadFromFile("../Images and fonts/Main character/unknown.png");
     plrT.setRepeated(true); 
@@ -72,6 +78,7 @@ void setup(RenderWindow& window)
         window.clear(Color::Green);
 
         window.draw(bgImage);
+        window.draw(ground);
         plr.draw(window);
 
         //display character
@@ -147,4 +154,8 @@ void moveCharacter(int& keyTime, RenderWindow& window)
             keyTime = 0;
         }*/
     }
+}
+
+bool checkCollideWithGround(RectangleShape& body) {
+    return ground.getGlobalBounds().intersects(body.getGlobalBounds());
 }

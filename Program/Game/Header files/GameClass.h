@@ -11,18 +11,18 @@ private:
 	Vector2u currentImage;
 
 	// movement variables
-	RectangleShape body;
 	unsigned int row;
 	float speed;
 	bool faceLeft;
 
 	//jump variables
-	Vector2f velocity;
-	float jumpY = body.getPosition().y;
 	bool canJump;
 
 public:
 	IntRect uvRect;
+	RectangleShape body;
+	float jumpY = body.getPosition().y;
+	Vector2f velocity;
 
 	Player(Texture* texture, Vector2u imageCount, float switchTime, float speed);
 	~Player();
