@@ -6,14 +6,14 @@ namespace variables {
     Event evMenu;
     Texture textureMenu;
     Sprite bgImageMenu;
-    
+
+    Music music;
 }
 
 using namespace variables;
 
 void setupMenu(RenderWindow& window)
 {
-    Music music;
 
     if(!music.openFromFile("../Audios/Main.ogg"))
     {
@@ -50,8 +50,6 @@ void setupMenu(RenderWindow& window)
                         if (evMenu.mouseButton.y >= 459 && evMenu.mouseButton.y <= 516)
                         {
                             cout << "Options";
-
-
                         }
 
                         if (evMenu.mouseButton.y >= 581 && evMenu.mouseButton.y <= 638)

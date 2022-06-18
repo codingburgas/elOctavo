@@ -28,7 +28,7 @@ public:
 	void update(int row, float deltaTime, bool faceLeft);
 
 	//movement functions
-	void updateMovement(float deltaTime);
+	void updateMovement(float deltaTime, Sound& soundWalk, Sound& soundJump);
 	void draw(RenderWindow& window);
 	void jump(float deltaTime, float jumpHeight);
 };

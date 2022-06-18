@@ -68,25 +68,37 @@ void Player::update(int row, float deltaTime, bool faceLeft)
 	}
 }
 
-//update for moving character
-void Player::updateMovement(float deltaTime)
+//Update for moving character
+void Player::updateMovement(float deltaTime, Sound& soundWalk, Sound& soundJump)
 {
+
 	velocity.x = 0;
 	jumped = false;
 
-	if (Keyboard::isKeyPressed(Keyboard::A))
-	{
+	if (Keyboard::isKeyPressed(Keyboard::A)) {
+		if (soundWalk.getStatus() == 0) {
+			soundWalk.play();
+		}
+
 		velocity.x -= speed * deltaTime;
 	}
 
 	if (Keyboard::isKeyPressed(Keyboard::D))
 	{
+		if (soundWalk.getStatus() == 0) {
+			soundWalk.play();
+		}
+
 		velocity.x += speed * deltaTime;
+
+		//walk.stop()
 	}
 
 	if (Keyboard::isKeyPressed(Keyboard::Space)) {
+
 		currTime = variables::clock.getElapsedTime();
 		if (currTime.asSeconds() >= 1.0f && !jumped) {
+			soundJump.play();
 			variables::clock.restart();
 			jumpY = body.getPosition().y;
 			jump(deltaTime, 3.0);

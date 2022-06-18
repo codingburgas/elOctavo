@@ -12,6 +12,9 @@ namespace variables {
     Sprite bgImage;
     Texture plrT;
     RectangleShape ground;
+
+    Sound soundJump, soundWalk;
+	SoundBuffer jumpBuffer, walkBuffer; 
 }
 
 using namespace variables;
@@ -25,7 +28,6 @@ void setVars()
 {
     keyTime = 0;
 
-
     bgTexture.loadFromFile("../Images and fonts/Bg/test bg.png");
 
     bgImage.setTexture(bgTexture);
@@ -38,7 +40,16 @@ void setVars()
     ground.setFillColor(Color::Black);
 
     plrT.loadFromFile("../Images and fonts/Main character/unknown.png");
-    plrT.setRepeated(true); 
+    plrT.setRepeated(true);
+
+    jumpBuffer.loadFromFile("../Audios/Jump.wav");
+    walkBuffer.loadFromFile("../Audios/Walk.wav");
+
+    soundJump.setBuffer(jumpBuffer);
+    soundWalk.setBuffer(walkBuffer);
+
+    soundJump.setVolume(15.0f);
+    soundWalk.setVolume(35.0f);
 }
 
 void setup(RenderWindow& window)
@@ -73,7 +84,7 @@ void setup(RenderWindow& window)
             }
         }
 
-        plr.updateMovement(deltaTime);
+        plr.updateMovement(deltaTime, soundWalk, soundJump);
         moveCharacter(keyTime, window);
 
         window.clear(Color::Green);
