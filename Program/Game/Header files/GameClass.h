@@ -15,9 +15,11 @@ private:
 	unsigned int row;
 	float speed;
 	bool faceLeft;
+
+	//jump variables
 	Vector2f velocity;
+	float jumpY = body.getPosition().y;
 	bool canJump;
-	float jumpY = 0.0f;
 
 public:
 	IntRect uvRect;

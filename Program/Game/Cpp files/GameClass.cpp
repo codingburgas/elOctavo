@@ -1,5 +1,12 @@
 #include "../Header files/GameClass.h";
 
+namespace variables {
+	Clock clock;
+	Time currTime;
+}
+
+using namespace variables;
+
 //consturctors - setup variables
 Player::Player(Texture* texture, Vector2u imageCount, float switchTime, float speed)
 {
@@ -69,11 +76,7 @@ void Player::updateMovement(float deltaTime)
 	}
 
 	if (jumpY <= body.getPosition().y) {
-		canJump = true;
 		body.setPosition(body.getPosition().x, jumpY);
-	}
-	else {
-		canJump = false;
 	}
 
 	if (Keyboard::isKeyPressed(Keyboard::A))
@@ -87,10 +90,11 @@ void Player::updateMovement(float deltaTime)
 	}
 
 	if (Keyboard::isKeyPressed(Keyboard::Space)) {
-		if (canJump) {
-			canJump = false;
-			jump(deltaTime, 3.2);
+		currTime = variables::clock.getElapsedTime();
+		if (currTime.asSeconds() >= 1.0f) {
+			variables::clock.restart();
 			jumpY = body.getPosition().y;
+			jump(deltaTime, 3.0);
 		}
 	}
 
@@ -115,7 +119,7 @@ void Player::updateMovement(float deltaTime)
 	update(row, deltaTime, faceLeft);
 	body.setTextureRect(uvRect);
 
-	if (!canJump) {
+	if (jumpY >= body.getPosition().y) {
 		velocity.y += 160.0f * deltaTime;
 	}
 	else {
