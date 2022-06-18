@@ -1,6 +1,7 @@
 #include "../Header files/Precompile.h"
 #include "../Header files/El Octavo-Functions.h"
 #include "../Header files/GameClass.h"
+#include "../Header files/Additional Functions.h"
 
 namespace variables {
     int keyTime = 0;
@@ -16,6 +17,16 @@ namespace variables {
 
     Sound soundJump, soundWalk;
 	SoundBuffer jumpBuffer, walkBuffer; 
+
+    float fps;
+    Clock c = Clock::Clock();
+    Time previousTime = c.getElapsedTime();
+    Time currentTime;
+
+    Font font;
+    Text fpsCounter;
+
+    int roundedFps;
 }
 
 using namespace variables;
@@ -51,6 +62,10 @@ void setVars()
 
     soundJump.setVolume(15.0f);
     soundWalk.setVolume(35.0f);
+
+    font.loadFromFile("../Images and fonts/Fonts/Header font.ttf");
+    fpsCounter.setFont(font);
+    fpsCounter.setCharacterSize(62);
 }
 
 void setup(RenderWindow& window)
@@ -61,10 +76,10 @@ void setup(RenderWindow& window)
 
     Clock clock;
     Player plr(&plrT, Vector2u(3, 2), 0.3f, 150.0f);
-    window.setFramerateLimit(60);
     bgImage.setPosition(window.getSize().x / 2, window.getSize().y / 2);
 
     // end of sussy variables
+    window.setFramerateLimit(60);
 
     while (window.isOpen())
     {
@@ -97,9 +112,26 @@ void setup(RenderWindow& window)
         }
 
         plr.draw(window);
+        
+        // calculate fps
+        currentTime = c.getElapsedTime();
+        fps = 1.0f / (currentTime.asSeconds() - previousTime.asSeconds());
+        previousTime = currentTime;
 
-        //display character
+        // show fps
+        
+        roundedFps = (int)fps;
+        fpsCounter.setString(to_string(roundedFps));
+
+        
+
+        fpsCounter.setPosition(1200, 20);
+        window.draw(fpsCounter);
+        
+        // display everything
         window.display();
+
+
     }
 }
 

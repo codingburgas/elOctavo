@@ -19,12 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Header files\Additional Functions.h" />
     <ClInclude Include="Header files\El Octavo-Functions.h" />
     <ClInclude Include="Header files\GameClass.h" />
     <ClInclude Include="Header files\Menu.h" />
     <ClInclude Include="Header files\Precompile.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Cpp files\Additional Functions.cpp" />
     <ClCompile Include="Cpp files\El Octavo-Functions.cpp" />
     <ClCompile Include="Cpp files\GameClass.cpp" />
     <ClCompile Include="Cpp files\Main.cpp" />
