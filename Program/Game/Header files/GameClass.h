@@ -15,9 +15,6 @@ private:
 	float speed;
 	bool faceLeft;
 
-	//jump variables
-	bool canJump;
-
 public:
 	IntRect uvRect;
 	RectangleShape body;

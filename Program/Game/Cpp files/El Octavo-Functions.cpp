@@ -12,7 +12,6 @@ namespace variables {
     Sprite bgImage;
     Texture plrT;
     RectangleShape ground;
-    //0, 570, 1280, 150
 }
 
 using namespace variables;
@@ -86,8 +85,24 @@ void setup(RenderWindow& window)
     }
 }
 
-void moveCamera(string direction, Sprite& image) {
-    //move camera of the window when character is moving
+void CameraSecondStage(string direction, Sprite& image)
+{
+
+    //in first stage we have AD moving so we have two side moving
+    if (direction == "up" && image.getPosition().y <= 1080)
+    {
+        image.move(0.f, 200.0f * deltaTime);
+    }
+
+    if (direction == "down" && image.getPosition().y >= -280)
+    {
+        image.move(0.f, -(200.0f * deltaTime));
+    }
+}
+
+void moveCameraFirstStage(string direction, Sprite& image) 
+{    
+    //in first stage we have WASD moving so we have four side moving
     if (direction == "left" && image.getPosition().x <= 1920) 
     {
         image.move(200.0f * deltaTime, 0.f);
@@ -98,15 +113,7 @@ void moveCamera(string direction, Sprite& image) {
         image.move(-(200.0f * deltaTime), 0.f);
     }
 
-    if (direction == "up" && image.getPosition().y <= 1080)
-    {
-        image.move(0.f, 200.0f * deltaTime);
-    }
-
-    if (direction == "down" && image.getPosition().y >= -280) 
-    {
-        image.move(0.f, -(200.0f * deltaTime));
-    }
+    CameraSecondStage(direction, image);
 }
 
 void moveCharacter(int& keyTime, RenderWindow& window)
@@ -142,18 +149,21 @@ void moveCharacter(int& keyTime, RenderWindow& window)
             moveCamera("down", bgImage);
             keyTime = 0;
         }
-
-        //Mouse events
-        /*if (Mouse::isButtonPressed(Mouse::Left))
-        {
-            square.setFillColor(Color::Blue);
-            keyTime = 0;
-        }
-        else {
-            square.setFillColor(Color::Red);
-            keyTime = 0;
-        }*/
     }
+}
+
+void characterHit(int& keyTime)
+{
+    //Mouse events
+    /*if (Mouse::isButtonPressed(Mouse::Left))
+    {
+        square.setFillColor(Color::Blue);
+        keyTime = 0;
+    }
+    else {
+        square.setFillColor(Color::Red);
+        keyTime = 0;
+    }*/
 }
 
 bool checkCollideWithGround(RectangleShape& body) {

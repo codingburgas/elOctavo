@@ -74,14 +74,6 @@ void Player::updateMovement(float deltaTime)
 	velocity.x = 0;
 	jumped = false;
 
-	/*if (jumpY == 0.0f) {
-		jumpY = body.getPosition().y;
-	}*/
-
-	/*if (jumpY <= body.getPosition().y) {
-		body.setPosition(body.getPosition().x, jumpY);
-	}*/
-
 	if (Keyboard::isKeyPressed(Keyboard::A))
 	{
 		velocity.x -= speed * deltaTime;
