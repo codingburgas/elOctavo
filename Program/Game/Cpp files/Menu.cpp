@@ -14,7 +14,6 @@ using namespace variables;
 
 void setupMenu(RenderWindow& window)
 {
-
     if(!music.openFromFile("../Audios/Main.ogg"))
     {
         cout << "Error" << endl;
