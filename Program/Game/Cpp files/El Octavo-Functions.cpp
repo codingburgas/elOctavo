@@ -8,7 +8,7 @@ namespace variables {
     //movemenent
     int keyTime = 0;
     float deltaTime = 0.0f;
-    bool movementToggle = true;
+    bool movementToggle = false;
 
     //event
     Event ev;
@@ -41,6 +41,7 @@ namespace variables {
     //ramp
     Texture rampT;
     Sprite ramp;
+    RectangleShape hypotenuse(Vector2f(110, 5));
 }
 
 using namespace variables;
@@ -72,6 +73,10 @@ void setVars()
 
     ramp.setOrigin(0, 0);
     ramp.setPosition(800, 430);
+
+    hypotenuse.rotate(-45);
+    hypotenuse.setOrigin(0, 5);
+    hypotenuse.setPosition(ramp.getPosition().x, ramp.getPosition().y);
 
     jumpBuffer.loadFromFile("../Audios/Jump.wav");
     walkBuffer.loadFromFile("../Audios/Walk.wav");
@@ -148,11 +153,10 @@ void setup(RenderWindow& window)
         window.draw(fpsCounter);
 
         window.draw(ramp);
+        window.draw(hypotenuse);
 
         // display everything
         window.display();
-
-
     }
 }
 
@@ -200,25 +204,25 @@ void moveCharacter(int& keyTime, RenderWindow& window)
     {
         if (Keyboard::isKeyPressed(Keyboard::A))
         {
-            moveCameraFirstStage("left", bgImage);
+            //moveCameraFirstStage("left", bgImage);
             keyTime = 0;
         }
 
         if (Keyboard::isKeyPressed(Keyboard::D))
         {
-            moveCameraFirstStage("right", bgImage);
+            //moveCameraFirstStage("right", bgImage);
             keyTime = 0;
         }
 
         if (Keyboard::isKeyPressed(Keyboard::W))
         {
-            moveCameraFirstStage("up", bgImage);
+            //moveCameraFirstStage("up", bgImage);
             keyTime = 0;
         }
 
         if (Keyboard::isKeyPressed(Keyboard::S))
         {
-            moveCameraFirstStage("down", bgImage);
+            //moveCameraFirstStage("down", bgImage);
             keyTime = 0;
         }
     }
@@ -242,6 +246,6 @@ bool checkCollideWithGround(RectangleShape& body) {
     return ground.getGlobalBounds().intersects(body.getGlobalBounds());
 }
 
-bool checkCollideWithRamp(RectangleShape& body, Sprite& ramp) {
-    return ramp.getGlobalBounds().intersects(body.getGlobalBounds());
+bool checkCollideWithRamp(RectangleShape& body) {
+    return hypotenuse.getGlobalBounds().intersects(body.getGlobalBounds());
 }

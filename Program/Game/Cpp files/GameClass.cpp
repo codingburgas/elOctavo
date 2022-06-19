@@ -167,8 +167,14 @@ void Player::updateMovement(float deltaTime, Sound& soundWalk, Sound& soundJump,
 		else {
 			velocity.y += 160.0f * deltaTime;
 		}
+		body.move(0.0f, velocity.y);
 	}
-	body.move(0.0f, velocity.y);
+	else {
+		if (checkCollideWithRamp(body)) {
+			velocity.y = -velocity.x;
+		}
+		body.move(velocity.x, velocity.y);
+	}
 }
 
 void Player::draw(RenderWindow& window)
@@ -178,4 +184,9 @@ void Player::draw(RenderWindow& window)
 
 void Player::jump(float deltaTime, float jumpHeight) {
 	velocity.y = -sqrtf(2.0f * 160.0f * jumpHeight);
+}
+
+//if(body.x + 1 == ramp.getSize().x)
+{
+
 }

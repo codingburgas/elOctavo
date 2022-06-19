@@ -12,4 +12,4 @@ void setVars();
 
 void setup(RenderWindow& window);
 
-bool checkCollideWithRamp(RectangleShape& body, Sprite& ramp);
+bool checkCollideWithRamp(RectangleShape& body);

@@ -3,7 +3,7 @@
 #include "../Header files/El Octavo-Functions.h"
 #include "../Header files/Additional Functions.h"
 
-bool audioToggle = false;
+bool audioToggle = true;
 
 namespace variables {
     Event evMenu;
@@ -11,8 +11,6 @@ namespace variables {
     Sprite bgImageMenu;
 
     Music music;
-
-    bool audioToggle = true;
 }
 
 using namespace variables;
@@ -21,7 +19,7 @@ void setupMenu(RenderWindow& window)
 {
     addIcon(window);
 
-    if(!music.openFromFile("../Audios/Main.ogg"))
+    if (!music.openFromFile("../Audios/Main.ogg"))
     {
         cout << "Error" << endl;
     }
@@ -33,7 +31,7 @@ void setupMenu(RenderWindow& window)
     else {
         cout << "";
     }
-    
+
 
     while (window.isOpen())
     {
@@ -64,11 +62,11 @@ void setupMenu(RenderWindow& window)
                         {
                             cout << "Options";
 
-                            if(audioToggle)
+                            if (audioToggle)
                             {
                                 cout << "";
                             }
-                            else{
+                            else {
                                 music.stop();
                             }
                         }
