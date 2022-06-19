@@ -9,6 +9,8 @@ namespace variables {
     Sprite bgImageMenu;
 
     Music music;
+
+    bool audioToggle = true;
 }
 
 using namespace variables;
@@ -22,7 +24,14 @@ void setupMenu(RenderWindow& window)
         cout << "Error" << endl;
     }
 
-    music.play();
+    if (audioToggle)
+    {
+        music.play();
+    }
+    else {
+        cout << "";
+    }
+    
 
     while (window.isOpen())
     {

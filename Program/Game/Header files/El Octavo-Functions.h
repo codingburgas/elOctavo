@@ -11,3 +11,5 @@ void moveCameraSecondStage(string direction, Sprite& image);
 void setVars();
 
 void setup(RenderWindow& window);
+
+bool checkCollideWithRamp(RectangleShape& body, Sprite& ramp);

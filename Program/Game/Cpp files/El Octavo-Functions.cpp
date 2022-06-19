@@ -4,29 +4,43 @@
 #include "../Header files/Additional Functions.h"
 
 namespace variables {
+
+    //movemenent
     int keyTime = 0;
     float deltaTime = 0.0f;
-    bool movementToggle = false;
+    bool movementToggle = true;
 
+    //event
     Event ev;
 
+    //background
     Texture bgTexture;
     Sprite bgImage;
+
+    //ground
     Texture plrT;
     RectangleShape ground;
 
+    //sound
     Sound soundJump, soundWalk;
-	SoundBuffer jumpBuffer, walkBuffer; 
+    SoundBuffer jumpBuffer, walkBuffer;
 
-    float fps;
+    //time
     Clock c = Clock::Clock();
     Time previousTime = c.getElapsedTime();
     Time currentTime;
 
+    //font
     Font font;
-    Text fpsCounter;
 
+    //fps
+    float fps;
+    Text fpsCounter;
     int roundedFps;
+
+    //ramp
+    Texture rampT;
+    Sprite ramp;
 }
 
 using namespace variables;
@@ -52,6 +66,12 @@ void setVars()
 
     plrT.loadFromFile("../Images and fonts/Main character/unknown.png");
     plrT.setRepeated(true);
+
+    rampT.loadFromFile("../Images and fonts/Ramp Test.png");
+    ramp.setTexture(rampT);
+
+    ramp.setOrigin(0, 0);
+    ramp.setPosition(800, 430);
 
     jumpBuffer.loadFromFile("../Audios/Jump.wav");
     walkBuffer.loadFromFile("../Audios/Walk.wav");
@@ -105,28 +125,30 @@ void setup(RenderWindow& window)
         window.clear(Color::Green);
 
         window.draw(bgImage);
-        
+
         if (movementToggle) {
             window.draw(ground);
         }
 
         plr.draw(window);
-        
+
         // calculate fps
         currentTime = c.getElapsedTime();
         fps = 1.0f / (currentTime.asSeconds() - previousTime.asSeconds());
         previousTime = currentTime;
 
         // show fps
-        
+
         roundedFps = (int)fps;
         fpsCounter.setString(to_string(roundedFps));
 
-        
+
 
         fpsCounter.setPosition(1200, 20);
         window.draw(fpsCounter);
-        
+
+        window.draw(ramp);
+
         // display everything
         window.display();
 
@@ -136,7 +158,7 @@ void setup(RenderWindow& window)
 
 void moveCameraSecondStage(string direction, Sprite& image)
 {
-   //in second stage we have AD moving so we have two side moving
+    //in second stage we have AD moving so we have two side moving
     if (direction == "up" && image.getPosition().y <= 1080)
     {
         image.move(0.f, 200.0f * deltaTime);
@@ -146,13 +168,13 @@ void moveCameraSecondStage(string direction, Sprite& image)
     {
         image.move(0.f, -(200.0f * deltaTime));
     }
-    
+
 }
 
-void moveCameraFirstStage(string direction, Sprite& image) 
-{    
+void moveCameraFirstStage(string direction, Sprite& image)
+{
     //in first stage we have WASD moving so we have four side moving
-    
+
 
     if (direction == "left" && image.getPosition().x <= 1920)
     {
@@ -218,4 +240,8 @@ void characterHit(int& keyTime)
 
 bool checkCollideWithGround(RectangleShape& body) {
     return ground.getGlobalBounds().intersects(body.getGlobalBounds());
+}
+
+bool checkCollideWithRamp(RectangleShape& body, Sprite& ramp) {
+    return ramp.getGlobalBounds().intersects(body.getGlobalBounds());
 }
