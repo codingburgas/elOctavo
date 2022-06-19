@@ -34,7 +34,6 @@ using namespace variables;
 void moveCharacter(int& keyTime, RenderWindow& window);
 void moveCameraFirstStage(string direction, Sprite& image);
 void moveCameraSecondStage(string direction, Sprite& image);
-void moveCharacter(int& keyTime, RenderWindow& window);
 
 void setVars()
 {

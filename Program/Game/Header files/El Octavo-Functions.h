@@ -4,7 +4,9 @@ bool checkCollideWithGround(RectangleShape& body);
 
 void moveCharacter(int& keyTime, RenderWindow& window);
 
-void moveCamera(string direction, Sprite& image);
+void moveCameraFirstStage(string direction, Sprite& image);
+
+void moveCameraSecondStage(string direction, Sprite& image);
 
 void setVars();
 
