@@ -3,12 +3,15 @@
 #include "../Header files/El Octavo-Functions.h"
 #include "../Header files/Additional Functions.h"
 
+bool audioToggle = false;
+
 namespace variables {
     Event evMenu;
     Texture textureMenu;
     Sprite bgImageMenu;
 
     Music music;
+
 }
 
 using namespace variables;
@@ -22,7 +25,8 @@ void setupMenu(RenderWindow& window)
         cout << "Error" << endl;
     }
 
-    music.play();
+  
+    music.play();    
 
     while (window.isOpen())
     {
@@ -52,6 +56,14 @@ void setupMenu(RenderWindow& window)
                         if (evMenu.mouseButton.y >= 459 && evMenu.mouseButton.y <= 516)
                         {
                             cout << "Options";
+
+                            if(audioToggle)
+                            {
+                                cout << "";
+                            }
+                            else{
+                                music.stop();
+                            }
                         }
 
                         if (evMenu.mouseButton.y >= 581 && evMenu.mouseButton.y <= 638)
@@ -68,4 +80,9 @@ void setupMenu(RenderWindow& window)
 
         window.display();
     }
+}
+
+bool isAudioRunning(bool& audioToggle)
+{
+    return audioToggle;
 }

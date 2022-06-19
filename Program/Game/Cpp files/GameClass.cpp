@@ -1,13 +1,14 @@
 #include "../Header files/GameClass.h";
 #include "../Header files/El Octavo-Functions.h"
+#include "../Header files/Menu.h"
 
-namespace variables {
+namespace variabless {
 	Clock clock;
 	Time currTime;
 	bool jumped = false;
 }
 
-using namespace variables;
+using namespace variabless;
 
 //consturctors - setup variables
 Player::Player(Texture* texture, Vector2u imageCount, float switchTime, float speed)
@@ -76,7 +77,7 @@ void Player::updateMovement(float deltaTime, Sound& soundWalk, Sound& soundJump,
 	jumped = false;
 
 	if (Keyboard::isKeyPressed(Keyboard::A)) {
-		if (soundWalk.getStatus() == 0) {
+		if (soundWalk.getStatus() == 0 && isAudioRunning(audioToggle) == true) {
 			soundWalk.play();
 		}
 
@@ -85,7 +86,7 @@ void Player::updateMovement(float deltaTime, Sound& soundWalk, Sound& soundJump,
 
 	if (Keyboard::isKeyPressed(Keyboard::D))
 	{
-		if (soundWalk.getStatus() == 0) {
+		if (soundWalk.getStatus() == 0 && isAudioRunning(audioToggle) == true) {
 			soundWalk.play();
 		}
 
@@ -93,7 +94,7 @@ void Player::updateMovement(float deltaTime, Sound& soundWalk, Sound& soundJump,
 	}
 
 	if (!Keyboard::isKeyPressed(Keyboard::D) && !Keyboard::isKeyPressed(Keyboard::A) && !Keyboard::isKeyPressed(Keyboard::W) && !Keyboard::isKeyPressed(Keyboard::S)) {
-		if (soundWalk.getStatus() == 2) {
+		if (soundWalk.getStatus() == 2 && isAudioRunning(audioToggle) == true) {
 			soundWalk.stop();
 		}
 	}
@@ -102,10 +103,10 @@ void Player::updateMovement(float deltaTime, Sound& soundWalk, Sound& soundJump,
 	if (toggle) {
 		if (Keyboard::isKeyPressed(Keyboard::Space)) {
 
-			currTime = variables::clock.getElapsedTime();
-			if (currTime.asSeconds() >= 1.0f && !jumped) {
+			currTime = variabless::clock.getElapsedTime();
+			if (currTime.asSeconds() >= 1.0f && !jumped && isAudioRunning(audioToggle) == true) {
 				soundJump.play();
-				variables::clock.restart();
+				variabless::clock.restart();
 				jumpY = body.getPosition().y;
 				jump(deltaTime, 3.0);
 				jumped = true;
@@ -116,7 +117,7 @@ void Player::updateMovement(float deltaTime, Sound& soundWalk, Sound& soundJump,
 		velocity.y = 0;
 		if (Keyboard::isKeyPressed(Keyboard::W))
 		{
-			if (soundWalk.getStatus() == 0) {
+			if (soundWalk.getStatus() == 0 && isAudioRunning(audioToggle) == true) {
 				soundWalk.play();
 			}
 
@@ -125,7 +126,7 @@ void Player::updateMovement(float deltaTime, Sound& soundWalk, Sound& soundJump,
 
 		if (Keyboard::isKeyPressed(Keyboard::S))
 		{
-			if (soundWalk.getStatus() == 0) {
+			if (soundWalk.getStatus() == 0 && isAudioRunning(audioToggle) == true) {
 				soundWalk.play();
 			}
 
