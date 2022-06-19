@@ -1,6 +1,7 @@
 #include "../Header files/Precompile.h"
 #include "../Header files/Menu.h"
 #include "../Header files/El Octavo-Functions.h"
+#include "../Header files/Additional Functions.h"
 
 namespace variables {
     Event evMenu;
@@ -14,6 +15,8 @@ using namespace variables;
 
 void setupMenu(RenderWindow& window)
 {
+    addIcon(window);
+
     if(!music.openFromFile("../Audios/Main.ogg"))
     {
         cout << "Error" << endl;

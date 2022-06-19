@@ -1,4 +1,5 @@
 #include "../Header files/Precompile.h";
+#include "../Header files/Additional Functions.h";
 
 namespace variables {
 	/*int FPS;
@@ -30,3 +31,15 @@ void showFPS(int FPS, RenderWindow& window)
 //{
 //	 code for audio toggle
 //}
+
+void addIcon(RenderWindow& window)
+{
+	auto icon = Image{};
+
+	if (!icon.loadFromFile("../Images and fonts/Icon.png"))
+	{
+		cout << "Error";
+	}
+
+	window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+}
