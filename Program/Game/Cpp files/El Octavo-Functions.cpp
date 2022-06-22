@@ -41,7 +41,7 @@ namespace variables {
     //ramp
     Texture rampT;
     Sprite ramp;
-    RectangleShape hypotenuse(Vector2f(110, 5));
+    RectangleShape hypotenuse(Vector2f(110, 1));
 }
 
 using namespace variables;
@@ -76,7 +76,7 @@ void setVars()
 
     hypotenuse.rotate(-45);
     hypotenuse.setOrigin(0, 5);
-    hypotenuse.setPosition(ramp.getPosition().x, ramp.getPosition().y);
+    hypotenuse.setPosition(ramp.getPosition().x + 20, ramp.getPosition().y + 60);
 
     jumpBuffer.loadFromFile("../Audios/Jump.wav");
     walkBuffer.loadFromFile("../Audios/Walk.wav");
@@ -147,15 +147,12 @@ void setup(RenderWindow& window)
         roundedFps = (int)fps;
         fpsCounter.setString(to_string(roundedFps));
 
-
-
         fpsCounter.setPosition(1200, 20);
         window.draw(fpsCounter);
 
         window.draw(ramp);
         window.draw(hypotenuse);
 
-        // display everything
         window.display();
     }
 }
@@ -178,8 +175,6 @@ void moveCameraSecondStage(string direction, Sprite& image)
 void moveCameraFirstStage(string direction, Sprite& image)
 {
     //in first stage we have WASD moving so we have four side moving
-
-
     if (direction == "left" && image.getPosition().x <= 1920)
     {
         image.move(200.0f * deltaTime, 0.f);
@@ -246,6 +241,10 @@ bool checkCollideWithGround(RectangleShape& body) {
     return ground.getGlobalBounds().intersects(body.getGlobalBounds());
 }
 
-bool checkCollideWithRamp(RectangleShape& body) {
+bool checkCollideWithHypotenuse(RectangleShape& body) {
     return hypotenuse.getGlobalBounds().intersects(body.getGlobalBounds());
+}
+
+bool checkCollideWithRamp(RectangleShape& body) {
+    return ramp.getGlobalBounds().intersects(body.getGlobalBounds());
 }

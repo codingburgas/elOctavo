@@ -170,10 +170,14 @@ void Player::updateMovement(float deltaTime, Sound& soundWalk, Sound& soundJump,
 		body.move(0.0f, velocity.y);
 	}
 	else {
-		if (checkCollideWithRamp(body)) {
+		if (checkCollideWithHypotenuse(body)) {
 			velocity.y = -velocity.x;
 		}
-		body.move(velocity.x, velocity.y);
+		else if (checkCollideWithRamp(body))
+		{
+			body.setPosition(body.getPosition().x, 520.0f);
+		}
+		body.move(velocity.x, velocity.y);	
 	}
 }
 
@@ -186,7 +190,3 @@ void Player::jump(float deltaTime, float jumpHeight) {
 	velocity.y = -sqrtf(2.0f * 160.0f * jumpHeight);
 }
 
-//if(body.x + 1 == ramp.getSize().x)
-{
-
-}
