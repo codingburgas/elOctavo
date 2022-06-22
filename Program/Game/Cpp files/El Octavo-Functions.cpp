@@ -71,13 +71,6 @@ void setVars()
     rampT.loadFromFile("../Images and fonts/Ramp Test.png");
     ramp.setTexture(rampT);
 
-    ramp.setOrigin(0, 0);
-    ramp.setPosition(800, 430);
-
-    hypotenuse.rotate(-45);
-    hypotenuse.setOrigin(0, 5);
-    hypotenuse.setPosition(ramp.getPosition().x + 20, ramp.getPosition().y + 60);
-
     jumpBuffer.loadFromFile("../Audios/Jump.wav");
     walkBuffer.loadFromFile("../Audios/Walk.wav");
 
@@ -150,9 +143,6 @@ void setup(RenderWindow& window)
         fpsCounter.setPosition(1200, 20);
         window.draw(fpsCounter);
 
-        window.draw(ramp);
-        window.draw(hypotenuse);
-
         window.display();
     }
 }
@@ -162,12 +152,12 @@ void moveCameraSecondStage(string direction, Sprite& image)
     //in second stage we have AD moving so we have two side moving
     if (direction == "up" && image.getPosition().y <= 1080)
     {
-        image.move(0.f, 200.0f * deltaTime);
+        image.move(0.f, 350.0f * deltaTime);
     }
 
     if (direction == "down" && image.getPosition().y >= -280)
     {
-        image.move(0.f, -(200.0f * deltaTime));
+        image.move(0.f, -(350.0f * deltaTime));
     }
 
 }
@@ -177,12 +167,12 @@ void moveCameraFirstStage(string direction, Sprite& image)
     //in first stage we have WASD moving so we have four side moving
     if (direction == "left" && image.getPosition().x <= 1920)
     {
-        image.move(200.0f * deltaTime, 0.f);
+        image.move(250.0f * deltaTime, 0.f);
     }
 
     if (direction == "right" && image.getPosition().x >= -420)
     {
-        image.move(-(200.0f * deltaTime), 0.f);
+        image.move(-(250.0f * deltaTime), 0.f);
     }
     moveCameraSecondStage(direction, image);
 }
@@ -199,25 +189,25 @@ void moveCharacter(int& keyTime, RenderWindow& window)
     {
         if (Keyboard::isKeyPressed(Keyboard::A))
         {
-            //moveCameraFirstStage("left", bgImage);
+            moveCameraFirstStage("left", bgImage);
             keyTime = 0;
         }
 
         if (Keyboard::isKeyPressed(Keyboard::D))
         {
-            //moveCameraFirstStage("right", bgImage);
+            moveCameraFirstStage("right", bgImage);
             keyTime = 0;
         }
 
         if (Keyboard::isKeyPressed(Keyboard::W))
         {
-            //moveCameraFirstStage("up", bgImage);
+            moveCameraFirstStage("up", bgImage);
             keyTime = 0;
         }
 
         if (Keyboard::isKeyPressed(Keyboard::S))
         {
-            //moveCameraFirstStage("down", bgImage);
+            moveCameraFirstStage("down", bgImage);
             keyTime = 0;
         }
     }

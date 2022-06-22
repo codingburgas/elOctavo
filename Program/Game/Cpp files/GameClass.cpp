@@ -81,7 +81,7 @@ void Player::updateMovement(float deltaTime, Sound& soundWalk, Sound& soundJump,
 			soundWalk.play();
 		}
 
-		velocity.x -= speed * deltaTime;
+		velocity.x -= abs(speed - 25.0f) * deltaTime;
 	}
 
 	if (Keyboard::isKeyPressed(Keyboard::D))
@@ -90,7 +90,7 @@ void Player::updateMovement(float deltaTime, Sound& soundWalk, Sound& soundJump,
 			soundWalk.play();
 		}
 
-		velocity.x += speed * deltaTime;
+		velocity.x += abs(speed - 25.0f) * deltaTime;
 	}
 
 	if (!Keyboard::isKeyPressed(Keyboard::D) && !Keyboard::isKeyPressed(Keyboard::A) && !Keyboard::isKeyPressed(Keyboard::W) && !Keyboard::isKeyPressed(Keyboard::S)) {
@@ -121,7 +121,7 @@ void Player::updateMovement(float deltaTime, Sound& soundWalk, Sound& soundJump,
 				soundWalk.play();
 			}
 
-			velocity.y -= speed * deltaTime;
+			velocity.y -= abs(speed - 35.0f) * deltaTime;
 		}
 
 		if (Keyboard::isKeyPressed(Keyboard::S))
@@ -130,7 +130,7 @@ void Player::updateMovement(float deltaTime, Sound& soundWalk, Sound& soundJump,
 				soundWalk.play();
 			}
 
-			velocity.y += speed * deltaTime;
+			velocity.y += abs(speed - 35.0f) * deltaTime;
 		}
 	}
 		
