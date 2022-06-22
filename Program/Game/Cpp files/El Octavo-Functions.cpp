@@ -8,7 +8,7 @@ namespace variables {
     //movemenent
     int keyTime = 0;
     float deltaTime = 0.0f;
-    bool movementToggle = false;
+    bool movementToggle = true;
 
     //event
     Event ev;
