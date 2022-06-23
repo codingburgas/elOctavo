@@ -6,6 +6,4 @@ void setVars();
 
 void setup(RenderWindow& window);
 
-bool checkCollideWithHypotenuse(RectangleShape& body);
-
 bool checkCollideWithRamp(RectangleShape& body);

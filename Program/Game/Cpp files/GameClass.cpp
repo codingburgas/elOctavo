@@ -75,7 +75,7 @@ void Player::update(int row, float deltaTime, bool faceLeft)
 
 void Player::moveCameraFirstStage(Sprite& adventureBgImage, float& deltaTime)
 {
-	adventureBgImage.move(-(125.0f * deltaTime), 0.f);
+	adventureBgImage.move(-(225.0f * deltaTime), 0.f);
 }
 
 void Player::moveCharacter(int& keyTime, RenderWindow& window, Sprite& adventureBgImage, float& deltaTime)
@@ -104,13 +104,16 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 	velocity.x = 0;
 	jumped = false;
 
-	if (Keyboard::isKeyPressed(Keyboard::A)) {
-		if (soundWalk.getStatus() == 0 && isAudioRunning(audioToggle) == true) {
-			soundWalk.play();
-		}
+	if (body.getPosition().x >= 35.0f)
+	{
+		if (Keyboard::isKeyPressed(Keyboard::A)) {
+			if (soundWalk.getStatus() == 0 && isAudioRunning(audioToggle) == true) {
+				soundWalk.play();
+			}
 
-		velocity.x -= abs(speed - 50.0f) * deltaTime;
-		//velocity.x -= abs(speed - 25.0f) * deltaTime;
+			velocity.x -= abs(speed - 50.0f) * deltaTime;
+			//velocity.x -= abs(speed - 25.0f) * deltaTime;
+		}
 	}
 
 	if (Keyboard::isKeyPressed(Keyboard::D))
@@ -208,13 +211,13 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 
 	}
 	else {
-		if (checkCollideWithHypotenuse(body)) {
+		/*if (checkCollideWithHypotenuse(body)) {
 			velocity.y = -velocity.x;
 		}
 		else if (checkCollideWithRamp(body))
 		{
 			body.setPosition(body.getPosition().x, 520.0f);
-		}
+		}*/
 
 	}
 

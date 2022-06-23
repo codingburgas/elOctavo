@@ -24,6 +24,10 @@ namespace variables {
     Texture plrT;
     RectangleShape ground;
 
+    //ramp
+    Texture rampT;
+    Sprite ramp;
+
     //sound
     Sound soundJump, soundWalk;
     SoundBuffer jumpBuffer, walkBuffer;
@@ -40,11 +44,6 @@ namespace variables {
     float fps;
     Text fpsCounter;
     int roundedFps;
-
-    //ramp
-    Texture rampT;
-    Sprite ramp;
-    RectangleShape hypotenuse(Vector2f(110, 1));
 }
 
 using namespace variables;
@@ -91,7 +90,7 @@ void setup(RenderWindow& window)
     // start of sussy variables
 
     Clock clock;
-    Player plr(&plrT, Vector2u(3, 2), 0.3f, 150.0f);
+    Player plr(&plrT, Vector2u(3, 2), 0.3f, 225.0f);
     bgImage.setPosition(window.getSize().x / 2, window.getSize().y / 2);
 
     // end of sussy variables
@@ -149,11 +148,6 @@ bool checkCollideWithGround(RectangleShape& body) {
     return ground.getGlobalBounds().intersects(body.getGlobalBounds());
 }
 
-bool checkCollideWithHypotenuse(RectangleShape& body) {
-    return hypotenuse.getGlobalBounds().intersects(body.getGlobalBounds());
-}
-
 bool checkCollideWithRamp(RectangleShape& body) {
     return ramp.getGlobalBounds().intersects(body.getGlobalBounds());
 }
-
