@@ -167,17 +167,19 @@ bool checkCollideWithGround(RectangleShape& body) {
     return ground.getGlobalBounds().intersects(body.getGlobalBounds());
 }
 
-void checkCollideWithRamp(RectangleShape& body) {
+bool checkCollideWithRamp(RectangleShape& body) {
     if (ramp.getGlobalBounds().intersects(body.getGlobalBounds())) {
         Image rampImage = rampT.copyToImage();
-        int rampX = abs(ramp.getPosition().x - (body.getPosition().x + 40));
-        int rampY = abs(ramp.getPosition().y - (body.getPosition().y + 129));
+        int rampX = abs(ramp.getPosition().x - body.getPosition().x);
+        int rampY = abs(ramp.getPosition().y - body.getPosition().y);
         if (rampX < 110 && rampY < 110) {
-            if (rampImage.getPixel(rampX, rampY).a < 255) {
-                cout << "collided" << endl;
+            if (rampImage.getPixel(rampX, rampY).a != 0) {
+                return true;
+            }
+            else {
+                return false;
             }
         }
-        cout << rampX << " " << rampY << endl;
     }
 }
 
@@ -198,6 +200,7 @@ void moveStaticImages(RectangleShape& body,RenderWindow& window)
     {
         if (body.getPosition().x >= window.getSize().x / 2)
         {
+            //make images static
             messageImage.move(-(225.0f * deltaTime), 0.f);
             ramp.move(-(225.0f * deltaTime), 0.f);
         }
