@@ -158,7 +158,7 @@ void Player::updateMovement(float deltaTime, Sound& soundWalk, Sound& soundJump,
 
 	if (toggle) {
 		if (checkCollideWithGround(body)) {
-			body.setPosition(body.getPosition().x, 520.0f);
+			body.setPosition(body.getPosition().x, 495.0f);
 		}
 
 		if (checkCollideWithGround(body) && !jumped) {

@@ -17,6 +17,10 @@ namespace variables {
     Texture bgTexture;
     Sprite bgImage;
 
+    //background for stage 2
+    Texture adventureBgTexture;
+    Sprite adventureBgImage;
+
     //ground
     Texture plrT;
     RectangleShape ground;
@@ -55,14 +59,16 @@ void setVars()
     keyTime = 0;
 
     bgTexture.loadFromFile("../Images and fonts/Bg/test bg.png");
-
     bgImage.setTexture(bgTexture);
+
+    adventureBgTexture.loadFromFile("../Images and fonts/Main character/Stage two bg.png");
+    adventureBgImage.setTexture(adventureBgTexture);
 
     //setting position of the background
     bgImage.setOrigin(1920, 1080);
 
-    ground.setSize(Vector2f(1280, 150));
-    ground.setPosition(Vector2f(0, 570));
+    ground.setSize(Vector2f(1280, 220));
+    ground.setPosition(Vector2f(0, 540));
     ground.setFillColor(Color::Black);
 
     plrT.loadFromFile("../Images and fonts/Main character/unknown.png");
@@ -122,7 +128,7 @@ void setup(RenderWindow& window)
 
         window.clear(Color::Green);
 
-        window.draw(bgImage);
+        window.draw(adventureBgImage);
 
         if (movementToggle) {
             window.draw(ground);
@@ -189,13 +195,13 @@ void moveCharacter(int& keyTime, RenderWindow& window)
     {
         if (Keyboard::isKeyPressed(Keyboard::A))
         {
-            moveCameraFirstStage("left", bgImage);
+            moveCameraFirstStage("left", adventureBgImage);
             keyTime = 0;
         }
 
         if (Keyboard::isKeyPressed(Keyboard::D))
         {
-            moveCameraFirstStage("right", bgImage);
+            moveCameraFirstStage("right", adventureBgImage);
             keyTime = 0;
         }
 
