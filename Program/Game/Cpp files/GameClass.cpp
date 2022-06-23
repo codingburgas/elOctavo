@@ -145,6 +145,7 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 				jumped = true;
 			}
 		}
+
 		if(body.getPosition().x >= window.getSize().x / 2)
 		{
 			Player::moveCharacter(keyTime, window, adventureBgImage, deltaTime);

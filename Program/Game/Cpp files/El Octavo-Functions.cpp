@@ -21,8 +21,8 @@ namespace variables {
     Sprite adventureBgImage;
 
     //background for stage 2
-    Texture messageTexture;
-    Sprite messageImage;
+    static Texture messageTexture;
+    static Sprite messageImage;
 
     //ground
     Texture plrT;
@@ -51,6 +51,8 @@ namespace variables {
 }
 
 using namespace variables;
+
+void moveStaticImages(RectangleShape& body, RenderWindow& window);
 
 void setVars()
 {
@@ -155,6 +157,8 @@ void setup(RenderWindow& window)
 
         window.draw(messageImage);
 
+        moveStaticImages(plr.body, window);
+
         window.display();
     }
 }
@@ -186,4 +190,16 @@ void cutscene(RectangleShape& body)
     else {
         messageImage.createMaskFromColor(Color(0, 255, 0), 0);
     }*/
+}
+
+void moveStaticImages(RectangleShape& body,RenderWindow& window)
+{
+    if (Keyboard::isKeyPressed(Keyboard::D))
+    {
+        if (body.getPosition().x >= window.getSize().x / 2)
+        {
+            messageImage.move(-(225.0f * deltaTime), 0.f);
+            ramp.move(-(225.0f * deltaTime), 0.f);
+        }
+    } 
 }
