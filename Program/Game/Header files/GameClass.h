@@ -28,7 +28,7 @@ public:
 	void update(int row, float deltaTime, bool faceLeft);
 
 	//movement functions
-	void updateMovement(float deltaTime,RenderWindow& window, Sprite adventureBgImage, Sound& soundWalk, Sound& soundJump, bool& toggle);
+	void updateMovement(float deltaTime,RenderWindow& window, Sprite& adventureBgImage, Sound& soundWalk, Sound& soundJump, bool& toggle);
 	void draw(RenderWindow& window);
 	void jump(float deltaTime, float jumpHeight);
 	void moveCameraFirstStage(Sprite& image, float& deltaTime);

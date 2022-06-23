@@ -75,7 +75,7 @@ void Player::update(int row, float deltaTime, bool faceLeft)
 
 void Player::moveCameraFirstStage(Sprite& adventureBgImage, float& deltaTime)
 {
-	adventureBgImage.move(-(250.0f * deltaTime), 0.f);
+	adventureBgImage.move(-(100.0f * deltaTime), 0.f);
 }
 
 void Player::moveCharacter(int& keyTime, RenderWindow& window, Sprite& adventureBgImage, float& deltaTime)
@@ -98,7 +98,7 @@ void Player::moveCharacter(int& keyTime, RenderWindow& window, Sprite& adventure
 
 
 //Update for moving character
-void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite adventureBgImage, Sound& soundWalk, Sound& soundJump, bool& toggle)
+void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adventureBgImage, Sound& soundWalk, Sound& soundJump, bool& toggle)
 {
 
 	velocity.x = 0;
@@ -141,7 +141,7 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite advent
 			}
 		}
 
-		if(body.getPosition().x == 620.0f)
+		if(body.getPosition().x >= window.getPosition().x * 3)
 		{
 			Player::moveCharacter(keyTime, window, adventureBgImage, deltaTime);
 		}
