@@ -6,4 +6,6 @@ void setVars();
 
 void setup(RenderWindow& window);
 
-bool checkCollideWithRamp(RectangleShape& body);
+void checkCollideWithRamp(RectangleShape& body);
+
+void cutscene(RectangleShape& body);

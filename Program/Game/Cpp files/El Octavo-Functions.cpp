@@ -20,6 +20,10 @@ namespace variables {
     Texture adventureBgTexture;
     Sprite adventureBgImage;
 
+    //background for stage 2
+    Texture messageTexture;
+    Sprite messageImage;
+
     //ground
     Texture plrT;
     RectangleShape ground;
@@ -56,6 +60,12 @@ void setVars()
     adventureBgTexture.loadFromFile("../Images and fonts/Bg/Part1 map.png");
     adventureBgImage.setTexture(adventureBgTexture);
 
+    messageTexture.loadFromFile("../Images and fonts/Bg/message.png");
+    messageImage.setTexture(messageTexture);
+    messageImage.setPosition(500, 300);
+
+    //messageImage.setPosition()
+
     //setting position of the background
     bgImage.setOrigin(1920, 1080);
 
@@ -68,6 +78,8 @@ void setVars()
 
     rampT.loadFromFile("../Images and fonts/Ramp Test.png");
     ramp.setTexture(rampT);
+    ramp.setOrigin(0, 0);
+    ramp.setPosition(200, 450);
 
     jumpBuffer.loadFromFile("../Audios/Jump.wav");
     walkBuffer.loadFromFile("../Audios/Walk.wav");
@@ -80,7 +92,7 @@ void setVars()
 
     font.loadFromFile("../Images and fonts/Fonts/Header font.ttf");
     fpsCounter.setFont(font);
-    fpsCounter.setCharacterSize(62);
+    fpsCounter.setCharacterSize(56);
 }
 
 void setup(RenderWindow& window)
@@ -115,7 +127,7 @@ void setup(RenderWindow& window)
             }
         }
 
-        plr.updateMovement(deltaTime, window, adventureBgImage,soundWalk, soundJump, movementToggle);
+        plr.updateMovement(deltaTime, window, adventureBgImage, soundWalk, soundJump, movementToggle);
 
         window.clear(Color::Green);
 
@@ -124,6 +136,7 @@ void setup(RenderWindow& window)
         }
 
         window.draw(adventureBgImage);
+        window.draw(ramp);
 
         plr.draw(window);
 
@@ -140,6 +153,8 @@ void setup(RenderWindow& window)
         fpsCounter.setPosition(1200, 20);
         window.draw(fpsCounter);
 
+        window.draw(messageImage);
+
         window.display();
     }
 }
@@ -148,6 +163,27 @@ bool checkCollideWithGround(RectangleShape& body) {
     return ground.getGlobalBounds().intersects(body.getGlobalBounds());
 }
 
-bool checkCollideWithRamp(RectangleShape& body) {
-    return ramp.getGlobalBounds().intersects(body.getGlobalBounds());
+void checkCollideWithRamp(RectangleShape& body) {
+    if (ramp.getGlobalBounds().intersects(body.getGlobalBounds())) {
+        Image rampImage = rampT.copyToImage();
+        int rampX = abs(ramp.getPosition().x - (body.getPosition().x + 40));
+        int rampY = abs(ramp.getPosition().y - (body.getPosition().y + 129));
+        if (rampX < 110 && rampY < 110) {
+            if (rampImage.getPixel(rampX, rampY).a < 255) {
+                cout << "collided" << endl;
+            }
+        }
+        cout << rampX << " " << rampY << endl;
+    }
+}
+
+void cutscene(RectangleShape& body)
+{
+    /*if (body.getPosition().x >= 349.0f && body.getPosition().x <= 640.0f)
+    {
+        messageImage;
+    }
+    else {
+        messageImage.createMaskFromColor(Color(0, 255, 0), 0);
+    }*/
 }

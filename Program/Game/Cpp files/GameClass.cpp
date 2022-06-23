@@ -208,6 +208,7 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 		else {
 			velocity.y += 160.0f * deltaTime;
 		}
+		checkCollideWithRamp(body);
 
 	}
 	else {
@@ -218,7 +219,6 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 		{
 			body.setPosition(body.getPosition().x, 520.0f);
 		}*/
-
 	}
 
 	body.move(velocity.x, velocity.y);
