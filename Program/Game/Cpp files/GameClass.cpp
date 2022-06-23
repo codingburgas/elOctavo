@@ -200,7 +200,7 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite advent
 		else {
 			velocity.y += 160.0f * deltaTime;
 		}
-		body.move(0.0f, velocity.y);
+		body.move(velocity.x, velocity.y);
 	}
 	else {
 		if (checkCollideWithHypotenuse(body)) {
