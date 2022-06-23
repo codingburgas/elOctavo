@@ -6,7 +6,6 @@
 namespace variables {
 
     //movemenent
-    int keyTime = 0;
     float deltaTime = 0.0f;
     bool movementToggle = true;
 
@@ -50,18 +49,12 @@ namespace variables {
 
 using namespace variables;
 
-void moveCharacter(int& keyTime, RenderWindow& window);
-void moveCameraFirstStage(string direction, Sprite& image);
-void moveCameraSecondStage(string direction, Sprite& image);
-
 void setVars()
 {
-    keyTime = 0;
-
     bgTexture.loadFromFile("../Images and fonts/Bg/test bg.png");
     bgImage.setTexture(bgTexture);
 
-    adventureBgTexture.loadFromFile("../Images and fonts/Main character/Stage two bg.png");
+    adventureBgTexture.loadFromFile("../Images and fonts/Bg/Part1 map.png");
     adventureBgImage.setTexture(adventureBgTexture);
 
     //setting position of the background
@@ -123,8 +116,7 @@ void setup(RenderWindow& window)
             }
         }
 
-        plr.updateMovement(deltaTime, soundWalk, soundJump, movementToggle);
-        moveCharacter(keyTime, window);
+        plr.updateMovement(deltaTime, window, adventureBgImage,soundWalk, soundJump, movementToggle);
 
         window.clear(Color::Green);
 
@@ -133,8 +125,6 @@ void setup(RenderWindow& window)
         }
 
         window.draw(adventureBgImage);
-
-        
 
         plr.draw(window);
 
@@ -155,86 +145,6 @@ void setup(RenderWindow& window)
     }
 }
 
-void moveCameraSecondStage(string direction, Sprite& image)
-{
-    //in second stage we have AD moving so we have two side moving
-    if (direction == "up" && image.getPosition().y <= 1080)
-    {
-        image.move(0.f, 350.0f * deltaTime);
-    }
-
-    if (direction == "down" && image.getPosition().y >= -280)
-    {
-        image.move(0.f, -(350.0f * deltaTime));
-    }
-
-}
-
-void moveCameraFirstStage(string direction, Sprite& image)
-{
-    //in first stage we have WASD moving so we have four side moving
-    if (direction == "left" && image.getPosition().x <= 1920)
-    {
-        image.move(250.0f * deltaTime, 0.f);
-    }
-
-    if (direction == "right" && image.getPosition().x >= -420)
-    {
-        image.move(-(250.0f * deltaTime), 0.f);
-    }
-    moveCameraSecondStage(direction, image);
-}
-
-void moveCharacter(int& keyTime, RenderWindow& window)
-{
-    if (keyTime < 1)
-    {
-        keyTime++;
-    }
-
-    //WASD moving
-    if (keyTime >= 1)
-    {
-        if (Keyboard::isKeyPressed(Keyboard::A))
-        {
-            moveCameraFirstStage("left", adventureBgImage);
-            keyTime = 0;
-        }
-
-        if (Keyboard::isKeyPressed(Keyboard::D))
-        {
-            moveCameraFirstStage("right", adventureBgImage);
-            keyTime = 0;
-        }
-
-        if (Keyboard::isKeyPressed(Keyboard::W))
-        {
-            moveCameraFirstStage("up", bgImage);
-            keyTime = 0;
-        }
-
-        if (Keyboard::isKeyPressed(Keyboard::S))
-        {
-            moveCameraFirstStage("down", bgImage);
-            keyTime = 0;
-        }
-    }
-}
-
-void characterHit(int& keyTime)
-{
-    //Mouse events
-    /*if (Mouse::isButtonPressed(Mouse::Left))
-    {
-        square.setFillColor(Color::Blue);
-        keyTime = 0;
-    }
-    else {
-        square.setFillColor(Color::Red);
-        keyTime = 0;
-    }*/
-}
-
 bool checkCollideWithGround(RectangleShape& body) {
     return ground.getGlobalBounds().intersects(body.getGlobalBounds());
 }
@@ -246,3 +156,4 @@ bool checkCollideWithHypotenuse(RectangleShape& body) {
 bool checkCollideWithRamp(RectangleShape& body) {
     return ramp.getGlobalBounds().intersects(body.getGlobalBounds());
 }
+

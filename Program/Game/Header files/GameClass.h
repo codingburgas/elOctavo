@@ -28,50 +28,10 @@ public:
 	void update(int row, float deltaTime, bool faceLeft);
 
 	//movement functions
-	void updateMovement(float deltaTime, Sound& soundWalk, Sound& soundJump, bool& toggle);
+	void updateMovement(float deltaTime,RenderWindow& window, Sprite adventureBgImage, Sound& soundWalk, Sound& soundJump, bool& toggle);
 	void draw(RenderWindow& window);
 	void jump(float deltaTime, float jumpHeight);
+	void moveCameraFirstStage(Sprite& image, float& deltaTime);
+	void moveCharacter(int& keyTime, RenderWindow& window, Sprite& adventureBgImage, float& deltaTime);
 };
 
-class Npc {
-private:
-
-	// init variables
-
-	int* posX;
-	int* posY;
-
-	int* hp;
-	Sprite spriteNpc;
-
-public:
-
-	// init constructor
-	// probable error
-
-	Npc(int* posX, int* posY, int* hp, Sprite sprite) : posX(posX), posY(posY), hp(hp), spriteNpc(sprite) {
-		updatePos(this->posX, this->posY);
-	}
-
-	// update functions
-
-	void updatePos(int* newX, int* newY) {
-		this->posX = newX;
-		this->posY = newY;
-		this->spriteNpc.move(*newX, *newY);
-	}
-
-	void changeSprite(Texture* newTexture) {
-		this->spriteNpc.setTexture(*newTexture);
-	}
-
-	void updateHealth(int* newHp) {
-		this->hp = newHp;
-	}
-
-	// combat functions
-
-	void takeDamage(int damage) {
-		this->hp -= damage;
-	}
-};

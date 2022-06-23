@@ -9,8 +9,8 @@ void changeFPS(int FPS, RenderWindow& window)
 
 void addIcon(RenderWindow& window)
 {
-	auto icon = Image{};
-
+	Image icon;
+	
 	if (!icon.loadFromFile("../Images and fonts/Icon.png"))
 	{
 		cout << "Error";

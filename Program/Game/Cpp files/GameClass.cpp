@@ -1,14 +1,18 @@
 #include "../Header files/GameClass.h";
 #include "../Header files/El Octavo-Functions.h"
 #include "../Header files/Menu.h"
+#include "../Header files/Precompile.h"
 
-namespace variabless {
+
+namespace vars {
 	Clock clock;
 	Time currTime;
 	bool jumped = false;
+	int keyTime = 0;
 }
 
-using namespace variabless;
+using namespace vars;
+
 
 //consturctors - setup variables
 Player::Player(Texture* texture, Vector2u imageCount, float switchTime, float speed)
@@ -69,8 +73,32 @@ void Player::update(int row, float deltaTime, bool faceLeft)
 	}
 }
 
+void Player::moveCameraFirstStage(Sprite& image, float& deltaTime)
+{
+	image.move(-(250.0f * deltaTime), 0.f);
+}
+
+void Player::moveCharacter(int& keyTime, RenderWindow& window, Sprite& adventureBgImage, float& deltaTime)
+{
+	if (keyTime < 1)
+	{
+		keyTime++;
+	}
+
+	//WASD moving
+	if (keyTime >= 1)
+	{
+		if (Keyboard::isKeyPressed(Keyboard::D))
+		{
+			moveCameraFirstStage(adventureBgImage, deltaTime);
+			keyTime = 0;
+		}
+	}
+}
+
+
 //Update for moving character
-void Player::updateMovement(float deltaTime, Sound& soundWalk, Sound& soundJump, bool& toggle)
+void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite adventureBgImage, Sound& soundWalk, Sound& soundJump, bool& toggle)
 {
 
 	velocity.x = 0;
@@ -103,14 +131,19 @@ void Player::updateMovement(float deltaTime, Sound& soundWalk, Sound& soundJump,
 	if (toggle) {
 		if (Keyboard::isKeyPressed(Keyboard::Space)) {
 
-			currTime = variabless::clock.getElapsedTime();
+			currTime = vars::clock.getElapsedTime();
 			if (currTime.asSeconds() >= 1.0f && !jumped && isAudioRunning(audioToggle) == true) {
 				soundJump.play();
-				variabless::clock.restart();
+				vars::clock.restart();
 				jumpY = body.getPosition().y;
 				jump(deltaTime, 3.0);
 				jumped = true;
 			}
+		}
+
+		if (body.getPosition().x == 620.0f)
+		{
+			Player::moveCharacter(keyTime, window, adventureBgImage, deltaTime);
 		}
 	}
 	else {

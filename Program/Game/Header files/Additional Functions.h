@@ -4,8 +4,4 @@
 
 void changeFPS(int FPS, RenderWindow& window);
 
-void showFPS(int FPS, RenderWindow& window);
-
-void setupFont();
-
 void addIcon(RenderWindow& window);
