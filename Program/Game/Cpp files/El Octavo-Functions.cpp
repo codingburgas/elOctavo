@@ -67,8 +67,8 @@ void setVars()
     //setting position of the background
     bgImage.setOrigin(1920, 1080);
 
-    ground.setSize(Vector2f(1280, 220));
-    ground.setPosition(Vector2f(0, 540));
+    ground.setSize(Vector2f(1280, 225));
+    ground.setPosition(Vector2f(0, 535));
     ground.setFillColor(Color::Black);
 
     plrT.loadFromFile("../Images and fonts/Main character/unknown.png");
@@ -128,11 +128,13 @@ void setup(RenderWindow& window)
 
         window.clear(Color::Green);
 
-        window.draw(adventureBgImage);
-
         if (movementToggle) {
             window.draw(ground);
         }
+
+        window.draw(adventureBgImage);
+
+        
 
         plr.draw(window);
 
