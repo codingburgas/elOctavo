@@ -8,4 +8,3 @@ void setup(RenderWindow& window);
 
 bool checkCollideWithRamp(RectangleShape& body);
 
-void cutscene(RectangleShape& body);

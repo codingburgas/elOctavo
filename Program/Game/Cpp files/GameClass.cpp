@@ -100,7 +100,6 @@ void Player::moveCharacter(int& keyTime, RenderWindow& window, Sprite& adventure
 //Update for moving character
 void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adventureBgImage, Sound& soundWalk, Sound& soundJump, bool& toggle)
 {
-
 	velocity.x = 0;
 	jumped = false;
 
@@ -209,7 +208,10 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 		else {
 			velocity.y += 160.0f * deltaTime;
 		}
-		cout << checkCollideWithRamp(body) << endl;
+
+		if (checkCollideWithRamp(body) == 1) {
+			velocity.y = -velocity.x;
+		}
 
 	}
 	else {
@@ -233,4 +235,3 @@ void Player::draw(RenderWindow& window)
 void Player::jump(float deltaTime, float jumpHeight) {
 	velocity.y = -sqrtf(2.0f * 160.0f * jumpHeight);
 }
-

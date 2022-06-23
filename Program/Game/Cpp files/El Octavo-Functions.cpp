@@ -21,8 +21,8 @@ namespace variables {
     Sprite adventureBgImage;
 
     //background for stage 2
-    static Texture messageTexture;
-    static Sprite messageImage;
+    Texture messageTexture;
+    Sprite messageImage;
 
     //ground
     Texture plrT;
@@ -48,12 +48,15 @@ namespace variables {
     float fps;
     Text fpsCounter;
     int roundedFps;
+
+    string cutsceneStr = "Press Q to talk with the mafia.";
+    Text cutsceneText;
 }
 
 using namespace variables;
 
 void moveStaticImages(RectangleShape& body, RenderWindow& window);
-
+void cutscene(RectangleShape& body, string& cutsceneStr, Sprite& adventureBgImage);
 void setVars()
 {
     bgTexture.loadFromFile("../Images and fonts/Bg/test bg.png");
@@ -64,9 +67,8 @@ void setVars()
 
     messageTexture.loadFromFile("../Images and fonts/Bg/message.png");
     messageImage.setTexture(messageTexture);
-    messageImage.setPosition(500, 300);
 
-    //messageImage.setPosition()
+    messageImage.setPosition(500, 300);
 
     //setting position of the background
     bgImage.setOrigin(1920, 1080);
@@ -81,7 +83,7 @@ void setVars()
     rampT.loadFromFile("../Images and fonts/Ramp Test.png");
     ramp.setTexture(rampT);
     ramp.setOrigin(0, 0);
-    ramp.setPosition(200, 450);
+    ramp.setPosition(200, 430);
 
     jumpBuffer.loadFromFile("../Audios/Jump.wav");
     walkBuffer.loadFromFile("../Audios/Walk.wav");
@@ -95,6 +97,10 @@ void setVars()
     font.loadFromFile("../Images and fonts/Fonts/Header font.ttf");
     fpsCounter.setFont(font);
     fpsCounter.setCharacterSize(56);
+
+    cutsceneText.setPosition(20, 20);
+    cutsceneText.setCharacterSize(24);
+    cutsceneText.setFont(font);
 }
 
 void setup(RenderWindow& window)
@@ -123,7 +129,7 @@ void setup(RenderWindow& window)
                 window.close();
             }
 
-            if (ev.KeyPressed && ev.key.code == Keyboard::Escape)
+            if (ev.type == Event::KeyPressed && ev.key.code == Keyboard::Escape)
             {
                 window.close();
             }
@@ -136,6 +142,8 @@ void setup(RenderWindow& window)
         if (movementToggle) {
             window.draw(ground);
         }
+
+        cutscene(plr.body, cutsceneStr, messageImage);
 
         window.draw(adventureBgImage);
         window.draw(ramp);
@@ -157,6 +165,8 @@ void setup(RenderWindow& window)
 
         window.draw(messageImage);
 
+        window.draw(cutsceneText);
+
         moveStaticImages(plr.body, window);
 
         window.display();
@@ -171,11 +181,11 @@ bool checkCollideWithRamp(RectangleShape& body) {
     if (ramp.getGlobalBounds().intersects(body.getGlobalBounds())) {
         Image rampImage = rampT.copyToImage();
 
-        int rampX = abs(ramp.getPosition().x - body.getPosition().x);
-        int rampY = abs(ramp.getPosition().y - (body.getPosition().y + 64));
+        int pixelX = ramp.getPosition().x - body.getPosition().x;
+        int pixelY = ramp.getPosition().y - (body.getPosition().y + 64);
 
-        if (rampX < 110 && rampY < 110) {
-            if (rampImage.getPixel(rampX, rampY).a != 0) {
+        if (pixelX <= 110 && pixelX >= 0 && pixelY <= 110 && pixelY >= 0) {
+            if (rampImage.getPixel(pixelX, pixelY).a != 0) {
                 return true;
             }
             else {
@@ -183,17 +193,6 @@ bool checkCollideWithRamp(RectangleShape& body) {
             }
         }
     }
-}
-
-void cutscene(RectangleShape& body)
-{
-    /*if (body.getPosition().x >= 349.0f && body.getPosition().x <= 640.0f)
-    {
-        messageImage;
-    }
-    else {
-        messageImage.createMaskFromColor(Color(0, 255, 0), 0);
-    }*/
 }
 
 void moveStaticImages(RectangleShape& body,RenderWindow& window)
@@ -207,4 +206,15 @@ void moveStaticImages(RectangleShape& body,RenderWindow& window)
             ramp.move(-(225.0f * deltaTime), 0.f);
         }
     } 
+}
+
+void cutscene(RectangleShape& body, string& cutsceneStr, Sprite& adventureBgImage)
+{
+    if (body.getPosition().x >= adventureBgImage.getPosition().x - 200.0f && body.getPosition().x <= adventureBgImage.getPosition().x + 200.0f)
+    {
+        cutsceneText.setString(cutsceneStr);
+    }
+    else {
+        cutsceneText.setString("");
+    }
 }
