@@ -209,7 +209,7 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 		else {
 			velocity.y += 160.0f * deltaTime;
 		}
-		checkCollideWithRamp(body);
+		cout << checkCollideWithRamp(body) << endl;
 
 	}
 	else {

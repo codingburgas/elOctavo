@@ -170,8 +170,10 @@ bool checkCollideWithGround(RectangleShape& body) {
 bool checkCollideWithRamp(RectangleShape& body) {
     if (ramp.getGlobalBounds().intersects(body.getGlobalBounds())) {
         Image rampImage = rampT.copyToImage();
+
         int rampX = abs(ramp.getPosition().x - body.getPosition().x);
-        int rampY = abs(ramp.getPosition().y - body.getPosition().y);
+        int rampY = abs(ramp.getPosition().y - (body.getPosition().y + 64));
+
         if (rampX < 110 && rampY < 110) {
             if (rampImage.getPixel(rampX, rampY).a != 0) {
                 return true;
