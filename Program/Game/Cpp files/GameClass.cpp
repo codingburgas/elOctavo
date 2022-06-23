@@ -75,7 +75,7 @@ void Player::update(int row, float deltaTime, bool faceLeft)
 
 void Player::moveCameraFirstStage(Sprite& adventureBgImage, float& deltaTime)
 {
-	adventureBgImage.move(-(100.0f * deltaTime), 0.f);
+	adventureBgImage.move(-(125.0f * deltaTime), 0.f);
 }
 
 void Player::moveCharacter(int& keyTime, RenderWindow& window, Sprite& adventureBgImage, float& deltaTime)
@@ -109,7 +109,8 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 			soundWalk.play();
 		}
 
-		velocity.x -= abs(speed - 25.0f) * deltaTime;
+		velocity.x -= abs(speed - 50.0f) * deltaTime;
+		//velocity.x -= abs(speed - 25.0f) * deltaTime;
 	}
 
 	if (Keyboard::isKeyPressed(Keyboard::D))
@@ -118,7 +119,8 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 			soundWalk.play();
 		}
 
-		velocity.x += abs(speed - 25.0f) * deltaTime;
+		velocity.x += abs(speed - 50.0f) * deltaTime;
+		//velocity.x += abs(speed - 25.0f) * deltaTime;
 	}
 
 	if (!Keyboard::isKeyPressed(Keyboard::D) && !Keyboard::isKeyPressed(Keyboard::A) && !Keyboard::isKeyPressed(Keyboard::W) && !Keyboard::isKeyPressed(Keyboard::S)) {
@@ -144,6 +146,10 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 		if(body.getPosition().x >= window.getPosition().x * 3)
 		{
 			Player::moveCharacter(keyTime, window, adventureBgImage, deltaTime);
+			if (Keyboard::isKeyPressed(Keyboard::D))
+			{
+				velocity.x = 0.000001;
+			}
 		}
 	}
 	else {
