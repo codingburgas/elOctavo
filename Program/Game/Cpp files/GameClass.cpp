@@ -73,9 +73,9 @@ void Player::update(int row, float deltaTime, bool faceLeft)
 	}
 }
 
-void Player::moveCameraFirstStage(Sprite& image, float& deltaTime)
+void Player::moveCameraFirstStage(Sprite& adventureBgImage, float& deltaTime)
 {
-	image.move(-(250.0f * deltaTime), 0.f);
+	adventureBgImage.move(-(250.0f * deltaTime), 0.f);
 }
 
 void Player::moveCharacter(int& keyTime, RenderWindow& window, Sprite& adventureBgImage, float& deltaTime)
@@ -141,7 +141,7 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite advent
 			}
 		}
 
-		if (body.getPosition().x == 620.0f)
+		if(body.getPosition().x == 620.0f)
 		{
 			Player::moveCharacter(keyTime, window, adventureBgImage, deltaTime);
 		}
@@ -200,7 +200,7 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite advent
 		else {
 			velocity.y += 160.0f * deltaTime;
 		}
-		body.move(velocity.x, velocity.y);
+
 	}
 	else {
 		if (checkCollideWithHypotenuse(body)) {
@@ -210,8 +210,10 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite advent
 		{
 			body.setPosition(body.getPosition().x, 520.0f);
 		}
-		body.move(velocity.x, velocity.y);	
+
 	}
+
+	body.move(velocity.x, velocity.y);
 }
 
 void Player::draw(RenderWindow& window)
