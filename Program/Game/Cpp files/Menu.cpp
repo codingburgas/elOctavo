@@ -18,6 +18,7 @@ using namespace variables;
 void setupMenu(RenderWindow& window)
 {
     addIcon(window);
+    music.setLoop(true);
 
     if (!music.openFromFile("../Audios/Main.ogg"))
     {
