@@ -35,6 +35,15 @@ public:
     void drawHitbox(RenderWindow& window) {
         window.draw(hitbox);
     }
+
+    bool checkForCollision(RectangleShape& body) {
+        if (body.getGlobalBounds().intersects(hitbox.getGlobalBounds())) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }   
 };
 
 namespace variables {
@@ -88,7 +97,7 @@ namespace variables {
 
     bool drawBubble;
 
-    Block blocks[1] = { {Vector2f(600, 337), Vector2f(220, 46)} };
+    Block blocks[2] = {{Vector2f(600, 337), Vector2f(220, 46)}, {Vector2f(1420, 337), Vector2f(220, 46)}};
 
 }
 
@@ -191,7 +200,7 @@ void setup(RenderWindow& window)
         window.draw(adventureBgImage);
         window.draw(ramp);
 
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 2; i++) {
             window.draw(blocks[i].hitbox);
             
         }
@@ -254,6 +263,10 @@ void moveStaticImages(RectangleShape& body, RenderWindow& window)
             //make images static
             messageImage.move(-(225.0f * deltaTime), 0.f);
             ramp.move(-(225.0f * deltaTime), 0.f);
+
+            for (int i = 0; i < 2; i++) {
+                blocks[i].hitbox.move(-(225.0f * deltaTime), 0.f);
+            }
         }
     }
 }
