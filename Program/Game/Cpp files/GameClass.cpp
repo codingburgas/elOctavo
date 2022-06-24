@@ -213,6 +213,7 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 
 		// idk how this works and why it works
 		// please kill me
+		// this took 2 hours
 
 		for (int i = 0; i < 2; i++) {
 			if (blocks[i].checkForCollision(body)) {
@@ -231,15 +232,22 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 				}
 
 				if ((bodyY < hitboxY + hitboxSizeY && not bodyX < hitboxX) or (bodyY < hitboxY + hitboxSizeY && not bodyX > hitboxX + hitboxSizeX)) {
-					velocity.y = 0.f;
+					if (!jumped) {
+						velocity.y = 0.f;
+					}
+					jumped = false;
+					
 					body.setPosition(bodyX, hitboxY - 64.0f);
 				}
-				else if ((bodyY > hitboxY && not bodyX < hitboxX) or (bodyY > hitboxY && not bodyX < bodyX >= hitboxX + hitboxSizeX)) {
-					velocity.y = 0.f;
+				else if (((bodyY > hitboxY && not bodyX < hitboxX) or (bodyY > hitboxY && not bodyX < bodyX >= hitboxX + hitboxSizeX)) && i != 0) {
+					if (jumped) {
+						velocity.y = 0.f;
+					}
+					jumped = false;
+
 					body.setPosition(bodyX, hitboxY + hitboxSizeY + 64.5f);
 				}
 			}
-
 		}
 
 		if (checkCollideWithRamp(body) == 1) {

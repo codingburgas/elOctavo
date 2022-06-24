@@ -92,7 +92,7 @@ namespace variables {
 
     bool drawBubble;
 
-    collisionBlock blocks[2] = {{Vector2f(2423, 416), Vector2f(107, 45)}, {Vector2f(1423, 338), Vector2f(211, 43)}};
+    collisionBlock blocks[2] = {{Vector2f(2428, 416), Vector2f(107, 45)}, {Vector2f(1428, 338), Vector2f(211, 43)}};
 }
 
 using namespace variables;
