@@ -98,7 +98,7 @@ void Player::moveCharacter(int& keyTime, RenderWindow& window, Sprite& adventure
 
 
 //Update for moving character
-void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adventureBgImage, Sound& soundWalk, Sound& soundJump, bool& toggle)
+void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adventureBgImage, Sound& soundWalk, Sound& soundJump, bool& toggle, collisionBlock blocks[], int blocksSize)
 {
 	velocity.x = 0;
 	jumped = false;
@@ -202,11 +202,44 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 			body.setPosition(body.getPosition().x, 495.0f);
 		}
 
+		velocity.y += 160.0f * deltaTime;
+
 		if (checkCollideWithGround(body) && !jumped) {
 			velocity.y = 0;
 		}
-		else {
-			velocity.y += 160.0f * deltaTime;
+
+		float bodyY = body.getPosition().y;
+		float bodyX = body.getPosition().x;
+
+		// idk how this works and why it works
+		// please kill me
+
+		for (int i = 0; i < 2; i++) {
+			if (blocks[i].checkForCollision(body)) {
+				float hitboxX = blocks[i].hitbox.getPosition().x;
+				float hitboxY = blocks[i].hitbox.getPosition().y;
+				float hitboxSizeX = blocks[i].hitbox.getSize().x;
+				float hitboxSizeY = blocks[i].hitbox.getSize().y;
+
+				if (bodyX > hitboxX + hitboxSizeX && bodyY > hitboxY) {
+					velocity.x = 0.f;
+					body.setPosition(hitboxX + hitboxSizeX + 40.5f, bodyY);
+				}
+				else if (bodyX < hitboxX && bodyY > hitboxY) {
+					velocity.x = 0.f;
+					body.setPosition(hitboxX - 40.5f, bodyY);
+				}
+
+				if ((bodyY < hitboxY + hitboxSizeY && not bodyX < hitboxX) or (bodyY < hitboxY + hitboxSizeY && not bodyX > hitboxX + hitboxSizeX)) {
+					velocity.y = 0.f;
+					body.setPosition(bodyX, hitboxY - 64.0f);
+				}
+				else if ((bodyY > hitboxY && not bodyX < hitboxX) or (bodyY > hitboxY && not bodyX < bodyX >= hitboxX + hitboxSizeX)) {
+					velocity.y = 0.f;
+					body.setPosition(bodyX, hitboxY + hitboxSizeY + 64.5f);
+				}
+			}
+
 		}
 
 		if (checkCollideWithRamp(body) == 1) {

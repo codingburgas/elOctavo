@@ -1,4 +1,5 @@
 #pragma once
+#include "Precompile.h"
 
 bool checkCollideWithGround(RectangleShape& body);
 
@@ -11,9 +12,10 @@ bool checkCollideWithRamp(RectangleShape& body);
 class collisionBlock {
 public:
     RectangleShape hitbox;
+
     collisionBlock(Vector2f pos, Vector2f size);
 
-    //~Block();
+    ~collisionBlock();
 
     void drawHitbox(RenderWindow& window);
 

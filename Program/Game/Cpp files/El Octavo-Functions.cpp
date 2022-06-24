@@ -20,30 +20,26 @@ public:
 
 };*/
 
-class collisionBlock {
-public:
-    RectangleShape hitbox;
+collisionBlock::collisionBlock(Vector2f pos, Vector2f size) {
+    hitbox.setSize(size);
+    hitbox.setPosition(pos);
+}
 
-    collisionBlock (Vector2f pos, Vector2f size) {
-        hitbox.setSize(size);
-        hitbox.setPosition(pos);
+collisionBlock::~collisionBlock() {
+}
+
+bool collisionBlock::checkForCollision(RectangleShape& body) {
+    if (body.getGlobalBounds().intersects(hitbox.getGlobalBounds())) {
+        return true;
     }
-
-    //~collisionBlock();
-
-    void drawHitbox(RenderWindow& window) {
-        window.draw(hitbox);
+    else {
+        return false;
     }
+}
 
-    bool checkForCollision(RectangleShape& body) {
-        if (body.getGlobalBounds().intersects(hitbox.getGlobalBounds())) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }   
-};
+void collisionBlock::drawHitbox(RenderWindow& window) {
+    window.draw(hitbox);
+}
 
 namespace variables {
 
@@ -96,8 +92,7 @@ namespace variables {
 
     bool drawBubble;
 
-    collisionBlock blocks[2] = {{Vector2f(600, 337), Vector2f(220, 46)}, {Vector2f(1420, 337), Vector2f(220, 46)}};
-
+    collisionBlock blocks[2] = {{Vector2f(2423, 416), Vector2f(107, 45)}, {Vector2f(1423, 338), Vector2f(211, 43)}};
 }
 
 using namespace variables;
@@ -156,6 +151,8 @@ void setup(RenderWindow& window)
 {
     setVars();
 
+    int blocksSize = sizeof(blocks) / sizeof(*blocks);
+
     // start of sussy variables
 
     Clock clock;
@@ -184,7 +181,7 @@ void setup(RenderWindow& window)
             }
         }
 
-        plr.updateMovement(deltaTime, window, adventureBgImage, soundWalk, soundJump, movementToggle);
+        plr.updateMovement(deltaTime, window, adventureBgImage, soundWalk, soundJump, movementToggle, blocks, blocksSize);
 
         window.clear(Color::Green);
 
@@ -194,14 +191,11 @@ void setup(RenderWindow& window)
 
         cutscene(plr.body, cutsceneStr, adventureBgImage, messageImage, window);
 
-        //cout << drawBubble << endl;
-
         window.draw(adventureBgImage);
         window.draw(ramp);
 
         for (int i = 0; i < 2; i++) {
-            
-            blocks[i].drawHitbox(window);
+            window.draw(blocks[i].hitbox);
         }
 
         plr.draw(window);
