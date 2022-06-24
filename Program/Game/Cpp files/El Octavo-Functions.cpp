@@ -21,10 +21,10 @@ public:
 };*/
 
 class Block {
-private:
-    RectangleShape hitbox;
+//private:
 
 public:
+    RectangleShape hitbox;
     Block(Vector2f pos, Vector2f size) {
         hitbox.setSize(size);
         hitbox.setPosition(pos);
@@ -32,7 +32,7 @@ public:
 
     //~Block();
 
-    void draw(RenderWindow& window) {
+    void drawHitbox(RenderWindow& window) {
         window.draw(hitbox);
     }
 };
@@ -88,7 +88,7 @@ namespace variables {
 
     bool drawBubble;
 
-    Block block1(Vector2f(200, 50), Vector2f(1420, 338));
+    Block blocks[1] = { {Vector2f(200, 50), Vector2f(1420, 338)} };
 
 }
 
@@ -190,6 +190,11 @@ void setup(RenderWindow& window)
 
         window.draw(adventureBgImage);
         window.draw(ramp);
+
+        for (int i = 0; i < 1; i++) {
+            window.draw(blocks[i].hitbox);
+            
+        }
 
         plr.draw(window);
 
