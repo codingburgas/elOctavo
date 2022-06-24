@@ -3,6 +3,11 @@
 #include "../Header files/GameClass.h"
 #include "../Header files/Additional Functions.h"
 
+/*class Npc {
+private:
+    int hp
+};*/
+
 namespace variables {
 
     //movemenent
@@ -51,18 +56,22 @@ namespace variables {
 
     string cutsceneStr = "Press Q to talk with the mafia.";
     Text cutsceneText;
+
+    bool drawBubble;
 }
 
 using namespace variables;
 
 void moveStaticImages(RectangleShape& body, RenderWindow& window);
-void cutscene(RectangleShape& body, string& cutsceneStr, Sprite& adventureBgImage);
+void cutscene(RectangleShape& body, string& cutsceneStr, Sprite& adventureBgImage, Sprite& messageImage, RenderWindow& window);
+
 void setVars()
 {
     bgTexture.loadFromFile("../Images and fonts/Bg/test bg.png");
     bgImage.setTexture(bgTexture);
+    drawBubble = false;
 
-    adventureBgTexture.loadFromFile("../Images and fonts/Bg/Part1 map.png");
+    adventureBgTexture.loadFromFile("../Images and fonts/Bg/spawn start.png");
     adventureBgImage.setTexture(adventureBgTexture);
 
     messageTexture.loadFromFile("../Images and fonts/Bg/message.png");
@@ -143,7 +152,9 @@ void setup(RenderWindow& window)
             window.draw(ground);
         }
 
-        cutscene(plr.body, cutsceneStr, messageImage);
+        cutscene(plr.body, cutsceneStr, adventureBgImage, messageImage, window);
+
+        cout << drawBubble << endl;
 
         window.draw(adventureBgImage);
         window.draw(ramp);
@@ -162,10 +173,12 @@ void setup(RenderWindow& window)
 
         fpsCounter.setPosition(1200, 20);
         window.draw(fpsCounter);
-
-        window.draw(messageImage);
-
         window.draw(cutsceneText);
+
+        if (drawBubble) {
+            window.draw(messageImage);
+        }
+        
 
         moveStaticImages(plr.body, window);
 
@@ -208,13 +221,17 @@ void moveStaticImages(RectangleShape& body,RenderWindow& window)
     } 
 }
 
-void cutscene(RectangleShape& body, string& cutsceneStr, Sprite& adventureBgImage)
+void cutscene(RectangleShape& body, string& cutsceneStr, Sprite& adventureBgImage, Sprite& messageImage, RenderWindow& window)
 {
-    if (body.getPosition().x >= adventureBgImage.getPosition().x - 200.0f && body.getPosition().x <= adventureBgImage.getPosition().x + 200.0f)
+    if (body.getPosition().x >= messageImage.getPosition().x - 200.0f && body.getPosition().x <= messageImage.getPosition().x + 200.0f)
     {
         cutsceneText.setString(cutsceneStr);
+        drawBubble = true;
+        //window.draw(messageImage); 
     }
     else {
         cutsceneText.setString("");
+        drawBubble = false;
+        //window.draw(messageImage);
     }
 }
