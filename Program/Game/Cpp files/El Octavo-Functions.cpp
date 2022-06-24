@@ -88,7 +88,7 @@ namespace variables {
 
     bool drawBubble;
 
-    Block blocks[1] = { {Vector2f(200, 50), Vector2f(1420, 338)} };
+    Block blocks[1] = { {Vector2f(600, 337), Vector2f(220, 46)} };
 
 }
 
