@@ -3,32 +3,86 @@
 #include "../Header files/GameClass.h"
 #include "../Header files/Additional Functions.h"
 
-/*class Npc {
-private:
-    int hp;
-    string name;
-    Vector2f pos;
-    string nestashev = "NESTASHEV"
-
-public:
-
-    Npc(int hp, string name, Vector2f pos) : this->hp(hp), this->name(name), this->pos(pos);
-    ~Npc();
-
-    void draw(RenderWindow& window);
 
 
-};*/
+// Npc class
+Npc::Npc(Texture* texture, Vector2u imageCount, float switchTime, float speed, string name) {
+    this->imageCount = imageCount;
+    this->switchTime = switchTime;
+    this->speed = speed;
+    this->totalTime = 0.0f;
+    this->currentImage.x = 0;
+    this->name = name;
 
-collisionBlock::collisionBlock(Vector2f pos, Vector2f size) {
+    this->uvRect.width = texture->getSize().x / float(imageCount.x);
+    this->uvRect.height = texture->getSize().y / float(imageCount.y);
+
+    //movement mechanic
+    this->faceLeft = true;
+    this->row = 0;
+
+
+    this->body.setSize(Vector2f(81.0f, 109.0f));
+    this->body.setOrigin(81.0f / 2, 109.0f / 2);
+    this->body.setPosition(1849.0f, 538.0f - 109.0f / 2);
+    this->body.setTexture(texture);
+}
+
+Npc::~Npc() {
+}
+
+void Npc::draw(RenderWindow& window) {
+    window.draw(this->body);
+}
+
+void Npc::moveX(float amount) {
+    this->body.move(amount, 0.0f);
+}
+
+void Npc::update(int row, float deltaTime, bool faceLeft) {
+    currentImage.y = row;
+    totalTime += deltaTime;
+
+    if (totalTime >= switchTime)
+    {
+        totalTime -= switchTime;
+        currentImage.x++;
+
+        if (currentImage.x >= imageCount.x)
+        {
+            currentImage.x = 0;
+        }
+    }
+
+    uvRect.top = currentImage.y * uvRect.height;
+    if (faceLeft)
+    {
+        uvRect.left = (currentImage.x + 1) * abs(uvRect.width);
+        uvRect.width = -abs(uvRect.width);
+    }
+    else
+    {
+        uvRect.left = currentImage.x * uvRect.width;
+        uvRect.width = abs(uvRect.width);
+    }
+
+    body.setTextureRect(uvRect);
+}
+
+
+
+
+
+// CollisionBlock class
+CollisionBlock::CollisionBlock(Vector2f pos, Vector2f size) {
     hitbox.setSize(size);
     hitbox.setPosition(pos);
 }
 
-collisionBlock::~collisionBlock() {
+CollisionBlock::~CollisionBlock() {
 }
 
-bool collisionBlock::checkForCollision(RectangleShape& body) {
+bool CollisionBlock::checkForCollision(RectangleShape& body) {
     if (body.getGlobalBounds().intersects(hitbox.getGlobalBounds())) {
         return true;
     }
@@ -37,7 +91,7 @@ bool collisionBlock::checkForCollision(RectangleShape& body) {
     }
 }
 
-void collisionBlock::drawHitbox(RenderWindow& window) {
+void CollisionBlock::drawHitbox(RenderWindow& window) {
     window.draw(hitbox);
 }
 
@@ -62,8 +116,11 @@ namespace variables {
     Texture messageTexture;
     Sprite messageImage;
 
-    //ground
+    // player / npc
     Texture plrT;
+    Texture npcT;
+   
+    //ground
     RectangleShape ground;
 
     //ramp
@@ -92,12 +149,12 @@ namespace variables {
 
     bool drawBubble;
 
-    collisionBlock blocks[2] = {{Vector2f(2428, 416), Vector2f(107, 45)}, {Vector2f(1428, 338), Vector2f(211, 43)}};
+    CollisionBlock blocks[2] = {{Vector2f(2428, 416), Vector2f(107, 45)}, {Vector2f(1428, 338), Vector2f(211, 43)}};
 }
 
 using namespace variables;
 
-void moveStaticImages(RectangleShape& body, RenderWindow& window);
+void moveStaticImages(RectangleShape& body, RenderWindow& window, Npc& test);
 void cutscene(RectangleShape& body, string& cutsceneStr, Sprite& adventureBgImage, Sprite& messageImage, RenderWindow& window);
 
 void setVars()
@@ -123,6 +180,9 @@ void setVars()
 
     plrT.loadFromFile("../Images and fonts/Main character/unknown.png");
     plrT.setRepeated(true);
+
+    npcT.loadFromFile("../Images and fonts/NPCs/enemy npc sprite sheet.png");
+    npcT.setRepeated(true);
 
     rampT.loadFromFile("../Images and fonts/Ramp Test.png");
     ramp.setTexture(rampT);
@@ -157,10 +217,12 @@ void setup(RenderWindow& window)
 
     Clock clock;
     Player plr(&plrT, Vector2u(3, 2), 0.3f, 225.0f);
+    Npc test(&npcT, Vector2u(3,1), 0.3f, 190.0f, "Test");
     bgImage.setPosition(window.getSize().x / 2, window.getSize().y / 2);
 
     // end of sussy variables
     window.setFramerateLimit(60);
+
 
     while (window.isOpen())
     {
@@ -182,6 +244,7 @@ void setup(RenderWindow& window)
         }
 
         plr.updateMovement(deltaTime, window, adventureBgImage, soundWalk, soundJump, movementToggle, blocks, blocksSize);
+        test.update(0, deltaTime, true);
 
         window.clear(Color::Green);
 
@@ -198,7 +261,13 @@ void setup(RenderWindow& window)
             window.draw(blocks[i].hitbox);
         }
 
+        window.draw(test.body);
+        cout << test.body.getPosition().x << " " << test.body.getPosition().y << endl;
+
         plr.draw(window);
+
+
+
 
         // calculate fps
         currentTime = c.getElapsedTime();
@@ -206,7 +275,6 @@ void setup(RenderWindow& window)
         previousTime = currentTime;
 
         // show fps
-
         roundedFps = (int)fps;
         fpsCounter.setString(to_string(roundedFps));
 
@@ -214,12 +282,15 @@ void setup(RenderWindow& window)
         window.draw(fpsCounter);
         window.draw(cutsceneText);
 
+
+        // draw mafia bubble
         if (drawBubble) {
             window.draw(messageImage);
         }
 
 
-        moveStaticImages(plr.body, window);
+
+        moveStaticImages(plr.body, window, test);
 
         window.display();
     }
@@ -247,7 +318,7 @@ bool checkCollideWithRamp(RectangleShape& body) {
     }
 }
 
-void moveStaticImages(RectangleShape& body, RenderWindow& window)
+void moveStaticImages(RectangleShape& body, RenderWindow& window, Npc& test)
 {
     if (Keyboard::isKeyPressed(Keyboard::D))
     {
@@ -256,6 +327,7 @@ void moveStaticImages(RectangleShape& body, RenderWindow& window)
             //make images static
             messageImage.move(-(225.0f * deltaTime), 0.f);
             ramp.move(-(225.0f * deltaTime), 0.f);
+            test.moveX(-(225.0f * deltaTime));
 
             for (int i = 0; i < 2; i++) {
                 blocks[i].hitbox.move(-(225.0f * deltaTime), 0.f);

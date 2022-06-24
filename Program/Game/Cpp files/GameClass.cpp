@@ -19,23 +19,21 @@ Player::Player(Texture* texture, Vector2u imageCount, float switchTime, float sp
 {
 	this->imageCount = imageCount;
 	this->switchTime = switchTime;
+	this->speed = speed;
+	this->totalTime = 0.0f;
+	this->currentImage.x = 0;
 
-	totalTime = 0.0f;
-
-	currentImage.x = 0;
-
-	uvRect.width = texture->getSize().x / float(imageCount.x);
-	uvRect.height = texture->getSize().y / float(imageCount.y);
+	this->uvRect.width = texture->getSize().x / float(imageCount.x);
+	this->uvRect.height = texture->getSize().y / float(imageCount.y);
 
 	//movement mechanic
-	this->speed = speed;
-	faceLeft = true;
-	row = 0;
+	this->faceLeft = true;
+	this->row = 0;
 
-	body.setSize(Vector2f(81.0f, 129.0f));
-	body.setOrigin(81.0f / 2, 129.0f / 2);
-	body.setPosition(1280 / 2, 720 / 2);
-	body.setTexture(texture);
+	this->body.setSize(Vector2f(81.0f, 129.0f));
+	this->body.setOrigin(81.0f / 2, 129.0f / 2);
+	this->body.setPosition(1280 / 2, 720 / 2);
+	this->body.setTexture(texture);
 }
 
 //destructor
@@ -98,7 +96,7 @@ void Player::moveCharacter(int& keyTime, RenderWindow& window, Sprite& adventure
 
 
 //Update for moving character
-void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adventureBgImage, Sound& soundWalk, Sound& soundJump, bool& toggle, collisionBlock blocks[], int blocksSize)
+void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adventureBgImage, Sound& soundWalk, Sound& soundJump, bool& toggle, CollisionBlock blocks[], int blocksSize)
 {
 	velocity.x = 0;
 	jumped = false;
