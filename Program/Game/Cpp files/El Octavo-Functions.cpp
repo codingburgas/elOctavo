@@ -5,8 +5,37 @@
 
 /*class Npc {
 private:
-    int hp
+    int hp;
+    string name;
+    Vector2f pos;
+    string nestashev = "NESTASHEV"
+
+public:
+
+    Npc(int hp, string name, Vector2f pos) : this->hp(hp), this->name(name), this->pos(pos);
+    ~Npc();
+
+    void draw(RenderWindow& window);
+
+
 };*/
+
+class Block {
+private:
+    RectangleShape hitbox;
+
+public:
+    Block(Vector2f pos, Vector2f size) {
+        hitbox.setSize(size);
+        hitbox.setPosition(pos);
+    }
+
+    //~Block();
+
+    void draw(RenderWindow& window) {
+        window.draw(hitbox);
+    }
+};
 
 namespace variables {
 
@@ -58,6 +87,9 @@ namespace variables {
     Text cutsceneText;
 
     bool drawBubble;
+
+    Block block1(Vector2f(200, 50), Vector2f(1420, 338));
+
 }
 
 using namespace variables;
@@ -108,7 +140,7 @@ void setVars()
     fpsCounter.setCharacterSize(56);
 
     cutsceneText.setPosition(20, 20);
-    cutsceneText.setCharacterSize(24);
+    cutsceneText.setCharacterSize(30);
     cutsceneText.setFont(font);
 }
 
@@ -154,7 +186,7 @@ void setup(RenderWindow& window)
 
         cutscene(plr.body, cutsceneStr, adventureBgImage, messageImage, window);
 
-        cout << drawBubble << endl;
+        //cout << drawBubble << endl;
 
         window.draw(adventureBgImage);
         window.draw(ramp);
@@ -178,7 +210,7 @@ void setup(RenderWindow& window)
         if (drawBubble) {
             window.draw(messageImage);
         }
-        
+
 
         moveStaticImages(plr.body, window);
 
@@ -208,7 +240,7 @@ bool checkCollideWithRamp(RectangleShape& body) {
     }
 }
 
-void moveStaticImages(RectangleShape& body,RenderWindow& window)
+void moveStaticImages(RectangleShape& body, RenderWindow& window)
 {
     if (Keyboard::isKeyPressed(Keyboard::D))
     {
@@ -218,7 +250,7 @@ void moveStaticImages(RectangleShape& body,RenderWindow& window)
             messageImage.move(-(225.0f * deltaTime), 0.f);
             ramp.move(-(225.0f * deltaTime), 0.f);
         }
-    } 
+    }
 }
 
 void cutscene(RectangleShape& body, string& cutsceneStr, Sprite& adventureBgImage, Sprite& messageImage, RenderWindow& window)
@@ -227,11 +259,9 @@ void cutscene(RectangleShape& body, string& cutsceneStr, Sprite& adventureBgImag
     {
         cutsceneText.setString(cutsceneStr);
         drawBubble = true;
-        //window.draw(messageImage); 
     }
     else {
         cutsceneText.setString("");
         drawBubble = false;
-        //window.draw(messageImage);
     }
 }
