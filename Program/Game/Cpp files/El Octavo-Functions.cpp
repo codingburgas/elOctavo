@@ -2,7 +2,7 @@
 #include "../Header files/El Octavo-Functions.h"
 #include "../Header files/GameClass.h"
 #include "../Header files/Additional Functions.h"
-#include <thread>
+#include "../Header files/Menu.h"
 
 // Npc class
 Npc::Npc(Texture * texture, Vector2u imageCount, float switchTime, float speed, string name) {
