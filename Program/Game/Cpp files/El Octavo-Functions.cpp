@@ -387,10 +387,15 @@ bool checkCollideWithRamp(RectangleShape& body) {
             }
         }
     }*/
-    return false;
-    
 
-    
+    for (int i = 0; i < 12; i++) {
+        if (points[i].getGlobalBounds().intersects(body.getGlobalBounds()) && body.getPosition().x <= ramp.getPosition().x + 110) {
+            cout << "collide" << endl;
+            return true;
+        }
+    }
+    //cout << "falsed" << endl;
+    return false;
 }
 
 void moveStaticImages(RectangleShape& body, RenderWindow& window, Npc& test)
@@ -406,6 +411,10 @@ void moveStaticImages(RectangleShape& body, RenderWindow& window, Npc& test)
 
             for (int i = 0; i < 2; i++) {
                 blocks[i].hitbox.move(-(225.0f * deltaTime), 0.f);
+            }
+
+            for (int i = 0; i < 11; i++) {
+                points[i].move(-(225.0f * deltaTime), 0.f);
             }
         }
     }

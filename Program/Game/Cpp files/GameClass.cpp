@@ -205,7 +205,7 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 
 		velocity.y += 160.0f * deltaTime;
 
-		if (checkCollideWithGround(body) && !ramped && !jumped) {
+		if (checkCollideWithGround(body) && !jumped) {
 			velocity.y = 0;
 		}
 
@@ -253,19 +253,20 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 			}
 		}
 
-
+		if (checkCollideWithRamp(body)) {
+			if (!ramped) {
+				ramped = true;
+			}
+			velocity.y = -velocity.x;
+		}
+		else {
+			if (ramped) {
+				ramped = false;
+			}
+		}
 	}
 
-	if (checkCollideWithRamp(body)) {
-		ramped = true;
-		body.move(velocity.x, -velocity.x);
-	}
-	else {
-		ramped = false;
-		body.move(velocity.x, velocity.y);
-	}
-
-	//checkCollideWithRamp(body);
+	body.move(velocity.x, velocity.y);
 
 }
 
