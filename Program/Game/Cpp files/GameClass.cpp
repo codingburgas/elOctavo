@@ -3,7 +3,6 @@
 #include "../Header files/Menu.h"
 #include "../Header files/Precompile.h"
 
-
 namespace vars {
 	Clock clock;
 	Time currTime;

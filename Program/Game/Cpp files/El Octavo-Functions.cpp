@@ -3,8 +3,6 @@
 #include "../Header files/GameClass.h"
 #include "../Header files/Additional Functions.h"
 
-
-
 // Npc class
 Npc::Npc(Texture * texture, Vector2u imageCount, float switchTime, float speed, string name) {
     this->imageCount = imageCount;
