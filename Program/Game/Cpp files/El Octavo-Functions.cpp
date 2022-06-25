@@ -168,10 +168,10 @@ namespace variables {
    
     //ground
     RectangleShape ground;
-
     //ramp
     Texture rampT;
     Sprite ramp;
+    RectangleShape points[12];
 
     //sound
     Sound soundJump, soundWalk;
@@ -258,6 +258,20 @@ void setVars()
     cutsceneText.setPosition(20, 20);
     cutsceneText.setCharacterSize(30);
     cutsceneText.setFont(font);
+
+    for (int i = 0; i < 12; i++) {
+        points[i] = RectangleShape(Vector2f(10, 10));
+        points[i].setOrigin(5, 5);
+    }
+
+    for (int i = 0; i < 12; i++) {
+        if (i == 0) {
+            points[i].setPosition(ramp.getPosition().x, ramp.getPosition().y + 110);
+        }
+        else {
+            points[i].setPosition(points[i - 1].getPosition().x + 10, points[i - 1].getPosition().y - 10);
+        }
+    }
 }
 
 void setup(RenderWindow& window)
@@ -338,6 +352,9 @@ void setup(RenderWindow& window)
         
         window.draw(cutsceneText);
 
+        for (int i = 0; i < 11; i++) {
+            window.draw(points[i]);
+        }
 
         // draw mafia bubble
         if (drawBubble) {
@@ -370,21 +387,10 @@ bool checkCollideWithRamp(RectangleShape& body) {
             }
         }
     }*/
+    return false;
+    
 
-    if (ramp.getGlobalBounds().intersects(body.getGlobalBounds())) {
-        int pixelX = body.getPosition().x - ramp.getPosition().x;
-        int pixelY = (body.getPosition().y + 44) - ramp.getPosition().y;
-
-        cout << pixelX << " " << pixelY << endl;
-
-        if (body.getPosition().x >= ramp.getPosition().x && (pixelY > 0 && pixelY < 110) && (pixelY > pixelX * 2)) {
-            cout << "collide" << endl;
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
+    
 }
 
 void moveStaticImages(RectangleShape& body, RenderWindow& window, Npc& test)
