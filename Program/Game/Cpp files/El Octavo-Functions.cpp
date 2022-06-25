@@ -2,6 +2,7 @@
 #include "../Header files/El Octavo-Functions.h"
 #include "../Header files/GameClass.h"
 #include "../Header files/Additional Functions.h"
+#include "../Header files/Menu.h"
 
 // Npc class
 Npc::Npc(Texture * texture, Vector2u imageCount, float switchTime, float speed, string name) {
@@ -273,7 +274,12 @@ void setup(RenderWindow& window)
         fpsCounter.setString(to_string(roundedFps));
 
         fpsCounter.setPosition(1200, 20);
-        window.draw(fpsCounter);
+
+        if (isShowingFPS(showFPS) == true)
+        {
+            window.draw(fpsCounter);
+        }
+        
         window.draw(cutsceneText);
 
 
