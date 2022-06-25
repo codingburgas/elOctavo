@@ -41,6 +41,13 @@ private:
     bool faceLeft;
 
     float distance;
+    int posIndex;
+
+    bool reset;
+    Clock npcClock; 
+    Time npcPreviousTime; 
+    Time npcCurrentTime;
+    bool delay;
 
 public:
     IntRect uvRect;
@@ -53,5 +60,5 @@ public:
     void draw(RenderWindow& window);
     void moveX(float amount);
     void update(int row, float deltaTime, bool faceLeft);
-    bool moveTo(float x, float deltaTime);
+    void moveTo(float pos[], float deltaTime, bool& done);
 };

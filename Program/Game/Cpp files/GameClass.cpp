@@ -94,7 +94,7 @@ void Player::moveCharacter(int& keyTime, RenderWindow& window, Sprite& adventure
 
 
 //Update for moving character
-void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adventureBgImage, Sound& soundWalk, Sound& soundJump, bool& toggle,CollisionBlock blocks[], int blocksSize)
+void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adventureBgImage, Sound& soundWalk, Sound& soundJump, bool& toggle, CollisionBlock blocks[], int blocksSize)
 {
 	velocity.x = 0;
 	jumped = false;

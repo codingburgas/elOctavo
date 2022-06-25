@@ -12,6 +12,9 @@ Npc::Npc(Texture * texture, Vector2u imageCount, float switchTime, float speed, 
     this->totalTime = 0.0f;
     this->currentImage.x = 0;
     this->name = name;
+    this->posIndex = 0;
+    this->reset = false;
+    this->delay = false;
 
     this->uvRect.width = texture->getSize().x / float(imageCount.x);
     this->uvRect.height = texture->getSize().y / float(imageCount.y);
@@ -68,23 +71,41 @@ void Npc::update(int row, float deltaTime, bool faceLeft) {
     body.setTextureRect(uvRect);
 }
 
-bool Npc::moveTo(float x, float deltaTime) {
+void Npc::moveTo(float pos[], float deltaTime, bool& done) {
+    //cout << npcCurrentTime.asSeconds() << endl;
     
+    if (!delay) {
+        if (pos[posIndex] > body.getPosition().x) {
+            distance = pos[posIndex] - body.getPosition().x;
+            moveX(speed * deltaTime);
+        }
+        else {
+            distance = body.getPosition().x - pos[posIndex];
+            moveX(-speed * deltaTime);
+        }
+    }
 
-    if (x > body.getPosition().x) {
-        distance = x - body.getPosition().x;
-        moveX(speed * deltaTime);
-    }
-    else {
-        distance = body.getPosition().x - x;
-        moveX(-speed * deltaTime);
-    }
+    if (distance <= 20) {
+        if (!reset) {
+            npcClock.restart();
+            reset = true;
+            cout << "Reset" << endl;
+            delay = true;
 
-    if (distance <= 0) {
-        return true;
-    }
-    else {
-        return false;
+        }
+
+        
+        npcCurrentTime = npcClock.getElapsedTime();
+        //cout << npcClock.getElapsedTime().asSeconds() << endl;
+
+        if (npcCurrentTime.asSeconds() >= 0.3) {
+            posIndex++;
+            if (posIndex > 1) {
+                posIndex = 0;
+            }
+            reset = false;
+            delay = false;
+        }
     }
 }
 
@@ -147,9 +168,13 @@ namespace variables {
     SoundBuffer jumpBuffer, walkBuffer;
 
     //time
-    Clock c = Clock::Clock();
-    Time previousTime = c.getElapsedTime();
-    Time currentTime;
+    Clock fpsClock = Clock::Clock();
+    Time fpsPreviousTime = fpsClock.getElapsedTime();
+    Time fpsCurrentTime;
+    Clock npcClock = Clock::Clock();
+    Time npcPreviousTime = npcClock.getElapsedTime();
+    Time npcCurrentTime;
+
 
     //font
     Font font;
@@ -166,7 +191,8 @@ namespace variables {
 
     CollisionBlock blocks[2] = {{Vector2f(2428, 416), Vector2f(107, 45)}, {Vector2f(1428, 338), Vector2f(211, 43)}};
 
-    float moveToX;
+    bool done;
+    float moveToPos[2] = { 100, 800 };
 }
 
 using namespace variables;
@@ -237,7 +263,6 @@ void setup(RenderWindow& window)
     Npc test(&npcT, Vector2u(3,1), 0.3f, 190.0f, "Test");
     bgImage.setPosition(window.getSize().x / 2, window.getSize().y / 2);
 
-    moveToX = plr.body.getPosition().x;
 
     // end of sussy variables
     window.setFramerateLimit(60);
@@ -281,24 +306,19 @@ void setup(RenderWindow& window)
         }
 
         window.draw(test.body);
-        cout << test.body.getPosition().x << " " << test.body.getPosition().y << endl;
 
         plr.draw(window);
 
-
-        bool done = test.moveTo(moveToX, deltaTime);
-
-        cout << done << endl;
+        test.moveTo(moveToPos, deltaTime, done);
 
         // calculate fps
-        currentTime = c.getElapsedTime();
-        fps = 1.0f / (currentTime.asSeconds() - previousTime.asSeconds());
-        previousTime = currentTime;
+        fpsCurrentTime = fpsClock.getElapsedTime();
+        fps = 1.0f / (fpsCurrentTime.asSeconds() - fpsPreviousTime.asSeconds());
+        fpsPreviousTime = fpsCurrentTime;
 
         // show fps
         roundedFps = (int)fps;
         fpsCounter.setString(to_string(roundedFps));
-
         fpsCounter.setPosition(1200, 20);
 
         if (isShowingFPS(showFPS) == true)
