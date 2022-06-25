@@ -261,9 +261,6 @@ void setup(RenderWindow& window)
 
         plr.draw(window);
 
-
-
-
         // calculate fps
         currentTime = c.getElapsedTime();
         fps = 1.0f / (currentTime.asSeconds() - previousTime.asSeconds());

@@ -163,6 +163,17 @@ void setupMenu(RenderWindow& window)
     {
         while (window.pollEvent(evMenu))
         {
+
+            if (evMenu.type == Event::Closed)
+            {
+                window.close();
+            }
+
+            if (evMenu.type == Event::KeyPressed && evMenu.key.code == Keyboard::Escape)
+            {
+                window.close();
+            }
+
             switch (evMenu.type)
             {
             case Event::MouseButtonPressed:
@@ -189,7 +200,8 @@ void setupMenu(RenderWindow& window)
                             window.close();
                         }
                     }
-                }
+                    break;
+                }    
             }
             }
         }
