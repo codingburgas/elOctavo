@@ -2,6 +2,7 @@
 #include "../Header files/El Octavo-Functions.h"
 #include "../Header files/GameClass.h"
 #include "../Header files/Additional Functions.h"
+#include <thread>
 
 // Npc class
 Npc::Npc(Texture * texture, Vector2u imageCount, float switchTime, float speed, string name) {
@@ -65,6 +66,26 @@ void Npc::update(int row, float deltaTime, bool faceLeft) {
     }
 
     body.setTextureRect(uvRect);
+}
+
+bool Npc::moveTo(float x, float deltaTime) {
+    
+
+    if (x > body.getPosition().x) {
+        distance = x - body.getPosition().x;
+        moveX(speed * deltaTime);
+    }
+    else {
+        distance = body.getPosition().x - x;
+        moveX(-speed * deltaTime);
+    }
+
+    if (distance <= 0) {
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 
 // CollisionBlock class
@@ -144,6 +165,8 @@ namespace variables {
     bool drawBubble;
 
     CollisionBlock blocks[2] = {{Vector2f(2428, 416), Vector2f(107, 45)}, {Vector2f(1428, 338), Vector2f(211, 43)}};
+
+    float moveToX;
 }
 
 using namespace variables;
@@ -214,6 +237,8 @@ void setup(RenderWindow& window)
     Npc test(&npcT, Vector2u(3,1), 0.3f, 190.0f, "Test");
     bgImage.setPosition(window.getSize().x / 2, window.getSize().y / 2);
 
+    moveToX = plr.body.getPosition().x;
+
     // end of sussy variables
     window.setFramerateLimit(60);
 
@@ -261,7 +286,9 @@ void setup(RenderWindow& window)
         plr.draw(window);
 
 
+        bool done = test.moveTo(moveToX, deltaTime);
 
+        cout << done << endl;
 
         // calculate fps
         currentTime = c.getElapsedTime();
