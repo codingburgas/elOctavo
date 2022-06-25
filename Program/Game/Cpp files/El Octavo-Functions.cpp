@@ -348,10 +348,12 @@ bool checkCollideWithRamp(RectangleShape& body) {
     if (ramp.getGlobalBounds().intersects(body.getGlobalBounds())) {
         Image rampImage = rampT.copyToImage();
 
-        int pixelX = ramp.getPosition().x - body.getPosition().x;
-        int pixelY = ramp.getPosition().y - (body.getPosition().y + 64);
+        int pixelX = body.getPosition().x - ramp.getPosition().x;
+        int pixelY = (body.getPosition().y + 44) - ramp.getPosition().y;
 
-        if (pixelX <= 110 && pixelX >= 0 && pixelY <= 110 && pixelY >= 0) {
+        cout << pixelY << endl;
+
+        if ((pixelX < 110 && pixelX > 0) && (pixelY < 110 && pixelY >= 0)) {
             if (rampImage.getPixel(pixelX, pixelY).a != 0) {
                 return true;
             }

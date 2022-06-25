@@ -196,6 +196,13 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 	body.setTextureRect(uvRect);
 
 	if (toggle) {
+		if (checkCollideWithRamp(body) == true) {
+			//if (!jumped) {
+			cout << "collide" << endl;
+			velocity.y = -velocity.x;
+			//}
+		}
+
 		if (checkCollideWithGround(body)) {
 			body.setPosition(body.getPosition().x, 495.0f);
 		}
@@ -248,21 +255,11 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 			}
 		}
 
-		if (checkCollideWithRamp(body) == 1) {
-			velocity.y = -velocity.x;
-		}
 
 	}
-	else {
-		/*if (checkCollideWithHypotenuse(body)) {
-			velocity.y = -velocity.x;
-		}
-		else if (checkCollideWithRamp(body))
-		{
-			body.setPosition(body.getPosition().x, 520.0f);
-		}*/
-	}
+
 	body.move(velocity.x, velocity.y);
+
 }
 
 void Player::draw(RenderWindow& window)
