@@ -273,6 +273,6 @@ void Player::draw(RenderWindow& window)
 }
 
 void Player::jump(float deltaTime, float jumpHeight) {
-	velocity.y = -sqrtf((160.0f * jumpHeight) * deltaTime);
+	velocity.y = -sqrtf((160.0f * jumpHeight) * 0.016);
 	cout << deltaTime << endl;
 }
