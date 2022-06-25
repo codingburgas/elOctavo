@@ -205,7 +205,7 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 
 		velocity.y += 160.0f * deltaTime;
 
-		if (checkCollideWithGround(body) && !jumped) {
+		if (checkCollideWithGround(body) && !jumped && !ramped) {
 			velocity.y = 0;
 		}
 
@@ -254,10 +254,17 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 		}
 
 		if (checkCollideWithRamp(body)) {
-			if (!ramped) {
-				ramped = true;
+			if (!getRampPos().x < bodyX) {
+				if (bodyX > getRampPos().x + 105) {
+					velocity.x = 0.f;
+					body.setPosition(getRampPos().x + 110 + 40.5f, bodyY);
+					cout << "ne mi e ez" << endl;
+				}
+				else {
+					cout << "ez mi e" << endl;
+					velocity.y = -velocity.x;
+				}
 			}
-			velocity.y = -velocity.x;
 		}
 		else {
 			if (ramped) {

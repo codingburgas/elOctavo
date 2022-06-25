@@ -9,6 +9,8 @@ void setup(RenderWindow& window);
 
 bool checkCollideWithRamp(RectangleShape& body);
 
+Vector2f getRampPos();
+
 class CollisionBlock {
 public:
     RectangleShape hitbox;

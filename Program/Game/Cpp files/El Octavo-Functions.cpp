@@ -185,7 +185,6 @@ namespace variables {
     Time npcPreviousTime = npcClock.getElapsedTime();
     Time npcCurrentTime;
 
-
     //font
     Font font;
 
@@ -202,13 +201,13 @@ namespace variables {
     CollisionBlock blocks[2] = {{Vector2f(2428, 416), Vector2f(107, 45)}, {Vector2f(1428, 338), Vector2f(211, 43)}};
 
     bool done;
-    float moveToPos[2] = { 100, 800 };
 }
 
 using namespace variables;
 
 void moveStaticImages(RectangleShape& body, RenderWindow& window, Npc& test);
 void cutscene(RectangleShape& body, string& cutsceneStr, Sprite& adventureBgImage, Sprite& messageImage, RenderWindow& window);
+Vector2f getRampPos();
 
 void setVars()
 {
@@ -294,6 +293,7 @@ void setup(RenderWindow& window)
 
     while (window.isOpen())
     {
+        float moveToPos[2] = {blocks[1].hitbox.getPosition().x + 200, blocks[0].hitbox.getPosition().x - 200};
         deltaTime = clock.restart().asSeconds();
 
         window.setKeyRepeatEnabled(true);
@@ -390,12 +390,15 @@ bool checkCollideWithRamp(RectangleShape& body) {
 
     for (int i = 0; i < 12; i++) {
         if (points[i].getGlobalBounds().intersects(body.getGlobalBounds()) && body.getPosition().x <= ramp.getPosition().x + 110) {
-            cout << "collide" << endl;
             return true;
         }
     }
-    //cout << "falsed" << endl;
+
     return false;
+}
+
+Vector2f getRampPos() {
+    return ramp.getPosition();
 }
 
 void moveStaticImages(RectangleShape& body, RenderWindow& window, Npc& test)
