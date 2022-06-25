@@ -190,8 +190,8 @@ void setVars()
     soundJump.setBuffer(jumpBuffer);
     soundWalk.setBuffer(walkBuffer);
 
-    soundJump.setVolume(15.0f);
-    soundWalk.setVolume(35.0f);
+    soundJump.setVolume(5.0f);
+    soundWalk.setVolume(25.0f);
 
     font.loadFromFile("../Images and fonts/Fonts/Header font.ttf");
     fpsCounter.setFont(font);

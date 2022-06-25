@@ -49,7 +49,6 @@ void setupVars(RenderWindow& window)
         checkButtonImage[i].setTexture(checkButtonTexture);
     }
 
-
     if (setPositionByDefault == true)
     {
         checkButtonImage[0].setPosition(369, 395);
