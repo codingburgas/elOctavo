@@ -6,7 +6,7 @@
 
 
 // Npc class
-Npc::Npc(Texture* texture, Vector2u imageCount, float switchTime, float speed, string name) {
+Npc::Npc(Texture * texture, Vector2u imageCount, float switchTime, float speed, string name) {
     this->imageCount = imageCount;
     this->switchTime = switchTime;
     this->speed = speed;
