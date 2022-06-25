@@ -7,19 +7,21 @@ bool audioToggle = true;
 
 namespace variables {
     Event evMenu;
+
     Texture textureMenu;
     Sprite bgImageMenu;
 
     Music music;
+
+    Texture texture;
 }
 
 using namespace variables;
 
-void setupMenu(RenderWindow& window)
-{
-    addIcon(window);
-    music.setLoop(true);
+void setupMenu(RenderWindow& window);
 
+void setupVars(RenderWindow& window)
+{
     if (!music.openFromFile("../Audios/Main.ogg"))
     {
         cout << "Error" << endl;
@@ -33,14 +35,67 @@ void setupMenu(RenderWindow& window)
         cout << "";
     }
 
+    addIcon(window);
+    music.setLoop(true);
+}
+
+void optionMenu(Event& ev, Texture texture, RenderWindow& window)
+{
+    texture.loadFromFile("../Images and fonts/Bg/TrueFullOptionsMenuSoundOn.png");
+
+    while (true)
+    {
+        Sprite sprite(texture);
+
+        while (window.pollEvent(ev))
+        {
+            switch (ev.type)
+            {
+            case Event::MouseButtonPressed:
+            {
+                switch (ev.key.code)
+                {
+                case Mouse::Left:
+                {
+                    if ((ev.mouseButton.x >= 594 && ev.mouseButton.x <= 629) && (ev.mouseButton.y >= 386 && ev.mouseButton.y <= 421))
+                    {
+                        texture.loadFromFile("../Images and fonts/Bg/TrueFullOptionsMenuSoundOn.png");
+                        audioToggle = true;
+                    }
+
+                    else if ((ev.mouseButton.x >= 648 && ev.mouseButton.x <= 683) && (ev.mouseButton.y >= 386 && ev.mouseButton.y <= 421))
+                    {
+                        texture.loadFromFile("../Images and fonts/Bg/TrueFullOptionsMenuSoundOff.png");
+                        audioToggle = false;
+                    }
+
+                    else if ((ev.mouseButton.x >= 875 && ev.mouseButton.x <= 962) && (ev.mouseButton.y >= 508 && ev.mouseButton.y <= 541))
+                    {
+                        setupMenu(window);
+                    }
+                    break;
+                }
+                break;
+                }
+            }
+            }
+        }
+        window.draw(sprite);
+        window.display();
+    }
+}
+
+void setupMenu(RenderWindow& window)
+{
+    setupVars(window);
+
+    textureMenu.loadFromFile("../Images and fonts/Bg/Menu.png");
+    bgImageMenu.setTexture(textureMenu);;
+    bgImageMenu.setOrigin(1280 / 2, 720 / 2);
+    bgImageMenu.setPosition(window.getSize().x / 2, window.getSize().y / 2);
 
     while (window.isOpen())
     {
-        textureMenu.loadFromFile("../Images and fonts/Bg/Menu.png");
-        bgImageMenu.setTexture(textureMenu);;
-        bgImageMenu.setOrigin(1280 / 2, 720 / 2);
-        bgImageMenu.setPosition(window.getSize().x / 2, window.getSize().y / 2);
-
         while (window.pollEvent(evMenu))
         {
             switch (evMenu.type)
@@ -61,8 +116,7 @@ void setupMenu(RenderWindow& window)
 
                         if (evMenu.mouseButton.y >= 459 && evMenu.mouseButton.y <= 516)
                         {
-                            cout << "Options";
-
+                            optionMenu(evMenu, texture, window);
                             if (audioToggle)
                             {
                                 cout << "";

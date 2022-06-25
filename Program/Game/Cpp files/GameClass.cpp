@@ -109,7 +109,6 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 			}
 
 			velocity.x -= abs(speed - 50.0f) * deltaTime;
-			//velocity.x -= abs(speed - 25.0f) * deltaTime;
 		}
 	}
 
@@ -120,7 +119,6 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 		}
 
 		velocity.x += abs(speed - 50.0f) * deltaTime;
-		//velocity.x += abs(speed - 25.0f) * deltaTime;
 	}
 
 	if (!Keyboard::isKeyPressed(Keyboard::D) && !Keyboard::isKeyPressed(Keyboard::A) && !Keyboard::isKeyPressed(Keyboard::W) && !Keyboard::isKeyPressed(Keyboard::S)) {
@@ -135,7 +133,11 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 
 			currTime = vars::clock.getElapsedTime();
 			if (currTime.asSeconds() >= 1.0f && !jumped) {
-				soundJump.play();
+				if (isAudioRunning(audioToggle) == true)
+				{
+					soundJump.play();
+				}
+				
 				vars::clock.restart();
 				jumpY = body.getPosition().y;
 				jump(deltaTime, 600);
