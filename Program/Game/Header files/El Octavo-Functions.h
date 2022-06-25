@@ -40,6 +40,8 @@ private:
     float speed;
     bool faceLeft;
 
+    float distance;
+
 public:
     IntRect uvRect;
     RectangleShape body;
@@ -51,4 +53,5 @@ public:
     void draw(RenderWindow& window);
     void moveX(float amount);
     void update(int row, float deltaTime, bool faceLeft);
+    bool moveTo(float x, float deltaTime);
 };
