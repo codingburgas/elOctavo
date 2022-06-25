@@ -38,27 +38,29 @@ private:
     // movement variables
     unsigned int row;
     float speed;
-    bool faceLeft;
 
     float distance;
     int posIndex;
 
-    bool reset;
     Clock npcClock; 
     Time npcPreviousTime; 
     Time npcCurrentTime;
-    bool delay;
+
+    bool reset;
+
 
 public:
+    bool faceLeft;
     IntRect uvRect;
     RectangleShape body;
     Vector2f velocity;
+    bool delay;
 
     Npc(Texture* texture, Vector2u imageCount, float switchTime, float speed, string name);
     ~Npc();
 
     void draw(RenderWindow& window);
     void moveX(float amount);
-    void update(int row, float deltaTime, bool faceLeft);
-    void moveTo(float pos[], float deltaTime, bool& done);
+    void update(int row, float deltaTime, bool delay);
+    void moveTo(float pos[], float deltaTime, bool& done, bool& faceLeft);
 };

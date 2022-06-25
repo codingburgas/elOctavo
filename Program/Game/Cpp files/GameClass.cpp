@@ -20,6 +20,7 @@ Player::Player(Texture* texture, Vector2u imageCount, float switchTime, float sp
 	this->speed = speed;
 	this->totalTime = 0.0f;
 	this->currentImage.x = 0;
+	this->ramped = false;
 
 	this->uvRect.width = texture->getSize().x / float(imageCount.x);
 	this->uvRect.height = texture->getSize().y / float(imageCount.y);
@@ -57,6 +58,7 @@ void Player::update(int row, float deltaTime, bool faceLeft)
 	}
 
 	uvRect.top = currentImage.y * uvRect.height;
+
 	if (faceLeft)
 	{
 		uvRect.left = (currentImage.x + 1) * abs(uvRect.width);
@@ -196,25 +198,21 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 	body.setTextureRect(uvRect);
 
 	if (toggle) {
-		if (checkCollideWithRamp(body) == true) {
-			//if (!jumped) {
-			cout << "collide" << endl;
-			velocity.y = -velocity.x;
-			//}
-		}
 
-		if (checkCollideWithGround(body)) {
-			body.setPosition(body.getPosition().x, 495.0f);
+		if (checkCollideWithGround(body) && !ramped) {
+			body.setPosition(body.getPosition().x, 490.0f);
 		}
 
 		velocity.y += 160.0f * deltaTime;
 
-		if (checkCollideWithGround(body) && !jumped) {
+		if (checkCollideWithGround(body) && !ramped && !jumped) {
 			velocity.y = 0;
 		}
 
+
 		float bodyY = body.getPosition().y;
 		float bodyX = body.getPosition().x;
+		
 
 		// idk how this works and why it works
 		// please kill me
@@ -258,7 +256,16 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 
 	}
 
-	body.move(velocity.x, velocity.y);
+	if (checkCollideWithRamp(body)) {
+		ramped = true;
+		body.move(velocity.x, -velocity.x);
+	}
+	else {
+		ramped = false;
+		body.move(velocity.x, velocity.y);
+	}
+
+	//checkCollideWithRamp(body);
 
 }
 

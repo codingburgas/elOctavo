@@ -15,6 +15,7 @@ private:
 	unsigned int row;
 	float speed;
 	bool faceLeft;
+	bool ramped;
 
 public:
 	IntRect uvRect;

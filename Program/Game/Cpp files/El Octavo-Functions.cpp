@@ -41,7 +41,7 @@ void Npc::moveX(float amount) {
     this->body.move(amount, 0.0f);
 }
 
-void Npc::update(int row, float deltaTime, bool faceLeft) {
+void Npc::update(int row, float deltaTime, bool delay) {
     currentImage.y = row;
     totalTime += deltaTime;
 
@@ -57,6 +57,7 @@ void Npc::update(int row, float deltaTime, bool faceLeft) {
     }
 
     uvRect.top = currentImage.y * uvRect.height;
+
     if (faceLeft)
     {
         uvRect.left = (currentImage.x + 1) * abs(uvRect.width);
@@ -71,7 +72,7 @@ void Npc::update(int row, float deltaTime, bool faceLeft) {
     body.setTextureRect(uvRect);
 }
 
-void Npc::moveTo(float pos[], float deltaTime, bool& done) {
+void Npc::moveTo(float pos[], float deltaTime, bool& done, bool& faceLeft) {
     //cout << npcCurrentTime.asSeconds() << endl;
     
     if (!delay) {
@@ -92,8 +93,17 @@ void Npc::moveTo(float pos[], float deltaTime, bool& done) {
             cout << "Reset" << endl;
             delay = true;
 
+            if (faceLeft) 
+            {
+                cout << "if" << endl;
+                faceLeft = false;
+            }
+            else {
+                cout << "else" << endl;
+                faceLeft = true;
+            }
+            
         }
-
         
         npcCurrentTime = npcClock.getElapsedTime();
         //cout << npcClock.getElapsedTime().asSeconds() << endl;
@@ -230,7 +240,7 @@ void setVars()
     rampT.loadFromFile("../Images and fonts/Ramp Test.png");
     ramp.setTexture(rampT);
     ramp.setOrigin(0, 0);
-    ramp.setPosition(200, 430);
+    ramp.setPosition(800, 430);
 
     jumpBuffer.loadFromFile("../Audios/Jump.wav");
     walkBuffer.loadFromFile("../Audios/Walk.wav");
@@ -288,7 +298,7 @@ void setup(RenderWindow& window)
         }
 
         plr.updateMovement(deltaTime, window, adventureBgImage, soundWalk, soundJump, movementToggle, blocks, blocksSize);
-        test.update(0, deltaTime, true);
+        test.update(0, deltaTime,test.delay);
 
         window.clear(Color::Green);
 
@@ -309,7 +319,7 @@ void setup(RenderWindow& window)
 
         plr.draw(window);
 
-        test.moveTo(moveToPos, deltaTime, done);
+        test.moveTo(moveToPos, deltaTime, done, test.faceLeft);
 
         // calculate fps
         fpsCurrentTime = fpsClock.getElapsedTime();
@@ -345,13 +355,11 @@ bool checkCollideWithGround(RectangleShape& body) {
 }
 
 bool checkCollideWithRamp(RectangleShape& body) {
-    if (ramp.getGlobalBounds().intersects(body.getGlobalBounds())) {
+    /*if (ramp.getGlobalBounds().intersects(body.getGlobalBounds())) {
         Image rampImage = rampT.copyToImage();
 
         int pixelX = body.getPosition().x - ramp.getPosition().x;
         int pixelY = (body.getPosition().y + 44) - ramp.getPosition().y;
-
-        cout << pixelY << endl;
 
         if ((pixelX < 110 && pixelX > 0) && (pixelY < 110 && pixelY >= 0)) {
             if (rampImage.getPixel(pixelX, pixelY).a != 0) {
@@ -360,6 +368,21 @@ bool checkCollideWithRamp(RectangleShape& body) {
             else {
                 return false;
             }
+        }
+    }*/
+
+    if (ramp.getGlobalBounds().intersects(body.getGlobalBounds())) {
+        int pixelX = body.getPosition().x - ramp.getPosition().x;
+        int pixelY = (body.getPosition().y + 44) - ramp.getPosition().y;
+
+        cout << pixelX << " " << pixelY << endl;
+
+        if (body.getPosition().x >= ramp.getPosition().x && (pixelY > 0 && pixelY < 110) && (pixelY > pixelX * 2)) {
+            cout << "collide" << endl;
+            return true;
+        }
+        else {
+            return false;
         }
     }
 }
