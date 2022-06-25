@@ -12,7 +12,6 @@ namespace vars {
 
 using namespace vars;
 
-
 //consturctors - setup variables
 Player::Player(Texture* texture, Vector2u imageCount, float switchTime, float speed)
 {
