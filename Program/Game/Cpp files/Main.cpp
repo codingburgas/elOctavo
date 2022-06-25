@@ -4,7 +4,7 @@
 
 int main()
 {
-	RenderWindow window(VideoMode(1280, 720), "The legend of Kurabirov", Style::Close | Style::Titlebar);
+	RenderWindow window(VideoMode(1280, 720), "The legend of Kurabirov", Style::Titlebar | Style::Close);
 
 	setupMenu(window);
 }

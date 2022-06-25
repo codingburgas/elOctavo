@@ -69,10 +69,6 @@ void Npc::update(int row, float deltaTime, bool faceLeft) {
     body.setTextureRect(uvRect);
 }
 
-
-
-
-
 // CollisionBlock class
 CollisionBlock::CollisionBlock(Vector2f pos, Vector2f size) {
     hitbox.setSize(size);
@@ -287,8 +283,6 @@ void setup(RenderWindow& window)
         if (drawBubble) {
             window.draw(messageImage);
         }
-
-
 
         moveStaticImages(plr.body, window, test);
 
