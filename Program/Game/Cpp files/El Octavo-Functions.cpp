@@ -114,23 +114,22 @@ void Npc::moveTo(float pos[], float deltaTime, bool& done, bool& faceLeft, Recta
             if (!reset) {
                 npcClock.restart();
                 reset = true;
-                cout << "Reset" << endl;
+                //cout << "Reset" << endl;
                 delay = true;
 
                 if (faceLeft) 
                 {
-                    cout << "if" << endl;
+                    //cout << "if" << endl;
                     faceLeft = false;
                 }
                 else {
-                    cout << "else" << endl;
+                    //cout << "else" << endl;
                     faceLeft = true;
                 }
             
             }
         
             npcCurrentTime = npcClock.getElapsedTime();
-            //cout << npcClock.getElapsedTime().asSeconds() << endl;
 
             if (npcCurrentTime.asSeconds() >= 0.3) {
                 posIndex++;
@@ -145,7 +144,6 @@ void Npc::moveTo(float pos[], float deltaTime, bool& done, bool& faceLeft, Recta
     else {
         if (distance <= 40.5f && abs(plrBody.getPosition().y - body.getPosition().y) < 64.5) {
             respawnPlayer(plrBody, body, adventureBgImage);
-            cout << "respawn" << endl;
         }
     }
 }
@@ -203,6 +201,8 @@ namespace variables {
     Texture rampT;
     Sprite ramp;
     RectangleShape points[12];
+    Vector2f pointsCopy[12];
+
 
     //sound
     Sound soundJump, soundWalk;
@@ -229,7 +229,9 @@ namespace variables {
 
     bool drawBubble;
 
-    CollisionBlock blocks[2] = {{Vector2f(2428, 416), Vector2f(107, 45)}, {Vector2f(1428, 338), Vector2f(211, 43)}};
+    CollisionBlock blocks[8] = { {Vector2f(2882, 490), Vector2f(117, 34)}, {Vector2f(1428, 338), Vector2f(211, 43)}, {Vector2f(3074, 443), Vector2f(181, 34)}, {Vector2f(3323, 395), Vector2f(181, 34)}, {Vector2f(4071, 441), Vector2f(109, 34)}, {Vector2f(5435, 461), Vector2f(117, 34)}, {Vector2f(5667, 380), Vector2f(171, 34)}, {Vector2f(5938, 305), Vector2f(474, 34)} };
+    
+    Vector2f blocksCopy[8] = {Vector2f(2428, 416), Vector2f(1428, 338), Vector2f(3074, 443), Vector2f(3323, 395), Vector2f(4071, 441), Vector2f(5435, 461), Vector2f(5667, 380), Vector2f(5938, 305)};
 
     bool done;
 
@@ -254,7 +256,8 @@ namespace variables {
     bool dialogueOver = false;
 
     bool imageTurn = true;
-}
+};
+
 
 using namespace variables;
 
@@ -326,6 +329,10 @@ void setVars()
         }
     }
 
+    for (int i = 0; i < 12; i++) {
+        pointsCopy[i] = points[i].getPosition();
+    }
+
     //cutscene setup
     kurabirovTexture.loadFromFile("../Images and fonts/Dialogues/KurabirovDialogue.png");
     mafiaTexture.loadFromFile("../Images and fonts/Dialogues/MobsterDialogue.png");
@@ -352,7 +359,7 @@ void setup(RenderWindow& window)
     Clock clock;
     Player plr(&plrT, Vector2u(3, 2), 0.3f, 225.0f);
     Npc test(&npcT, Vector2u(3,1), 0.3f, 170.0f, "Test");
-    bgImage.setPosition(window.getSize().x / 2, window.getSize().y / 2);
+    //bgImage.setPosition(window.getSize().x / 2, window.getSize().y / 2);
 
 
     // end of sussy variables
@@ -390,7 +397,6 @@ void setup(RenderWindow& window)
             cutsceneText.setString(cutsceneStr);
             if (!dialogueOver) {
                 drawBubble = true;
-
             }
 
             if (Keyboard::isKeyPressed(Keyboard::Q))
@@ -482,9 +488,9 @@ void setup(RenderWindow& window)
         window.draw(adventureBgImage);
         window.draw(ramp);
 
-        for (int i = 0; i < 2; i++) {
+        /*for (int i = 0; i < 8; i++) {
             window.draw(blocks[i].hitbox);
-        }
+        }*/
 
         window.draw(test.body);
 
@@ -509,9 +515,9 @@ void setup(RenderWindow& window)
         
         window.draw(cutsceneText);
 
-        for (int i = 0; i < 11; i++) {
+        /*for (int i = 0; i < 11; i++) {
             window.draw(points[i]);
-        }
+        }*/
 
         // draw message bubble
         if (drawBubble) {
@@ -582,7 +588,7 @@ void moveStaticImages(RectangleShape& body, RenderWindow& window, Npc& test)
             ramp.move(-(225.0f * deltaTime), 0.f);
             test.moveX(-(225.0f * deltaTime));
 
-            for (int i = 0; i < 2; i++) {
+            for (int i = 0; i < 8; i++) {
                 blocks[i].hitbox.move(-(225.0f * deltaTime), 0.f);
             }
 
@@ -590,26 +596,29 @@ void moveStaticImages(RectangleShape& body, RenderWindow& window, Npc& test)
                 points[i].move(-(225.0f * deltaTime), 0.f);
             }
 
-            moved += 225.0f * deltaTime;
+            if (moved < 1100.19) {
+                moved += 225.0f * deltaTime;
+            }
         }
     }
 }
 
 void resetStaticImages(float& offset, RectangleShape& npcBody, Sprite& adventureBgImage) {
-    messageImage.move(offset, 0.f);
-    ramp.move(offset, 0.f);
-    npcBody.move(offset, 0.f);
+    cout << offset << endl;
+    
+    messageImage.setPosition(500 - 1101, 300);
+    ramp.setPosition(800 - 1101, 430);
+    npcBody.setPosition(1849.0f - 1101, 538.0f - 90.0f / 2);
 
-    for (int i = 0; i < 2; i++) {
-        blocks[i].hitbox.move(offset, 0.f);
+    for (int i = 0; i < 8; i++) {
+        blocks[i].hitbox.setPosition(blocksCopy[i].x - 1101, blocksCopy[i].y);
     }
 
     for (int i = 0; i < 11; i++) {
-        points[i].move(offset, 0.f);
+        points[i].setPosition(pointsCopy[i].x - 1101, pointsCopy[i].y);
     }
 
-    adventureBgImage.move(offset, 0.f);
-    offset = 0;
+    adventureBgImage.setPosition(0.f - 1101, 0.f);
 }
 
 void cutscene(RectangleShape& body, string& cutsceneStr, Sprite& adventureBgImage, Sprite& messageImage, RenderWindow& window)
@@ -626,6 +635,6 @@ void cutscene(RectangleShape& body, string& cutsceneStr, Sprite& adventureBgImag
 }
 
 void respawnPlayer(RectangleShape& body, RectangleShape& npcBody, Sprite& adventureBgImage) {
-    body.setPosition(300, 720 / 2);
+    body.setPosition(150, 720 / 2);
     resetStaticImages(moved, npcBody, adventureBgImage);
 }

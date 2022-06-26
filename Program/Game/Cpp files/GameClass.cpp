@@ -218,7 +218,7 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 		// please kill me
 		// this took 2 hours
 
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < 8; i++) {
 			if (blocks[i].checkForCollision(body)) {
 				float hitboxX = blocks[i].hitbox.getPosition().x;
 				float hitboxY = blocks[i].hitbox.getPosition().y;
