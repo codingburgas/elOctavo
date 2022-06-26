@@ -9,6 +9,10 @@ void setup(RenderWindow& window);
 
 bool checkCollideWithRamp(RectangleShape& body);
 
+void respawnPlayer(RectangleShape& body, RectangleShape& npcBody, Sprite& adventureBgImage);
+
+void resetStaticImages(float& offset, RectangleShape& npcBody, Sprite& adventureBgImage);
+
 Vector2f getRampPos();
 
 class CollisionBlock {
@@ -57,6 +61,7 @@ public:
     RectangleShape body;
     Vector2f velocity;
     bool delay;
+    bool plrFound;
 
     Npc(Texture* texture, Vector2u imageCount, float switchTime, float speed, string name);
     ~Npc();
@@ -64,5 +69,5 @@ public:
     void draw(RenderWindow& window);
     void moveX(float amount);
     void update(int row, float deltaTime, bool delay);
-    void moveTo(float pos[], float deltaTime, bool& done, bool& faceLeft);
+    void moveTo(float pos[], float deltaTime, bool& done, bool& faceLeft, RectangleShape& plrBody, bool jumped, Sprite& adventureBgImage);
 };

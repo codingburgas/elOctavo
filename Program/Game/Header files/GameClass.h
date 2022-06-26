@@ -22,6 +22,7 @@ public:
 	RectangleShape body;
 	float jumpY = body.getPosition().y;
 	Vector2f velocity;
+	bool jumped = false;
 
 	Player(Texture* texture, Vector2u imageCount, float switchTime, float speed);
 	~Player();

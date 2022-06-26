@@ -6,7 +6,6 @@
 namespace vars {
 	Clock clock;
 	Time currTime;
-	bool jumped = false;
 	int keyTime = 0;
 }
 
@@ -31,7 +30,7 @@ Player::Player(Texture* texture, Vector2u imageCount, float switchTime, float sp
 
 	this->body.setSize(Vector2f(81.0f, 129.0f));
 	this->body.setOrigin(81.0f / 2, 129.0f / 2);
-	this->body.setPosition(1280 / 2, 720 / 2);
+	this->body.setPosition(300, 720 / 2);
 	this->body.setTexture(texture);
 }
 
@@ -201,7 +200,7 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 
 		if (checkCollideWithGround(body) && !ramped) {
 			body.setPosition(body.getPosition().x, 490.0f);
-			cout << "set" << endl;
+			//cout << "set" << endl;
 		}
 
 		velocity.y += 160.0f * deltaTime;

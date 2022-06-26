@@ -15,6 +15,7 @@ Npc::Npc(Texture * texture, Vector2u imageCount, float switchTime, float speed, 
     this->posIndex = 0;
     this->reset = false;
     this->delay = false;
+    this->plrFound = false;
 
     this->uvRect.width = texture->getSize().x / float(imageCount.x);
     this->uvRect.height = texture->getSize().y / float(imageCount.y);
@@ -72,10 +73,32 @@ void Npc::update(int row, float deltaTime, bool delay) {
     body.setTextureRect(uvRect);
 }
 
-void Npc::moveTo(float pos[], float deltaTime, bool& done, bool& faceLeft) {
-    //cout << npcCurrentTime.asSeconds() << endl;
+void Npc::moveTo(float pos[], float deltaTime, bool& done, bool& faceLeft, RectangleShape& plrBody, bool jumped, Sprite& adventureBgImage) {
     
-    if (!delay) {
+    if (abs(body.getPosition().x - plrBody.getPosition().x) < 300 && abs(plrBody.getPosition().y - body.getPosition().y) < 80.0f && !jumped) {
+        plrFound = true;
+    }
+    else {
+        plrFound = false;
+    }
+
+    if (plrFound) {
+        if (plrBody.getPosition().x > body.getPosition().x) {
+            distance = plrBody.getPosition().x - body.getPosition().x;
+            if (distance > 40.5f) {
+                moveX(speed * deltaTime);
+            }
+            faceLeft = false;
+        }
+        else {
+            distance = body.getPosition().x - plrBody.getPosition().x;
+            if (distance > 40.5f) {
+                moveX(-speed * deltaTime);
+            }
+            faceLeft = true;
+        }
+    }
+    else if (!delay) {
         if (pos[posIndex] > body.getPosition().x) {
             distance = pos[posIndex] - body.getPosition().x;
             moveX(speed * deltaTime);
@@ -86,35 +109,43 @@ void Npc::moveTo(float pos[], float deltaTime, bool& done, bool& faceLeft) {
         }
     }
 
-    if (distance <= 20) {
-        if (!reset) {
-            npcClock.restart();
-            reset = true;
-            cout << "Reset" << endl;
-            delay = true;
+    if (!plrFound) {
+        if (distance <= 20) {
+            if (!reset) {
+                npcClock.restart();
+                reset = true;
+                cout << "Reset" << endl;
+                delay = true;
 
-            if (faceLeft) 
-            {
-                cout << "if" << endl;
-                faceLeft = false;
-            }
-            else {
-                cout << "else" << endl;
-                faceLeft = true;
-            }
+                if (faceLeft) 
+                {
+                    cout << "if" << endl;
+                    faceLeft = false;
+                }
+                else {
+                    cout << "else" << endl;
+                    faceLeft = true;
+                }
             
-        }
-        
-        npcCurrentTime = npcClock.getElapsedTime();
-        //cout << npcClock.getElapsedTime().asSeconds() << endl;
-
-        if (npcCurrentTime.asSeconds() >= 0.3) {
-            posIndex++;
-            if (posIndex > 1) {
-                posIndex = 0;
             }
-            reset = false;
-            delay = false;
+        
+            npcCurrentTime = npcClock.getElapsedTime();
+            //cout << npcClock.getElapsedTime().asSeconds() << endl;
+
+            if (npcCurrentTime.asSeconds() >= 0.3) {
+                posIndex++;
+                if (posIndex > 1) {
+                    posIndex = 0;
+                }
+                reset = false;
+                delay = false;
+            }
+        }
+    }
+    else {
+        if (distance <= 40.5f && abs(plrBody.getPosition().y - body.getPosition().y) < 64.5) {
+            respawnPlayer(plrBody, body, adventureBgImage);
+            cout << "respawn" << endl;
         }
     }
 }
@@ -201,6 +232,8 @@ namespace variables {
     CollisionBlock blocks[2] = {{Vector2f(2428, 416), Vector2f(107, 45)}, {Vector2f(1428, 338), Vector2f(211, 43)}};
 
     bool done;
+
+    float moved;
 }
 
 using namespace variables;
@@ -208,6 +241,7 @@ using namespace variables;
 void moveStaticImages(RectangleShape& body, RenderWindow& window, Npc& test);
 void cutscene(RectangleShape& body, string& cutsceneStr, Sprite& adventureBgImage, Sprite& messageImage, RenderWindow& window);
 Vector2f getRampPos();
+void respawnPlayer(RectangleShape& body);
 
 void setVars()
 {
@@ -283,7 +317,7 @@ void setup(RenderWindow& window)
 
     Clock clock;
     Player plr(&plrT, Vector2u(3, 2), 0.3f, 225.0f);
-    Npc test(&npcT, Vector2u(3,1), 0.3f, 190.0f, "Test");
+    Npc test(&npcT, Vector2u(3,1), 0.3f, 170.0f, "Test");
     bgImage.setPosition(window.getSize().x / 2, window.getSize().y / 2);
 
 
@@ -333,7 +367,7 @@ void setup(RenderWindow& window)
 
         plr.draw(window);
 
-        test.moveTo(moveToPos, deltaTime, done, test.faceLeft);
+        test.moveTo(moveToPos, deltaTime, done, test.faceLeft, plr.body, plr.jumped, adventureBgImage);
 
         // calculate fps
         fpsCurrentTime = fpsClock.getElapsedTime();
@@ -419,8 +453,27 @@ void moveStaticImages(RectangleShape& body, RenderWindow& window, Npc& test)
             for (int i = 0; i < 11; i++) {
                 points[i].move(-(225.0f * deltaTime), 0.f);
             }
+
+            moved += 225.0f * deltaTime;
         }
     }
+}
+
+void resetStaticImages(float& offset, RectangleShape& npcBody, Sprite& adventureBgImage) {
+    messageImage.move(offset, 0.f);
+    ramp.move(offset, 0.f);
+    npcBody.move(offset, 0.f);
+
+    for (int i = 0; i < 2; i++) {
+        blocks[i].hitbox.move(offset, 0.f);
+    }
+
+    for (int i = 0; i < 11; i++) {
+        points[i].move(offset, 0.f);
+    }
+
+    adventureBgImage.move(offset, 0.f);
+    offset = 0;
 }
 
 void cutscene(RectangleShape& body, string& cutsceneStr, Sprite& adventureBgImage, Sprite& messageImage, RenderWindow& window)
@@ -434,4 +487,9 @@ void cutscene(RectangleShape& body, string& cutsceneStr, Sprite& adventureBgImag
         cutsceneText.setString("");
         drawBubble = false;
     }
+}
+
+void respawnPlayer(RectangleShape& body, RectangleShape& npcBody, Sprite& adventureBgImage) {
+    body.setPosition(300, 720 / 2);
+    resetStaticImages(moved, npcBody, adventureBgImage);
 }
