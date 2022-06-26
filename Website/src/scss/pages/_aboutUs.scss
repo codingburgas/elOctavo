@@ -36,7 +36,7 @@
     border-top-width: 5px;
     border-top-color: $accentDarkColor;
     background-color: #D9D9D9;
-    background-image: url('../../../dist/images/team_logo.png');
+    background-image: url('../../../dist/images/game_logo.png');
     background-size: 100% 100%;
     background-repeat: no-repeat;
 }
@@ -69,8 +69,8 @@
     border-top-width: 5px;
     border-top-color: $accentDarkColor;
     background-color: #D9D9D9;
-    background-image: url('../../../dist/images/team_logo.png');
-    background-size: cover;
+    background-image: url('../../../dist/images/website_img.png');
+    background-size: 100% 100%; 
     background-repeat: no-repeat;
 }
 
@@ -104,8 +104,8 @@
         border-top-width: 5px;
         border-top-color: $accentDarkColor;
         background-color: #D9D9D9;
-        background-image: url('../../../dist/images/team_logo.png');
-        background-size: 100% 100%;
+        background-image: url('../../../dist/images/game_logo.png');
+    background-size: 100% 100%;
         background-repeat: no-repeat;
     }
     
@@ -137,8 +137,8 @@
         border-top-width: 5px;
         border-top-color: $accentDarkColor;
         background-color: #D9D9D9;
-        background-image: url('../../../dist/images/team_logo.png');
-        background-size: cover;
+        background-image: url('../../../dist/images/website_img.png');
+        background-size: 100% 100%;
         background-repeat: no-repeat;
     }
 }
@@ -175,7 +175,7 @@
         border-top-width: 5px;
         border-top-color: $accentDarkColor;
         background-color: #D9D9D9;
-        background-image: url('../../../dist/images/team_logo.png');
+        background-image: url('../../../dist/images/game_logo.png');
         background-size: 100% 100%;
         background-repeat: no-repeat;
     }
@@ -210,8 +210,8 @@
         border-top-width: 5px;
         border-top-color: $accentDarkColor;
         background-color: #D9D9D9;
-        background-image: url('../../../dist/images/team_logo.png');
-        background-size: cover;
+        background-image: url('../../../dist/images/website_img.png');
+        background-size: 100% 100%;
         background-repeat: no-repeat;
     }
 }
@@ -249,7 +249,7 @@
         border-top-width: 5px;
         border-top-color: $accentDarkColor;
         background-color: #D9D9D9;
-        background-image: url('../../../dist/images/team_logo.png');
+        background-image: url('../../../dist/images/game_logo.png');
         background-size: 100% 100%;
         background-repeat: no-repeat;
     }
@@ -284,8 +284,81 @@
         border-top-width: 5px;
         border-top-color: $accentDarkColor;
         background-color: #D9D9D9;
-        background-image: url('../../../dist/images/team_logo.png');
-        background-size: cover;
+        background-image: url('../../../dist/images/website_img.png');
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+    }
+}
+
+//Responsive to 575px 
+@media  only screen and (max-width:575px){
+    .team{
+        width:100%;
+        height:unset;
+        @include flex(column, center, center);
+        margin-bottom: 30px;
+    }
+    .team__text-wrapper{
+        width:90%;
+        height:340px;
+        @include flex(column, flex-start, center);
+        text-align: center;
+    }
+    .team__title{
+        font-size:$bigFontSize - 5;
+        letter-spacing: $smallLetterSpacing + 0.03;
+    }
+    .team__text{
+        font-size:$normalFontSize - 3;
+        letter-spacing: $smallLetterSpacing + 0.03;
+        width:90%;
+        line-height:2;
+    }
+    .team__image-wrapper{
+        width:90%;
+        height:300px;
+        @include flex(column, flex-start, flex-start);
+        border-top-style: solid;
+        border-top-width: 5px;
+        border-top-color: $accentDarkColor;
+        background-color: #D9D9D9;
+        background-image: url('../../../dist/images/game_logo.png');
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+    }
+    
+    .website{
+        width:100%;
+        height:unset;
+        @include flex(column, space-evenly, center);
+        margin-top: 30px;
+    }
+    .website__text-wrapper{
+        width:90%;
+        height:340px;
+        @include flex(column, flex-start, center);
+        text-align: center;
+    }
+    .website__title{
+        font-size:$bigFontSize  - 5;
+        letter-spacing: $smallLetterSpacing + 0.03;
+    }
+    .website__text{
+        font-size:$normalFontSize  - 3;
+        letter-spacing: $smallLetterSpacing + 0.03;
+        width:500px;
+        line-height:2;
+    }
+    .website__image-wrapper{
+        width:90%;
+        height:300px;
+        @include flex(column, flex-start, flex-start);
+        border-top-style: solid;
+        border-top-width: 5px;
+        border-top-color: $accentDarkColor;
+        background-color: #D9D9D9;
+        background-image: url('../../../dist/images/website_img.png');
+        background-size: 100% 100%;
         background-repeat: no-repeat;
     }
 }
