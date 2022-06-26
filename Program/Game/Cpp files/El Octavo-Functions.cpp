@@ -234,6 +234,26 @@ namespace variables {
     bool done;
 
     float moved;
+
+    Texture kurabirovTexture, mafiaTexture, nestashevTexture;
+    Sprite kurabirovCutscene, mafiaCutscene, nestashevCutscene;
+
+    string dialogScript = "Hello, you must be the boss's people!";
+    Text textDialogScript;
+
+    Clock timer;
+
+    unsigned int character = 0;
+
+    unsigned int dialogTurn = 0;
+
+    bool enterDialogue = false;
+
+    bool enterPressed = false;
+
+    bool dialogueOver = false;
+
+    bool imageTurn = true;
 }
 
 using namespace variables;
