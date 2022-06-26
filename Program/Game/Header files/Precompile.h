@@ -13,8 +13,6 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Network.hpp>
 
-#include <Windows.h>
-
 using namespace std;
 using namespace sf;
 

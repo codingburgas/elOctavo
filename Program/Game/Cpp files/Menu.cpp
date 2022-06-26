@@ -186,8 +186,14 @@ void setupMenu(RenderWindow& window)
                         if (evMenu.mouseButton.y >= 335 && evMenu.mouseButton.y <= 392)
                         {
                             music.stop();
+<<<<<<< Updated upstream
                             //backstory();
                             setup(window);                          
+=======
+                            
+                            backstory(window, backstoryTexture, backstoryImage);
+                            setup(window);
+>>>>>>> Stashed changes
                         }
 
                         if (evMenu.mouseButton.y >= 459 && evMenu.mouseButton.y <= 516)
