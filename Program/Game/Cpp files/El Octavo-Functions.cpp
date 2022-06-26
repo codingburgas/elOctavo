@@ -239,7 +239,7 @@ namespace variables {
 using namespace variables;
 
 void moveStaticImages(RectangleShape& body, RenderWindow& window, Npc& test);
-void cutscene(RectangleShape& body, string& cutsceneStr, Sprite& adventureBgImage, Sprite& messageImage, RenderWindow& window);
+
 Vector2f getRampPos();
 void respawnPlayer(RectangleShape& body);
 
@@ -249,7 +249,7 @@ void setVars()
     bgImage.setTexture(bgTexture);
     drawBubble = false;
 
-    adventureBgTexture.loadFromFile("../Images and fonts/Bg/spawn start.png");
+    adventureBgTexture.loadFromFile("../Images and fonts/Bg/GameMap.png");
     adventureBgImage.setTexture(adventureBgTexture);
 
     messageTexture.loadFromFile("../Images and fonts/Bg/message.png");
@@ -305,6 +305,20 @@ void setVars()
             points[i].setPosition(points[i - 1].getPosition().x + 10, points[i - 1].getPosition().y - 10);
         }
     }
+
+    //cutscene setup
+    kurabirovTexture.loadFromFile("../Images and fonts/Dialogues/KurabirovDialogue.png");
+    mafiaTexture.loadFromFile("../Images and fonts/Dialogues/MobsterDialogue.png");
+    nestashevTexture.loadFromFile("../Images and fonts/Dialogues/MobsterDialogue.png");
+
+    kurabirovCutscene.setTexture(kurabirovTexture); 
+    mafiaCutscene.setTexture(mafiaTexture);
+    nestashevCutscene.setTexture(nestashevTexture);
+
+    textDialogScript.setFont(font);
+    textDialogScript.setFillColor(Color(0, 0, 0));
+    textDialogScript.setPosition(100, 540);
+    textDialogScript.setCharacterSize(50);
 }
 
 void setup(RenderWindow& window)
@@ -322,8 +336,8 @@ void setup(RenderWindow& window)
 
 
     // end of sussy variables
-    window.setFramerateLimit(60);
 
+    window.setFramerateLimit(60);
 
     while (window.isOpen())
     {
@@ -331,6 +345,7 @@ void setup(RenderWindow& window)
         deltaTime = clock.restart().asSeconds();
 
         window.setKeyRepeatEnabled(true);
+
 
         while (window.pollEvent(ev))
         {
@@ -343,7 +358,97 @@ void setup(RenderWindow& window)
             {
                 window.close();
             }
+
+            if (ev.type == Event::KeyReleased && ev.key.code == Keyboard::Enter) {
+                enterPressed = false;
+            }
+
         }
+
+        if (plr.body.getPosition().x >= messageImage.getPosition().x - 200.0f && plr.body.getPosition().x <= messageImage.getPosition().x + 200.0f)
+        {
+            cutsceneText.setString(cutsceneStr);
+            if (!dialogueOver) {
+                drawBubble = true;
+
+            }
+
+            if (Keyboard::isKeyPressed(Keyboard::Q))
+            {
+                enterDialogue = true;
+            }
+                    
+        }
+        else {
+            cutsceneText.setString("");
+            drawBubble = false;
+        }
+
+        if (enterDialogue) {
+            //cout << "ent" << endl;
+
+
+            if (Keyboard::isKeyPressed(Keyboard::Enter) && !enterPressed)
+            {
+                dialogTurn++; 
+                
+                cout << dialogTurn << endl;
+                enterPressed = true;
+                character = 0;
+
+            }
+
+            if (dialogTurn == 1)
+            {
+                dialogScript = "Yes we are. Anyway, your task is to\nfind Nestashev and get netractor certificate.";
+                imageTurn = false;
+            }
+
+            if (dialogTurn == 2)
+            {
+                dialogScript = "Certificate for netractors? Are you OK!";
+                imageTurn = true;
+            }
+           
+            if (dialogTurn == 3)
+            {
+                dialogScript = "Yes this is the order.\nNow go this way and you will reach nestashev.";
+                imageTurn = false;
+            }
+
+            if (dialogTurn == 4)
+            {
+                dialogScript = "All right, I'll go. See you later.\nI have to beat nestashev for money!";
+                imageTurn = true;
+            }
+
+            if (dialogTurn == 5)
+            {
+                textDialogScript.setString("");
+                enterDialogue = false;
+                dialogueOver = true;
+                imageTurn = true;
+            }
+
+            if (enterDialogue) {
+                if (timer.getElapsedTime().asSeconds() > 0.01 && character < dialogScript.length())
+                {
+                    timer.restart();
+
+                    character++;
+
+                    textDialogScript.setString(string(dialogScript.substr(0, character)));
+                }
+            }
+            
+        }
+
+        if (dialogueOver)
+        {
+            cutsceneText.setString("");
+            drawBubble = false;
+        }
+        
 
         plr.updateMovement(deltaTime, window, adventureBgImage, soundWalk, soundJump, movementToggle, blocks, blocksSize);
         test.update(0, deltaTime,test.delay);
@@ -353,8 +458,6 @@ void setup(RenderWindow& window)
         if (movementToggle) {
             window.draw(ground);
         }
-
-        cutscene(plr.body, cutsceneStr, adventureBgImage, messageImage, window);
 
         window.draw(adventureBgImage);
         window.draw(ramp);
@@ -390,12 +493,25 @@ void setup(RenderWindow& window)
             window.draw(points[i]);
         }
 
-        // draw mafia bubble
+        // draw message bubble
         if (drawBubble) {
             window.draw(messageImage);
         }
 
         moveStaticImages(plr.body, window, test);
+
+        if (enterDialogue)
+        {
+            if (imageTurn)
+            {
+                window.draw(kurabirovCutscene);
+            }
+            else {
+                window.draw(mafiaCutscene);
+            }
+        }
+
+        window.draw(textDialogScript);
 
         window.display();
     }
