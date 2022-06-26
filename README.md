@@ -34,7 +34,7 @@ You can open the project by opening the <strong> Program.sln </strong> file
 - <a href = "https://github.com/IVBarzev19"> Ivan Burzev </a> (Quality assurance engineer)
 - <a href = "https://github.com/DNDonchev20"> Deivid Donchev </a> (Back-End Developer)
 - <a href = "https://github.com/ZZSpasov20"> Zhivko Spasov </a> (Back-End Developer)
-- <a href = "https://github.com/ISBachvarov21"> Ivailo Buchvarov </a> (Back-End Developer)
+- <a href = "https://github.com/ISBachvarov21"> Ivaylo Bachvarov </a> (Back-End Developer)
 - <a href = "https://github.com/MVVelkov21"> Martin Velkov </a> (Front-End Developer)
 - <a href = "https://github.com/SDIvanov21"> Stoyan Ivanov </a> (Front-End Developer)
 - <a href = "https://github.com/SMTashev20"> Stanislav Tashev </a> (Front-End developer)
