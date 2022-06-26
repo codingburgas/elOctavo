@@ -1,6 +1,14 @@
 #include "../Header files/Precompile.h";
 #include "../Header files/Additional Functions.h";
 
+namespace variables
+{
+	Texture backstoryTexture;
+	Sprite backstoryImage;
+}
+
+using namespace variables;
+
 void changeFPS(int FPS, RenderWindow& window)
 {
 	window.setFramerateLimit(FPS);
