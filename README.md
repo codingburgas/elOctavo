@@ -15,12 +15,10 @@ This is an adventitious game about the story of Kurabirov
 
 ## 📄 Documents
 ### QA Documentation
-  - [QA Documentation]()
-  - [Test plan]()
+  - [QA Documentation](https://codingburgas-my.sharepoint.com/:x:/g/personal/smtashev20_codingburgas_bg/EcmU-Wo3BztPgxTmNkHqwBoBzxOA03y1N1mWBNpu-zj1Ww?e=Wdd0ZJ)
+  - [Test plan](https://codingburgas-my.sharepoint.com/:w:/g/personal/smtashev20_codingburgas_bg/Ec1NtqxnH2NNqofxITJAzCkBWB-nc8GKQoxF9gzbTUjZ-g?e=Qq7LuX)
 ### Docs
 - [Documentation](https://codingburgas-my.sharepoint.com/:w:/g/personal/smtashev20_codingburgas_bg/ESupdHF1u1lCre08ZWwMnBcB1LgOgWQd70dJKM60CZan8w?e=SJXTxj)
-- [Presentation]()
-- [Doxygen]()
 
 
 <h1> 📥 Installing </h1>
