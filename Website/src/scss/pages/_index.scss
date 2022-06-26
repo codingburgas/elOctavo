@@ -687,4 +687,75 @@
         letter-spacing: $normalLetterSpacing;
         color:white;
     }
+
+    .feature__section{
+        @include flex(column, flex-start, center);
+        width:100%;
+    }
+    .feature__title{
+        font-size:$hugeFontSize - 20;
+        letter-spacing: $smallLetterSpacing;
+    }
+    .mechanics{
+        width:100%;
+        height:unset;
+        @include flex(column-reverse,center, center);
+        margin-bottom:0px;
+    }
+    .mechanics__text-wrapper{
+        width:90%;
+        height:330px;
+        @include flex(column, flex-start, center);
+        text-align: center;
+    }
+    .mechanics__title{
+        font-size:$bigFontSize - 5;
+        letter-spacing: $smallLetterSpacing + 0.03;
+    }
+    .mechanics__text{
+        font-size:$normalFontSize - 3;
+        letter-spacing: $smallLetterSpacing + 0.03;
+        width:90%;
+        line-height:2;
+    }
+    .mechanics__image-wrapper{
+        width:90%;
+        height:300px;
+        @include flex(column, flex-start, flex-start);
+        border-top-style: solid;
+        border-top-width: 5px;
+        border-top-color: $accentDarkColor;
+        background-color: #D9D9D9;
+    }
+    .storytelling{
+        width:100%;
+        height:unset;
+        @include flex(column-reverse, center, center);
+        margin-top:0px;
+    }
+    .storytelling__text-wrapper{
+        width:90%;
+        height:330px;
+        @include flex(column, flex-start, center);
+        text-align: center;
+    }
+    .storytelling__title{
+        font-size:$bigFontSize - 5;
+        letter-spacing: $smallLetterSpacing + 0.03;
+    }
+    .storytelling__text{
+        font-size:$normalFontSize - 3;
+        letter-spacing: $smallLetterSpacing + 0.03;
+        width:90%;
+        line-height:2;
+    }
+    .storytelling__image-wrapper{
+        width:90%;
+        height:300px;
+        @include flex(column, flex-start, flex-start);
+        border-top-style: solid;
+        border-top-width: 5px;
+        border-top-color: $accentDarkColor;
+        background-color: #D9D9D9;
+    }
 }
