@@ -4,3 +4,5 @@
 void changeFPS(int FPS, RenderWindow& window);
 
 void addIcon(RenderWindow& window);
+
+void backstory();
