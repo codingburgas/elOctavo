@@ -14,7 +14,7 @@ void addIcon(RenderWindow& window)
 {
 	Image icon;
 	
-	if (!icon.loadFromFile("../Images and fonts/Icon (2).png"))
+	if (!icon.loadFromFile("../Images and fonts/Icon.png"))
 	{
 		cout << "Error";
 	}
