@@ -284,7 +284,7 @@ void setVars()
     messageImageTwo.setTexture(messageTexture);
 
     messageImage.setPosition(500, 300);
-    messageImageTwo.setPosition(6099, 260);
+    messageImageTwo.setPosition(6319, 159);
 
     //setting position of the background
     bgImage.setOrigin(1920, 1080);
@@ -394,7 +394,13 @@ void setup(RenderWindow& window)
             }
 
             if (ev.type == Event::KeyReleased && ev.key.code == Keyboard::Enter) {
-                enterPressed = false;
+                if (enterDialogue) {
+                    enterPressed = false;
+
+                }
+                else if (enterDialogueTwo) {
+                    enterPressedTwo = false;
+                }
             }
 
         }
@@ -421,8 +427,7 @@ void setup(RenderWindow& window)
             if (Keyboard::isKeyPressed(Keyboard::Enter) && !enterPressed)
             {
                 dialogTurn++; 
-                
-                cout << dialogTurn << endl;
+
                 enterPressed = true;
                 character = 0;
 
@@ -430,13 +435,13 @@ void setup(RenderWindow& window)
 
             if (dialogTurn == 1)
             {
-                dialogScript = "Yes we are. Anyway, your task is to\nfind Nestashev and get netractor certificate.";
+                dialogScript = "Yes it's me. Why do you need me?";
                 imageTurn = false;
             }
 
             if (dialogTurn == 2)
             {
-                dialogScript = "Certificate for netractors? Are you OK!";
+                dialogScript = "Two days ago, you refused to give a netractor certificate to my boss.";
                 imageTurn = true;
             }
            
@@ -502,36 +507,42 @@ void setup(RenderWindow& window)
             {
                 dialogTurnTwo++; 
                 
+                cout << dialogTurnTwo;
                 enterPressedTwo = true;
                 characterTwo = 0;
-
             }
 
             if (dialogTurnTwo == 1)
             {
-                dialogScriptTwo = "Yes we are. Anyway, your task is to\nfind Nestashev and get netractor certificate.";
+                dialogScriptTwo = "Yes it's me. Why do you need me?";
                 imageTurnTwo = false;
             }
 
-            if (dialogTurn == 2)
+            if (dialogTurnTwo == 2)
             {
-                dialogScript = "Certificate for netractors? Are you OK!";
+                dialogScriptTwo = "Two days ago, you refused to give a netractor certificate to my boss.";
                 imageTurnTwo = true;
             }
            
             if (dialogTurnTwo == 3)
             {
-                dialogScriptTwo = "Yes this is the order.\nNow go this way and you will reach nestashev.";
+                dialogScriptTwo = "Yes, because he can't drive a tractor,\nhe paid BGN 50, then he bribed me and I refused.";
                 imageTurnTwo = false;
             }
 
             if (dialogTurnTwo == 4)
             {
-                dialogScriptTwo = "All right, I'll go. See you later.\nI have to beat nestashev for money!";
+                dialogScriptTwo = "Okay, but I'll beat you if you don't give it to me.";
                 imageTurnTwo = true;
             }
 
             if (dialogTurnTwo == 5)
+            {
+                dialogScriptTwo = "You have it well, just don't\nbeat me, I have to fix school documentation.";
+                imageTurnTwo = false;
+            }
+
+            if (dialogTurnTwo == 6)
             {
                 textDialogScriptTwo.setString("");
                 enterDialogueTwo = false;
@@ -631,7 +642,7 @@ void setup(RenderWindow& window)
                 window.draw(kurabirovCutscene);
             }
             else {
-                window.draw(mafiaCutscene);
+                window.draw(nestashevCutscene);
             }
         }
 
@@ -692,6 +703,7 @@ void moveStaticImages(RectangleShape& body, RenderWindow& window, Npc& test, Spr
             messageImage.move(-(225.0f * deltaTime), 0.f);
             ramp.move(-(225.0f * deltaTime), 0.f);
             test.moveX(-(225.0f * deltaTime));
+            messageImageTwo.move(-(225.0f * deltaTime), 0.f);
 
             for (int i = 0; i < 8; i++) {
                 blocks[i].hitbox.move(-(225.0f * deltaTime), 0.f);
