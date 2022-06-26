@@ -263,7 +263,10 @@ namespace variables {
 
     bool imageTurn = true, imageTurnTwo = true;
 
+    Sprite endImage;
+    Texture endTexture;
 
+    bool endG = false;
 };
 
 
@@ -299,6 +302,9 @@ void setVars()
 
     npcT.loadFromFile("../Images and fonts/NPCs/enemy npc sprite sheet.png");
     npcT.setRepeated(true);
+
+    endTexture.loadFromFile("../Images and fonts/Bg/EndPanel.png");
+    endImage.setTexture(endTexture);
 
     rampT.loadFromFile("../Images and fonts/Ramp Test.png");
     ramp.setTexture(rampT);
@@ -553,10 +559,15 @@ void setup(RenderWindow& window)
 
             if (dialogTurnTwo == 6)
             {
-                textDialogScriptTwo.setString("");
-                enterDialogueTwo = false;
-                dialogueOverTwo = true;
-                imageTurnTwo = true;
+                if (endG == false) {
+                    timerTwo.restart();
+                    endG = true;
+
+                }
+
+                if (timerTwo.getElapsedTime().asSeconds() > 5) {
+                    window.close();
+                }
             }
 
             if (enterDialogueTwo) {
@@ -655,12 +666,17 @@ void setup(RenderWindow& window)
             }
         }
 
+
         if (plr.body.getPosition().y > 538) {
             respawnPlayer(plr.body, test.body, adventureBgImage);
         }
 
         window.draw(textDialogScript);
         window.draw(textDialogScriptTwo);
+
+        if (endG) {
+            window.draw(endImage);
+        }
 
         window.display();
     }
