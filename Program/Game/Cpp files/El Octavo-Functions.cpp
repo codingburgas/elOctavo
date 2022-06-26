@@ -228,7 +228,7 @@ void setVars()
     bgImage.setTexture(bgTexture);
     drawBubble = false;
 
-    adventureBgTexture.loadFromFile("../Images and fonts/Bg/spawn start.png");
+    adventureBgTexture.loadFromFile("../Images and fonts/Bg/GameMap.png");
     adventureBgImage.setTexture(adventureBgTexture);
 
     messageTexture.loadFromFile("../Images and fonts/Bg/message.png");
@@ -383,8 +383,6 @@ void setup(RenderWindow& window)
             window.draw(messageImage);
         }
 
-        cutscene(plr.body, cutsceneStr, adventureBgImage, messageImage, window);
-
         moveStaticImages(plr.body, window, test);
 
         window.display();
@@ -449,24 +447,10 @@ void moveStaticImages(RectangleShape& body, RenderWindow& window, Npc& test)
 
 void cutsceneDialog(RenderWindow& window, bool imageTurn)
 {
-    
 
     textDialogScript.setFillColor(Color(0, 0, 0));
     textDialogScript.setPosition(100, 540);
     textDialogScript.setCharacterSize(34);
-    
-
-    if (!imageTurn)
-    {
-        window.draw(kurabirovCutscene);
-
-        imageTurn = true;
-    }
-    else {
-        window.draw(mafiaCutscene);
-
-        imageTurn = false;
-    }
     
     if (dialogTurn == 0)
     {
