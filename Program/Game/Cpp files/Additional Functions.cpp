@@ -23,6 +23,13 @@ void addIcon(RenderWindow& window)
 
 void backstory(RenderWindow& window, Texture backstoryTexture, Sprite backstoryImage)
 {
+	Sound soundWrite;
+	SoundBuffer writeBuffer;
+
+	writeBuffer.loadFromFile("../Audios/Write.wav");
+
+	soundWrite.setBuffer(writeBuffer);
+
 	backstoryTexture.loadFromFile("../Images and fonts/Bg/BackstoryFrame.png");
 	backstoryImage.setTexture(backstoryTexture);
 
@@ -39,7 +46,10 @@ void backstory(RenderWindow& window, Texture backstoryTexture, Sprite backstoryI
 	Clock timer;
 	unsigned int character = 0;
 	
+	soundWrite.play();
+	soundWrite.setVolume(200);
 	Event ev;
+
 	while (window.isOpen())
 	{
 		while (window.pollEvent(ev))
@@ -55,6 +65,7 @@ void backstory(RenderWindow& window, Texture backstoryTexture, Sprite backstoryI
 				window.close();
 			}
 		}
+
 		if (timer.getElapsedTime().asSeconds() > 0.05 && character < Backstory.length())
 		{
 			timer.restart();
@@ -71,4 +82,5 @@ void backstory(RenderWindow& window, Texture backstoryTexture, Sprite backstoryI
 			break;
 		}	
 	}
+	soundWrite.stop();
 }
