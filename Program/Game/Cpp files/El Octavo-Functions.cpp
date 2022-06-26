@@ -98,6 +98,7 @@ void Npc::moveTo(float pos[], float deltaTime, bool& done, bool& faceLeft, Recta
             faceLeft = true;
         }
     }
+
     else if (!delay) {
         if (pos[posIndex] > body.getPosition().x) {
             distance = pos[posIndex] - body.getPosition().x;
@@ -133,6 +134,7 @@ void Npc::moveTo(float pos[], float deltaTime, bool& done, bool& faceLeft, Recta
                 if (posIndex > 1) {
                     posIndex = 0;
                 }
+
                 reset = false;
                 delay = false;
             }
@@ -186,14 +188,15 @@ namespace variables {
 
     //background for stage 2
     Texture messageTexture;
-    Sprite messageImage;
+    Sprite messageImage, messageImageTwo;
 
     // player / npc
     Texture plrT;
     Texture npcT;
    
     //ground
-    RectangleShape ground;
+    CollisionBlock ground[8] = { {Vector2f(0, 538), Vector2f(1484, 102)}, {Vector2f(1600, 538), Vector2f(690, 102)}, {Vector2f(2394, 538), Vector2f(219, 102)}, {Vector2f(2696, 538), Vector2f(191, 102)}, {Vector2f(3598, 538), Vector2f(382, 102)}, {Vector2f(4277, 538), Vector2f(622, 102)}, {Vector2f(5010, 538), Vector2f(159, 102)}, {Vector2f(5266, 538), Vector2f(95, 102)} };
+    Vector2f groundCopy[8] = { Vector2f(0, 538), Vector2f(1600, 538), Vector2f(2394, 538), Vector2f(2696, 538), Vector2f(3598, 538), Vector2f(4277, 538), Vector2f(5010, 538), Vector2f(5266, 538)};
     //ramp
     Texture rampT;
     Sprite ramp;
@@ -209,6 +212,7 @@ namespace variables {
     Clock fpsClock = Clock::Clock();
     Time fpsPreviousTime = fpsClock.getElapsedTime();
     Time fpsCurrentTime;
+
     Clock npcClock = Clock::Clock();
     Time npcPreviousTime = npcClock.getElapsedTime();
     Time npcCurrentTime;
@@ -228,7 +232,7 @@ namespace variables {
 
     CollisionBlock blocks[8] = { {Vector2f(2882, 490), Vector2f(117, 34)}, {Vector2f(1428, 338), Vector2f(211, 43)}, {Vector2f(3074, 443), Vector2f(181, 34)}, {Vector2f(3323, 395), Vector2f(181, 34)}, {Vector2f(4071, 441), Vector2f(109, 34)}, {Vector2f(5435, 461), Vector2f(117, 34)}, {Vector2f(5667, 380), Vector2f(171, 34)}, {Vector2f(5938, 305), Vector2f(474, 34)} };
     
-    Vector2f blocksCopy[8] = {Vector2f(2428, 416), Vector2f(1428, 338), Vector2f(3074, 443), Vector2f(3323, 395), Vector2f(4071, 441), Vector2f(5435, 461), Vector2f(5667, 380), Vector2f(5938, 305)};
+    Vector2f blocksCopy[8] = {Vector2f(2882, 490), Vector2f(1428, 338), Vector2f(3074, 443), Vector2f(3323, 395), Vector2f(4071, 441), Vector2f(5435, 461), Vector2f(5667, 380), Vector2f(5938, 305)};
 
     bool done;
 
@@ -261,7 +265,6 @@ using namespace variables;
 void moveStaticImages(RectangleShape& body, RenderWindow& window, Npc& test, Sprite& adventureBgImage);
 
 Vector2f getRampPos();
-void respawnPlayer(RectangleShape& body);
 
 void setVars()
 {
@@ -274,15 +277,12 @@ void setVars()
 
     messageTexture.loadFromFile("../Images and fonts/Bg/message.png");
     messageImage.setTexture(messageTexture);
+    messageImageTwo.setTexture(messageTexture);
 
     messageImage.setPosition(500, 300);
 
     //setting position of the background
     bgImage.setOrigin(1920, 1080);
-
-    ground.setSize(Vector2f(1280, 225));
-    ground.setPosition(Vector2f(0, 535));
-    ground.setFillColor(Color::Black);
 
     plrT.loadFromFile("../Images and fonts/Main character/unknown.png");
     plrT.setRepeated(true);
@@ -408,9 +408,6 @@ void setup(RenderWindow& window)
         }
 
         if (enterDialogue) {
-            //cout << "ent" << endl;
-
-
             if (Keyboard::isKeyPressed(Keyboard::Enter) && !enterPressed)
             {
                 dialogTurn++; 
@@ -478,16 +475,16 @@ void setup(RenderWindow& window)
 
         window.clear(Color::Green);
 
-        if (movementToggle) {
-            window.draw(ground);
-        }
-
         window.draw(adventureBgImage);
         window.draw(ramp);
 
         /*for (int i = 0; i < 8; i++) {
             window.draw(blocks[i].hitbox);
         }*/
+
+        for (int i = 0; i < 8; i++) {
+            ground[i].drawHitbox(window);
+        }
 
         window.draw(test.body);
 
@@ -536,17 +533,18 @@ void setup(RenderWindow& window)
 
         window.draw(textDialogScript);
 
-        if(adventureBgImage.getPosition().x > 6099)
-        {
-
-        }
-
         window.display();
     }
 }
 
 bool checkCollideWithGround(RectangleShape& body) {
-    return ground.getGlobalBounds().intersects(body.getGlobalBounds());
+    bool intersects = false;
+    for (int i = 0; i < 8; i++) {
+        if (ground[i].checkForCollision(body)) {
+            intersects = true;
+        }
+    }
+    return intersects;
 }
 
 bool checkCollideWithRamp(RectangleShape& body) {
@@ -598,6 +596,10 @@ void moveStaticImages(RectangleShape& body, RenderWindow& window, Npc& test, Spr
                 points[i].move(-(225.0f * deltaTime), 0.f);
             }
 
+            for (int i = 0; i < 8; i++) {
+                ground[i].hitbox.move(-(225.0f * deltaTime), 0.f);
+            }
+
             if (moved < 1100.19) {
                 moved += 225.0f * deltaTime;
             }
@@ -620,20 +622,11 @@ void resetStaticImages(float& offset, RectangleShape& npcBody, Sprite& adventure
         points[i].setPosition(pointsCopy[i].x - 1101, pointsCopy[i].y);
     }
 
-    adventureBgImage.setPosition(0.f - 1101, 0.f);
-}
+    for (int i = 0; i < 8; i++) {
+        ground[i].hitbox.setPosition(groundCopy[i].x - 1101, groundCopy[i].y);
+    }
 
-void cutscene(RectangleShape& body, string& cutsceneStr, Sprite& adventureBgImage, Sprite& messageImage, RenderWindow& window)
-{
-    if (body.getPosition().x >= messageImage.getPosition().x - 200.0f && body.getPosition().x <= messageImage.getPosition().x + 200.0f)
-    {
-        cutsceneText.setString(cutsceneStr);
-        drawBubble = true;
-    }
-    else {
-        cutsceneText.setString("");
-        drawBubble = false;
-    }
+    adventureBgImage.setPosition(0.f - 1101, 0.f);
 }
 
 void respawnPlayer(RectangleShape& body, RectangleShape& npcBody, Sprite& adventureBgImage) {

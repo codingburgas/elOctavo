@@ -99,7 +99,7 @@ void Player::moveCharacter(int& keyTime, RenderWindow& window, Sprite& adventure
 void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adventureBgImage, Sound& soundWalk, Sound& soundJump, bool& toggle, CollisionBlock blocks[], int blocksSize)
 {
 	velocity.x = 0;
-	//jumped = false;
+	jumped = false;
 
 	if (body.getPosition().x >= 35.0f)
 	{
@@ -198,18 +198,17 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 	body.setTextureRect(uvRect);
 
 	if (toggle) {
+		velocity.y += 160.0f * deltaTime;
 
 		if (checkCollideWithGround(body) && !ramped) {
 			body.setPosition(body.getPosition().x, 490.0f);
 			//cout << "set" << endl;
 		}
 
-		velocity.y += 160.0f * deltaTime;
 
 		if (checkCollideWithGround(body) && !jumped && !ramped) {
 			velocity.y = 0;
 		}
-
 
 		float bodyY = body.getPosition().y;
 		float bodyX = body.getPosition().x;
