@@ -99,11 +99,6 @@ void backstory(RenderWindow& window, Texture backstoryTexture, Sprite backstoryI
 		window.draw(textBackstory);
 		window.display();
 
-		if ((ev.mouseButton.x >= 0 && ev.mouseButton.x <= 1280) && (ev.mouseButton.y >= 0 && ev.mouseButton.y <= 720))
-		{
-			isTouchedForBreak = true;
-		}
-
 		if (isTouchedForBreak == true)
 		{
 			break;

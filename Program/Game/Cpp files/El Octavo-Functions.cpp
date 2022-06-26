@@ -200,7 +200,6 @@ namespace variables {
 
     Texture kurabirovTexture, mafiaTexture, nestashevTexture;
     Sprite kurabirovCutscene, mafiaCutscene, nestashevCutscene;
-    bool imageTurn;
 
     string dialogScript = "Hello, you must be the boss's people!";
     Text textDialogScript;
@@ -216,6 +215,8 @@ namespace variables {
     bool enterPressed = false;
 
     bool dialogueOver = false;
+
+    bool imageTurn = true;
 }
 
 using namespace variables;
@@ -296,12 +297,10 @@ void setVars()
     mafiaCutscene.setTexture(mafiaTexture);
     nestashevCutscene.setTexture(nestashevTexture);
 
-    bool imageTurn = false;
-
     textDialogScript.setFont(font);
     textDialogScript.setFillColor(Color(0, 0, 0));
     textDialogScript.setPosition(100, 540);
-    textDialogScript.setCharacterSize(34);
+    textDialogScript.setCharacterSize(50);
 }
 
 void setup(RenderWindow& window)
@@ -328,6 +327,7 @@ void setup(RenderWindow& window)
         deltaTime = clock.restart().asSeconds();
 
         window.setKeyRepeatEnabled(true);
+
 
         while (window.pollEvent(ev))
         {
@@ -382,22 +382,26 @@ void setup(RenderWindow& window)
 
             if (dialogTurn == 1)
             {
-                dialogScript = "Yes we are. Anyway, your task is to find Nestashev and get netractor certificate.";
+                dialogScript = "Yes we are. Anyway, your task is to\nfind Nestashev and get netractor certificate.";
+                imageTurn = false;
             }
 
             if (dialogTurn == 2)
             {
                 dialogScript = "Certificate for netractors? Are you OK!";
+                imageTurn = true;
             }
            
             if (dialogTurn == 3)
             {
-                dialogScript = "Yes this is the order. Now go this way and you will reach nestashev.";
+                dialogScript = "Yes this is the order.\nNow go this way and you will reach nestashev.";
+                imageTurn = false;
             }
 
             if (dialogTurn == 4)
             {
-                dialogScript = "All right, I'll go. See you later. I have to beat nestashev for money!";
+                dialogScript = "All right, I'll go. See you later.\nI have to beat nestashev for money!";
+                imageTurn = true;
             }
 
             if (dialogTurn == 5)
@@ -405,6 +409,7 @@ void setup(RenderWindow& window)
                 textDialogScript.setString("");
                 enterDialogue = false;
                 dialogueOver = true;
+                imageTurn = true;
             }
 
             if (enterDialogue) {
@@ -476,6 +481,17 @@ void setup(RenderWindow& window)
         }
 
         moveStaticImages(plr.body, window, test);
+
+        if (enterDialogue)
+        {
+            if (imageTurn)
+            {
+                window.draw(kurabirovCutscene);
+            }
+            else {
+                window.draw(mafiaCutscene);
+            }
+        }
 
         window.draw(textDialogScript);
 
