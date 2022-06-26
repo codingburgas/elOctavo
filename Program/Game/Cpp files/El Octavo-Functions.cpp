@@ -73,8 +73,7 @@ void Npc::update(int row, float deltaTime, bool delay) {
 }
 
 void Npc::moveTo(float pos[], float deltaTime, bool& done, bool& faceLeft) {
-    //cout << npcCurrentTime.asSeconds() << endl;
-    
+   
     if (!delay) {
         if (pos[posIndex] > body.getPosition().x) {
             distance = pos[posIndex] - body.getPosition().x;
@@ -90,16 +89,13 @@ void Npc::moveTo(float pos[], float deltaTime, bool& done, bool& faceLeft) {
         if (!reset) {
             npcClock.restart();
             reset = true;
-            cout << "Reset" << endl;
             delay = true;
 
             if (faceLeft) 
             {
-                cout << "if" << endl;
                 faceLeft = false;
             }
             else {
-                cout << "else" << endl;
                 faceLeft = true;
             }
             
@@ -206,7 +202,7 @@ namespace variables {
     Sprite kurabirovCutscene, mafiaCutscene, nestashevCutscene;
     bool imageTurn;
 
-    string dialogScript = "Yes we are. Anyway, your task is to find Nestashev and get netractor certificate.";
+    string dialogScript = "Hello, you must be the boss's people!";
     Text textDialogScript;
 
     Clock timer;
@@ -214,12 +210,18 @@ namespace variables {
     unsigned int character = 0;
 
     unsigned int dialogTurn = 0;
+
+    bool enterDialogue = false;
+
+    bool enterPressed = false;
+
+    bool dialogueOver = false;
 }
 
 using namespace variables;
 
 void moveStaticImages(RectangleShape& body, RenderWindow& window, Npc& test);
-void cutscene(RectangleShape& body, string& cutsceneStr, Sprite& adventureBgImage, Sprite& messageImage, RenderWindow& window);
+
 Vector2f getRampPos();
 
 void setVars()
@@ -295,6 +297,11 @@ void setVars()
     nestashevCutscene.setTexture(nestashevTexture);
 
     bool imageTurn = false;
+
+    textDialogScript.setFont(font);
+    textDialogScript.setFillColor(Color(0, 0, 0));
+    textDialogScript.setPosition(100, 540);
+    textDialogScript.setCharacterSize(34);
 }
 
 void setup(RenderWindow& window)
@@ -333,7 +340,92 @@ void setup(RenderWindow& window)
             {
                 window.close();
             }
+
+            if (ev.type == Event::KeyReleased && ev.key.code == Keyboard::Enter) {
+                enterPressed = false;
+            }
+
         }
+
+        if (plr.body.getPosition().x >= messageImage.getPosition().x - 200.0f && plr.body.getPosition().x <= messageImage.getPosition().x + 200.0f)
+        {
+            cutsceneText.setString(cutsceneStr);
+            if (!dialogueOver) {
+                drawBubble = true;
+
+            }
+
+            if (Keyboard::isKeyPressed(Keyboard::Q))
+            {
+                enterDialogue = true;
+            }
+                    
+        }
+        else {
+            cutsceneText.setString("");
+            drawBubble = false;
+        }
+
+        if (enterDialogue) {
+            //cout << "ent" << endl;
+
+
+            if (Keyboard::isKeyPressed(Keyboard::Enter) && !enterPressed)
+            {
+                dialogTurn++; 
+                
+                cout << dialogTurn << endl;
+                enterPressed = true;
+                character = 0;
+
+            }
+
+            if (dialogTurn == 1)
+            {
+                dialogScript = "Yes we are. Anyway, your task is to find Nestashev and get netractor certificate.";
+            }
+
+            if (dialogTurn == 2)
+            {
+                dialogScript = "Certificate for netractors? Are you OK!";
+            }
+           
+            if (dialogTurn == 3)
+            {
+                dialogScript = "Yes this is the order. Now go this way and you will reach nestashev.";
+            }
+
+            if (dialogTurn == 4)
+            {
+                dialogScript = "All right, I'll go. See you later. I have to beat nestashev for money!";
+            }
+
+            if (dialogTurn == 5)
+            {
+                textDialogScript.setString("");
+                enterDialogue = false;
+                dialogueOver = true;
+            }
+
+            if (enterDialogue) {
+                if (timer.getElapsedTime().asSeconds() > 0.01 && character < dialogScript.length())
+                {
+                    timer.restart();
+
+                    character++;
+
+                    textDialogScript.setString(string(dialogScript.substr(0, character)));
+                }
+            }
+            
+        }
+
+        if (dialogueOver)
+        {
+            cutsceneText.setString("");
+            drawBubble = false;
+        }
+        
 
         plr.updateMovement(deltaTime, window, adventureBgImage, soundWalk, soundJump, movementToggle, blocks, blocksSize);
         test.update(0, deltaTime,test.delay);
@@ -378,12 +470,14 @@ void setup(RenderWindow& window)
             window.draw(points[i]);
         }
 
-        // draw mafia bubble
+        // draw message bubble
         if (drawBubble) {
             window.draw(messageImage);
         }
 
         moveStaticImages(plr.body, window, test);
+
+        window.draw(textDialogScript);
 
         window.display();
     }
@@ -442,84 +536,5 @@ void moveStaticImages(RectangleShape& body, RenderWindow& window, Npc& test)
                 points[i].move(-(225.0f * deltaTime), 0.f);
             }
         }
-    }
-}
-
-void cutsceneDialog(RenderWindow& window, bool imageTurn)
-{
-
-    textDialogScript.setFillColor(Color(0, 0, 0));
-    textDialogScript.setPosition(100, 540);
-    textDialogScript.setCharacterSize(34);
-    
-    if (dialogTurn == 0)
-    {
-        dialogScript = "Hello, you must be the boss's people!";
-    }
-    else if (dialogTurn == 1)
-    {
-        dialogScript = "Yes we are. Anyway, your task is to find Nestashev and get netractor certificate.";
-    }
-    else if (dialogTurn == 2)
-    {
-        dialogScript = "Certificate for netractors? Are you OK!";
-    }
-    else if (dialogTurn == 3)
-    {
-        dialogScript = "Yes this is the order. Now go this way and you will reach nestashev.";
-    }
-    else if (dialogTurn == 4)
-    {
-        dialogScript = "All right, I'll go. See you later. I have to beat nestashev for money!";
-    }
-
-    Event evCutescene;
-    while (window.isOpen())
-    {
-        while (window.pollEvent(evCutescene))
-        {
-
-            if (evCutescene.type == Event::Closed)
-            {
-                window.close();
-            }
-
-            if (evCutescene.type == Event::KeyPressed && evCutescene.key.code == Keyboard::Escape)
-            {
-                window.close();
-            }
-
-            if (timer.getElapsedTime().asSeconds() > 0.05 && character < dialogScript.length())
-            {
-                timer.restart();
-
-                character++;
-
-                textDialogScript.setString(String(dialogScript.substr(0, character)));
-            }
-
-            window.draw(textDialogScript);
-            window.display();
-        }
-    }
-
-    dialogTurn++;
-}
-
-void cutscene(RectangleShape& body, string& cutsceneStr, Sprite& adventureBgImage, Sprite& messageImage, RenderWindow& window)
-{
-    if (body.getPosition().x >= messageImage.getPosition().x - 200.0f && body.getPosition().x <= messageImage.getPosition().x + 200.0f)
-    {
-        cutsceneText.setString(cutsceneStr);
-        drawBubble = true;
-
-        if (Keyboard::isKeyPressed(Keyboard::Q))
-        {
-            cutsceneDialog(window, imageTurn);
-        }
-    }
-    else {
-        cutsceneText.setString("");
-        drawBubble = false;
     }
 }

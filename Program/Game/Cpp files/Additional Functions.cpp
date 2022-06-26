@@ -71,12 +71,13 @@ void backstory(RenderWindow& window, Texture backstoryTexture, Sprite backstoryI
 			{
 				window.close();
 			}
+
+			if (ev.type == Event::KeyReleased && ev.key.code == Keyboard::Enter) {
+				isTouchedForBreak = true;
+				textBackstory.setString(String(Backstory.substr(0, Backstory.length())));
+            }
 		}
 
-		if ((ev.mouseButton.x >= 0 && ev.mouseButton.x <= 1280) && (ev.mouseButton.y >= 0 && ev.mouseButton.y <= 720))
-		{
-			isTouched = true;
-		}
 
 		if (isTouched == false)
 		{

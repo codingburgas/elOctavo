@@ -201,7 +201,7 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 
 		if (checkCollideWithGround(body) && !ramped) {
 			body.setPosition(body.getPosition().x, 490.0f);
-			cout << "set" << endl;
+			//cout << "set" << endl;
 		}
 
 		velocity.y += 160.0f * deltaTime;
