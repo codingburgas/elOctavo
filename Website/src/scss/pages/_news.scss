@@ -14,6 +14,12 @@
     padding-right:100px;
     box-shadow: 2px 2px 20px
     rgba(0, 0, 0, 0.25);
+
+        input:focus + .input-label{
+            transform: translate(-10px, -1em);
+            font-size:$normalFontSize - 5;
+            letter-spacing: $smallLetterSpacing;
+        }
 }
 .form__heading-wrapper{
     width:100%;
@@ -30,7 +36,42 @@
     position: relative;
     width:100%;
     height:70px;
-    background-color: rebeccapurple;
+}
+input{
+    border:none;
+    background-color: transparent;
+    border-bottom-style: solid;
+    border-bottom-color: $formBorderColor;
+    border-bottom-width: 2px;
+    line-height: 27px;
+    width:100%;
+    height: 50px;
+    outline:none;
+    font-size: $normalFontSize;
+    letter-spacing: $smallLetterSpacing;
+   
+
+        &:not(:placeholder-shown) + .input-label{
+            transform: translate(-10px, -1em);
+            font-size: $normalFontSize - 5;
+            letter-spacing:  $smallLetterSpacing;
+        }      
+}
+.input-label{
+    position: absolute;
+    left:0.5em;
+    z-index: 2;
+    font-size:$normalFontSize;
+    letter-spacing: $smallLetterSpacing;
+    transition: 0.3s;
+    transform: translate(0px, 0em);
+    color:$formBorderColor;
+}
+input:focus{
+    outline:none;
+    font-size: $normalFontSize;
+    letter-spacing: $smallLetterSpacing;
+    color:var(--primaryTCWM);
 }
 .form__submit-button{
     width:500px;
