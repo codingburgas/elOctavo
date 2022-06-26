@@ -7,6 +7,7 @@ namespace vars {
 	Clock clock;
 	Time currTime;
 	int keyTime = 0;
+	int frameJumped = 0;
 }
 
 using namespace vars;
@@ -98,7 +99,7 @@ void Player::moveCharacter(int& keyTime, RenderWindow& window, Sprite& adventure
 void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adventureBgImage, Sound& soundWalk, Sound& soundJump, bool& toggle, CollisionBlock blocks[], int blocksSize)
 {
 	velocity.x = 0;
-	jumped = false;
+	//jumped = false;
 
 	if (body.getPosition().x >= 35.0f)
 	{
@@ -257,13 +258,16 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 		// ok this is taking way too long i give up
 		// ramp collision = good enough
 
-		if (checkCollideWithRamp(body)) {
+		if (checkCollideWithRamp(body) && !jumped) {
 			//cout << "ez mi e" << endl;
 			//if (bodyY == 490) {
 			//	body.setPosition(bodyX, 480);
 			//	bodyY = body.getPosition().y;
 			//	//cout << bodyY << endl;
 			//}
+
+			//cout << jumped << endl;
+
 			if (Keyboard::isKeyPressed(Keyboard::D)) {
 				if (-velocity.x < 999) {
 					velocity.x = abs(speed - 500.0f) * deltaTime;
@@ -275,7 +279,10 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 					velocity.x = -abs(speed - 50.0f) * deltaTime;
 				}
 			}
-			velocity.y = -velocity.x;
+
+			if (!jumped) {
+				velocity.y = -velocity.x;
+			}
 			ramped = true;
 			//cout << velocity.y << " " << velocity.x << endl;
 		}
@@ -285,9 +292,20 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 			body.setPosition(bodyX + 0.75f, bodyY);
 		}
 		else {
+			if (checkCollideWithRamp(body) && frameJumped > 0) {
+				cout << frameJumped << endl;
+				jumped = false;
+			}
 			if (ramped) {
 				ramped = false;
 			}
+		}
+	}
+
+	if (jumped) {
+		frameJumped++;
+		if (frameJumped > 1) {
+			frameJumped = 0;
 		}
 	}
 
@@ -302,5 +320,4 @@ void Player::draw(RenderWindow& window)
 
 void Player::jump(float deltaTime, float jumpHeight) {
 	velocity.y = -sqrtf((160.0f * jumpHeight) * 0.016);
-	cout << deltaTime << endl;
 }

@@ -333,7 +333,7 @@ void setVars()
     //cutscene setup
     kurabirovTexture.loadFromFile("../Images and fonts/Dialogues/KurabirovDialogue.png");
     mafiaTexture.loadFromFile("../Images and fonts/Dialogues/MobsterDialogue.png");
-    nestashevTexture.loadFromFile("../Images and fonts/Dialogues/MobsterDialogue.png");
+    nestashevTexture.loadFromFile("../Images and fonts/Dialogues/NestashevDialogue.png");
 
     kurabirovCutscene.setTexture(kurabirovTexture); 
     mafiaCutscene.setTexture(mafiaTexture);
@@ -485,9 +485,9 @@ void setup(RenderWindow& window)
         window.draw(adventureBgImage);
         window.draw(ramp);
 
-            /*for (int i = 0; i < 8; i++) {
-                window.draw(blocks[i].hitbox);
-            }*/
+        /*for (int i = 0; i < 8; i++) {
+            window.draw(blocks[i].hitbox);
+        }*/
 
         window.draw(test.body);
 
@@ -535,6 +535,11 @@ void setup(RenderWindow& window)
         }
 
         window.draw(textDialogScript);
+
+        if(adventureBgImage.getPosition().x > 6099)
+        {
+
+        }
 
         window.display();
     }
