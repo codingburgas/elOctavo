@@ -156,8 +156,11 @@ CollisionBlock::CollisionBlock(Vector2f pos, Vector2f size) {
 CollisionBlock::~CollisionBlock() {
 }
 
-bool CollisionBlock::checkForCollision(RectangleShape& body) {
+bool CollisionBlock::checkForCollision(RectangleShape& body, RectangleShape& npcBody, Sprite adventureBgImage) {
     if (body.getGlobalBounds().intersects(hitbox.getGlobalBounds())) {
+        if (body.getPosition().y > 538) {
+            respawnPlayer(body, npcBody, adventureBgImage);
+        }
         return true;
     }
     else {
@@ -170,6 +173,8 @@ void CollisionBlock::drawHitbox(RenderWindow& window) {
 }
 
 namespace variables {
+
+    RectangleShape crutch;
 
     //movemenent
     float deltaTime = 0.0f;
@@ -405,6 +410,8 @@ void setup(RenderWindow& window)
 
         }
 
+
+        //mafia dialogue
         if (plr.body.getPosition().x >= messageImage.getPosition().x - 200.0f && plr.body.getPosition().x <= messageImage.getPosition().x + 200.0f)
         {
             cutsceneText.setString(cutsceneStr);
@@ -484,6 +491,8 @@ void setup(RenderWindow& window)
             drawBubble = false;
         }
 
+
+        //nestashev dialogue
         if (plr.body.getPosition().x >= messageImageTwo.getPosition().x - 200.0f && plr.body.getPosition().x <= messageImageTwo.getPosition().x + 200.0f)
         {
             cutsceneTextTwo.setString(cutsceneStrTwo);
@@ -646,6 +655,10 @@ void setup(RenderWindow& window)
             }
         }
 
+        if (plr.body.getPosition().y > 538) {
+            respawnPlayer(plr.body, test.body, adventureBgImage);
+        }
+
         window.draw(textDialogScript);
         window.draw(textDialogScriptTwo);
 
@@ -653,16 +666,19 @@ void setup(RenderWindow& window)
     }
 }
 
+
+//collision detection with ground
 bool checkCollideWithGround(RectangleShape& body) {
     bool intersects = false;
     for (int i = 0; i < 8; i++) {
-        if (ground[i].checkForCollision(body)) {
+        if (ground[i].checkForCollision(body, crutch, adventureBgImage)) {
             intersects = true;
         }
     }
     return intersects;
 }
 
+//collision detection with ramp
 bool checkCollideWithRamp(RectangleShape& body) {
     /*if (ramp.getGlobalBounds().intersects(body.getGlobalBounds())) {
         Image rampImage = rampT.copyToImage();

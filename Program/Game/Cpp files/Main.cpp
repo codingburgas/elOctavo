@@ -2,6 +2,7 @@
 #include "../Header files/El Octavo-Functions.h";
 #include "../Header files/Menu.h";
 #include "../Header files/Additional Functions.h";
+#include <Windows.h>
 
 int main()
 {

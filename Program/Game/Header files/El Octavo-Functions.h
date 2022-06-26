@@ -25,7 +25,7 @@ public:
 
     void drawHitbox(RenderWindow& window);
 
-    bool checkForCollision(RectangleShape& body);
+    bool checkForCollision(RectangleShape& body, RectangleShape& npcBody, Sprite adventureBgImage);
 };
 
 class Npc {

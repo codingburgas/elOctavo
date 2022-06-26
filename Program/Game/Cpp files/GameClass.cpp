@@ -8,6 +8,8 @@ namespace vars {
 	Time currTime;
 	int keyTime = 0;
 	int frameJumped = 0;
+	RectangleShape npcBody;
+	Sprite image;
 }
 
 using namespace vars;
@@ -205,7 +207,6 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 			//cout << "set" << endl;
 		}
 
-
 		if (checkCollideWithGround(body) && !jumped && !ramped) {
 			velocity.y = 0;
 		}
@@ -219,7 +220,7 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 		// this took 2 hours
 
 		for (int i = 0; i < 8; i++) {
-			if (blocks[i].checkForCollision(body)) {
+			if (blocks[i].checkForCollision(body, npcBody, image)) {
 				float hitboxX = blocks[i].hitbox.getPosition().x;
 				float hitboxY = blocks[i].hitbox.getPosition().y;
 				float hitboxSizeX = blocks[i].hitbox.getSize().x;
