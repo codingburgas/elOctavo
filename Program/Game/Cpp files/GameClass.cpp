@@ -85,7 +85,7 @@ void Player::moveCharacter(int& keyTime, RenderWindow& window, Sprite& adventure
 	//WASD moving
 	if (keyTime >= 1)
 	{
-		if (Keyboard::isKeyPressed(Keyboard::D))
+		if (Keyboard::isKeyPressed(Keyboard::D) && adventureBgImage.getPosition().x > -5582)
 		{
 			moveCameraFirstStage(adventureBgImage, deltaTime);
 			keyTime = 0;

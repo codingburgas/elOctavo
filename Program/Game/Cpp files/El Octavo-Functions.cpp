@@ -114,16 +114,13 @@ void Npc::moveTo(float pos[], float deltaTime, bool& done, bool& faceLeft, Recta
             if (!reset) {
                 npcClock.restart();
                 reset = true;
-                //cout << "Reset" << endl;
                 delay = true;
 
                 if (faceLeft) 
                 {
-                    //cout << "if" << endl;
                     faceLeft = false;
                 }
                 else {
-                    //cout << "else" << endl;
                     faceLeft = true;
                 }
             
@@ -261,7 +258,7 @@ namespace variables {
 
 using namespace variables;
 
-void moveStaticImages(RectangleShape& body, RenderWindow& window, Npc& test);
+void moveStaticImages(RectangleShape& body, RenderWindow& window, Npc& test, Sprite& adventureBgImage);
 
 Vector2f getRampPos();
 void respawnPlayer(RectangleShape& body);
@@ -488,9 +485,9 @@ void setup(RenderWindow& window)
         window.draw(adventureBgImage);
         window.draw(ramp);
 
-        /*for (int i = 0; i < 8; i++) {
-            window.draw(blocks[i].hitbox);
-        }*/
+            /*for (int i = 0; i < 8; i++) {
+                window.draw(blocks[i].hitbox);
+            }*/
 
         window.draw(test.body);
 
@@ -524,7 +521,7 @@ void setup(RenderWindow& window)
             window.draw(messageImage);
         }
 
-        moveStaticImages(plr.body, window, test);
+        moveStaticImages(plr.body, window, test, adventureBgImage);
 
         if (enterDialogue)
         {
@@ -577,9 +574,9 @@ Vector2f getRampPos() {
     return ramp.getPosition();
 }
 
-void moveStaticImages(RectangleShape& body, RenderWindow& window, Npc& test)
+void moveStaticImages(RectangleShape& body, RenderWindow& window, Npc& test, Sprite& adventureBgImage)
 {
-    if (Keyboard::isKeyPressed(Keyboard::D))
+    if (Keyboard::isKeyPressed(Keyboard::D) && adventureBgImage.getPosition().x > - 5582)
     {
         if (body.getPosition().x >= window.getSize().x / 2)
         {
