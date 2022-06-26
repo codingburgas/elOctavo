@@ -201,6 +201,19 @@ namespace variables {
     CollisionBlock blocks[2] = {{Vector2f(2428, 416), Vector2f(107, 45)}, {Vector2f(1428, 338), Vector2f(211, 43)}};
 
     bool done;
+
+    Texture kurabirovTexture, mafiaTexture, nestashevTexture;
+    Sprite kurabirovCutscene, mafiaCutscene, nestashevCutscene;
+    bool imageTurn;
+
+    string dialogScript = "Yes we are. Anyway, your task is to find Nestashev and get netractor certificate.";
+    Text textDialogScript;
+
+    Clock timer;
+
+    unsigned int character = 0;
+
+    unsigned int dialogTurn = 0;
 }
 
 using namespace variables;
@@ -271,6 +284,17 @@ void setVars()
             points[i].setPosition(points[i - 1].getPosition().x + 10, points[i - 1].getPosition().y - 10);
         }
     }
+
+    //cutscene setup
+    kurabirovTexture.loadFromFile("../Images and fonts/Dialogues/KurabirovDialogue.png");
+    mafiaTexture.loadFromFile("../Images and fonts/Dialogues/MobsterDialogue.png");
+    nestashevTexture.loadFromFile("../Images and fonts/Dialogues/MobsterDialogue.png");
+
+    kurabirovCutscene.setTexture(kurabirovTexture); 
+    mafiaCutscene.setTexture(mafiaTexture);
+    nestashevCutscene.setTexture(nestashevTexture);
+
+    bool imageTurn = false;
 }
 
 void setup(RenderWindow& window)
@@ -288,8 +312,8 @@ void setup(RenderWindow& window)
 
 
     // end of sussy variables
-    window.setFramerateLimit(60);
 
+    window.setFramerateLimit(60);
 
     while (window.isOpen())
     {
@@ -319,8 +343,6 @@ void setup(RenderWindow& window)
         if (movementToggle) {
             window.draw(ground);
         }
-
-        cutscene(plr.body, cutsceneStr, adventureBgImage, messageImage, window);
 
         window.draw(adventureBgImage);
         window.draw(ramp);
@@ -360,6 +382,8 @@ void setup(RenderWindow& window)
         if (drawBubble) {
             window.draw(messageImage);
         }
+
+        cutscene(plr.body, cutsceneStr, adventureBgImage, messageImage, window);
 
         moveStaticImages(plr.body, window, test);
 
@@ -423,12 +447,92 @@ void moveStaticImages(RectangleShape& body, RenderWindow& window, Npc& test)
     }
 }
 
+void cutsceneDialog(RenderWindow& window, bool imageTurn)
+{
+    
+
+    textDialogScript.setFillColor(Color(0, 0, 0));
+    textDialogScript.setPosition(100, 540);
+    textDialogScript.setCharacterSize(34);
+    
+
+    if (!imageTurn)
+    {
+        window.draw(kurabirovCutscene);
+
+        imageTurn = true;
+    }
+    else {
+        window.draw(mafiaCutscene);
+
+        imageTurn = false;
+    }
+    
+    if (dialogTurn == 0)
+    {
+        dialogScript = "Hello, you must be the boss's people!";
+    }
+    else if (dialogTurn == 1)
+    {
+        dialogScript = "Yes we are. Anyway, your task is to find Nestashev and get netractor certificate.";
+    }
+    else if (dialogTurn == 2)
+    {
+        dialogScript = "Certificate for netractors? Are you OK!";
+    }
+    else if (dialogTurn == 3)
+    {
+        dialogScript = "Yes this is the order. Now go this way and you will reach nestashev.";
+    }
+    else if (dialogTurn == 4)
+    {
+        dialogScript = "All right, I'll go. See you later. I have to beat nestashev for money!";
+    }
+
+    Event evCutescene;
+    while (window.isOpen())
+    {
+        while (window.pollEvent(evCutescene))
+        {
+
+            if (evCutescene.type == Event::Closed)
+            {
+                window.close();
+            }
+
+            if (evCutescene.type == Event::KeyPressed && evCutescene.key.code == Keyboard::Escape)
+            {
+                window.close();
+            }
+
+            if (timer.getElapsedTime().asSeconds() > 0.05 && character < dialogScript.length())
+            {
+                timer.restart();
+
+                character++;
+
+                textDialogScript.setString(String(dialogScript.substr(0, character)));
+            }
+
+            window.draw(textDialogScript);
+            window.display();
+        }
+    }
+
+    dialogTurn++;
+}
+
 void cutscene(RectangleShape& body, string& cutsceneStr, Sprite& adventureBgImage, Sprite& messageImage, RenderWindow& window)
 {
     if (body.getPosition().x >= messageImage.getPosition().x - 200.0f && body.getPosition().x <= messageImage.getPosition().x + 200.0f)
     {
         cutsceneText.setString(cutsceneStr);
         drawBubble = true;
+
+        if (Keyboard::isKeyPressed(Keyboard::Q))
+        {
+            cutsceneDialog(window, imageTurn);
+        }
     }
     else {
         cutsceneText.setString("");

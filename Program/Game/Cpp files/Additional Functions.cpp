@@ -108,6 +108,7 @@ void backstory(RenderWindow& window, Texture backstoryTexture, Sprite backstoryI
 			break;
 
 		}
-}
+	}
+
 	soundWrite.stop();
 }
