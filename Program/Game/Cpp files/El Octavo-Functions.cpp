@@ -75,7 +75,7 @@ void Npc::update(int row, float deltaTime, bool delay) {
 
 void Npc::moveTo(float pos[], float deltaTime, bool& done, bool& faceLeft, RectangleShape& plrBody, bool jumped, Sprite& adventureBgImage) {
     
-    if (abs(body.getPosition().x - plrBody.getPosition().x) < 300 && abs(plrBody.getPosition().y - body.getPosition().y) < 80.0f && !jumped) {
+    if (abs(body.getPosition().x - plrBody.getPosition().x) < 300 && abs(plrBody.getPosition().y - body.getPosition().y) < 80.0f && (pos[0] < body.getPosition().x && pos[1] > body.getPosition().x ) && !jumped) {
         plrFound = true;
     }
     else {
@@ -225,10 +225,10 @@ namespace variables {
     Text fpsCounter;
     int roundedFps;
 
-    string cutsceneStr = "Press Q to talk with the mafia.";
-    Text cutsceneText;
+    string cutsceneStr = "Press Q to talk with the mafia.", cutsceneStrTwo = "Press Q to talk with nestashev.";
+    Text cutsceneText, cutsceneTextTwo;
 
-    bool drawBubble;
+    bool drawBubble, drawBubbleTwo;
 
     CollisionBlock blocks[8] = { {Vector2f(2882, 490), Vector2f(117, 34)}, {Vector2f(1428, 338), Vector2f(211, 43)}, {Vector2f(3074, 443), Vector2f(181, 34)}, {Vector2f(3323, 395), Vector2f(181, 34)}, {Vector2f(4071, 441), Vector2f(109, 34)}, {Vector2f(5435, 461), Vector2f(117, 34)}, {Vector2f(5667, 380), Vector2f(171, 34)}, {Vector2f(5938, 305), Vector2f(474, 34)} };
     
@@ -241,22 +241,24 @@ namespace variables {
     Texture kurabirovTexture, mafiaTexture, nestashevTexture;
     Sprite kurabirovCutscene, mafiaCutscene, nestashevCutscene;
 
-    string dialogScript = "Hello, you must be the boss's people!";
-    Text textDialogScript;
+    string dialogScript = "Hello, you must be the boss's people!", dialogScriptTwo = "Hello are you neshtashev?";
+    Text textDialogScript, textDialogScriptTwo;
 
-    Clock timer;
+    Clock timer, timerTwo;
 
-    unsigned int character = 0;
+    unsigned int character = 0, characterTwo = 0;
 
-    unsigned int dialogTurn = 0;
+    unsigned int dialogTurn = 0, dialogTurnTwo = 0;
 
-    bool enterDialogue = false;
+    bool enterDialogue = false, enterDialogueTwo = false;
 
-    bool enterPressed = false;
+    bool enterPressed = false, enterPressedTwo = false;
 
-    bool dialogueOver = false;
+    bool dialogueOver = false, dialogueOverTwo = false;
 
-    bool imageTurn = true;
+    bool imageTurn = true, imageTurnTwo = true;
+
+
 };
 
 
@@ -270,7 +272,9 @@ void setVars()
 {
     bgTexture.loadFromFile("../Images and fonts/Bg/test bg.png");
     bgImage.setTexture(bgTexture);
+
     drawBubble = false;
+    drawBubbleTwo = false;
 
     adventureBgTexture.loadFromFile("../Images and fonts/Bg/GameMap.png");
     adventureBgImage.setTexture(adventureBgTexture);
@@ -280,6 +284,7 @@ void setVars()
     messageImageTwo.setTexture(messageTexture);
 
     messageImage.setPosition(500, 300);
+    messageImageTwo.setPosition(6099, 260);
 
     //setting position of the background
     bgImage.setOrigin(1920, 1080);
@@ -343,6 +348,11 @@ void setVars()
     textDialogScript.setFillColor(Color(0, 0, 0));
     textDialogScript.setPosition(100, 540);
     textDialogScript.setCharacterSize(50);
+
+    textDialogScriptTwo.setFont(font);
+    textDialogScriptTwo.setFillColor(Color(0, 0, 0));
+    textDialogScriptTwo.setPosition(100, 540);
+    textDialogScriptTwo.setCharacterSize(50);
 }
 
 void setup(RenderWindow& window)
@@ -365,11 +375,11 @@ void setup(RenderWindow& window)
 
     while (window.isOpen())
     {
-        float moveToPos[2] = {blocks[1].hitbox.getPosition().x + 200, blocks[0].hitbox.getPosition().x - 200};
         deltaTime = clock.restart().asSeconds();
 
         window.setKeyRepeatEnabled(true);
 
+        float moveToPos[2] = {blocks[1].hitbox.getPosition().x + 200, blocks[2].hitbox.getPosition().x - 800};
 
         while (window.pollEvent(ev))
         {
@@ -468,6 +478,85 @@ void setup(RenderWindow& window)
             cutsceneText.setString("");
             drawBubble = false;
         }
+
+        if (plr.body.getPosition().x >= messageImageTwo.getPosition().x - 200.0f && plr.body.getPosition().x <= messageImageTwo.getPosition().x + 200.0f)
+        {
+            cutsceneTextTwo.setString(cutsceneStrTwo);
+            if (!dialogueOverTwo) {
+                drawBubbleTwo = true;
+            }
+
+            if (Keyboard::isKeyPressed(Keyboard::Q))
+            {
+                enterDialogueTwo = true;
+            }
+                    
+        }
+        else {
+            cutsceneTextTwo.setString("");
+            drawBubbleTwo = false;
+        }
+
+        if (enterDialogueTwo) {
+            if (Keyboard::isKeyPressed(Keyboard::Enter) && !enterPressedTwo)
+            {
+                dialogTurnTwo++; 
+                
+                enterPressedTwo = true;
+                characterTwo = 0;
+
+            }
+
+            if (dialogTurnTwo == 1)
+            {
+                dialogScriptTwo = "Yes we are. Anyway, your task is to\nfind Nestashev and get netractor certificate.";
+                imageTurnTwo = false;
+            }
+
+            if (dialogTurn == 2)
+            {
+                dialogScript = "Certificate for netractors? Are you OK!";
+                imageTurnTwo = true;
+            }
+           
+            if (dialogTurnTwo == 3)
+            {
+                dialogScriptTwo = "Yes this is the order.\nNow go this way and you will reach nestashev.";
+                imageTurnTwo = false;
+            }
+
+            if (dialogTurnTwo == 4)
+            {
+                dialogScriptTwo = "All right, I'll go. See you later.\nI have to beat nestashev for money!";
+                imageTurnTwo = true;
+            }
+
+            if (dialogTurnTwo == 5)
+            {
+                textDialogScriptTwo.setString("");
+                enterDialogueTwo = false;
+                dialogueOverTwo = true;
+                imageTurnTwo = true;
+            }
+
+            if (enterDialogueTwo) {
+                if (timerTwo.getElapsedTime().asSeconds() > 0.01 && characterTwo < dialogScriptTwo.length())
+                {
+                    timerTwo.restart();
+
+                    characterTwo++;
+
+                    textDialogScriptTwo.setString(string(dialogScriptTwo.substr(0, characterTwo)));
+                }
+            }
+            
+        }
+
+        if (dialogueOverTwo)
+        {
+            cutsceneTextTwo.setString("");
+            drawBubbleTwo = false;
+        }
         
 
         plr.updateMovement(deltaTime, window, adventureBgImage, soundWalk, soundJump, movementToggle, blocks, blocksSize);
@@ -482,9 +571,9 @@ void setup(RenderWindow& window)
             window.draw(blocks[i].hitbox);
         }*/
 
-        for (int i = 0; i < 8; i++) {
+        /*for (int i = 0; i < 8; i++) {
             ground[i].drawHitbox(window);
-        }
+        }*/
 
         window.draw(test.body);
 
@@ -518,6 +607,10 @@ void setup(RenderWindow& window)
             window.draw(messageImage);
         }
 
+        if (drawBubbleTwo) {
+            window.draw(messageImageTwo);
+        }
+
         moveStaticImages(plr.body, window, test, adventureBgImage);
 
         if (enterDialogue)
@@ -531,7 +624,19 @@ void setup(RenderWindow& window)
             }
         }
 
+        if (enterDialogueTwo)
+        {
+            if (imageTurnTwo)
+            {
+                window.draw(kurabirovCutscene);
+            }
+            else {
+                window.draw(mafiaCutscene);
+            }
+        }
+
         window.draw(textDialogScript);
+        window.draw(textDialogScriptTwo);
 
         window.display();
     }
