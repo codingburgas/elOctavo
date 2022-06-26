@@ -46,7 +46,8 @@ void backstory(RenderWindow& window, Texture backstoryTexture, Sprite backstoryI
 	//frame timing
 	Clock timer;
 	unsigned int character = 0;
-	
+
+	int isTouched = 0, isTouchedForBreak = 0;
 
 	if(isAudioRunning(audioToggle) == true)
 	{
@@ -72,21 +73,41 @@ void backstory(RenderWindow& window, Texture backstoryTexture, Sprite backstoryI
 			}
 		}
 
-		if (timer.getElapsedTime().asSeconds() > 0.05 && character < Backstory.length())
+		if ((ev.mouseButton.x >= 0 && ev.mouseButton.x <= 1280) && (ev.mouseButton.y >= 0 && ev.mouseButton.y <= 720))
 		{
-			timer.restart();
-			character++;
-			textBackstory.setString(String(Backstory.substr(0, character)));
+			isTouched = 1;
+		}
+
+		if (isTouched == 0)
+		{
+			if (timer.getElapsedTime().asSeconds() > 0.05 && character < Backstory.length())
+			{
+				timer.restart();
+
+				character++;
+
+				textBackstory.setString(String(Backstory.substr(0, character)));
+			}
+		}
+		else if (isTouched == 1) {
+			textBackstory.setString(String(Backstory.substr(0, Backstory.length())));
 		}
 
 		window.clear();
 		window.draw(backstoryImage);
 		window.draw(textBackstory);
 		window.display();
-		if ((ev.mouseButton.x >= 1054 && ev.mouseButton.x <= 1197) && (ev.mouseButton.y >= 593 && ev.mouseButton.y <= 637))
+
+		if ((ev.mouseButton.x >= 0 && ev.mouseButton.x <= 1280) && (ev.mouseButton.y >= 0 && ev.mouseButton.y <= 720))
+		{
+			isTouchedForBreak = 1;
+		}
+
+		if (isTouchedForBreak == 1)
 		{
 			break;
-		}	
-	}
+
+		}
+}
 	soundWrite.stop();
 }
