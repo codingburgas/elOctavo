@@ -1,5 +1,6 @@
 #include "../Header files/Precompile.h";
 #include "../Header files/Additional Functions.h";
+#include "../Header files/Menu.h";
 
 Texture backstoryTexture;
 Sprite backstoryImage;
@@ -46,7 +47,12 @@ void backstory(RenderWindow& window, Texture backstoryTexture, Sprite backstoryI
 	Clock timer;
 	unsigned int character = 0;
 	
-	soundWrite.play();
+
+	if(isAudioRunning(audioToggle) == true)
+	{
+		soundWrite.play();
+	}
+	
 	soundWrite.setVolume(200);
 	Event ev;
 
