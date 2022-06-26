@@ -201,6 +201,7 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 
 		if (checkCollideWithGround(body) && !ramped) {
 			body.setPosition(body.getPosition().x, 490.0f);
+			cout << "set" << endl;
 		}
 
 		velocity.y += 160.0f * deltaTime;
@@ -253,18 +254,36 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 			}
 		}
 
+
+		// ok this is taking way too long i give up
+		// ramp collision = good enough
+
 		if (checkCollideWithRamp(body)) {
-			if (!getRampPos().x < bodyX) {
-				if (bodyX > getRampPos().x + 105) {
-					velocity.x = 0.f;
-					body.setPosition(getRampPos().x + 110 + 40.5f, bodyY);
-					cout << "ne mi e ez" << endl;
+			//cout << "ez mi e" << endl;
+			//if (bodyY == 490) {
+			//	body.setPosition(bodyX, 480);
+			//	bodyY = body.getPosition().y;
+			//	//cout << bodyY << endl;
+			//}
+			if (Keyboard::isKeyPressed(Keyboard::D)) {
+				if (-velocity.x < 999) {
+					velocity.x = abs(speed - 500.0f) * deltaTime;
 				}
-				else {
-					cout << "ez mi e" << endl;
-					velocity.y = -velocity.x;
+
+			}
+			else if (Keyboard::isKeyPressed(Keyboard::A)) {
+				if (velocity.x > 999) {
+					velocity.x = -abs(speed - 50.0f) * deltaTime;
 				}
 			}
+			velocity.y = -velocity.x;
+			ramped = true;
+			//cout << velocity.y << " " << velocity.x << endl;
+		}
+		else if (bodyX > getRampPos().x + 110 && (bodyX - (getRampPos().x + 110) < 30.0f) && bodyY > 450 && !ramped) {
+			cout << bodyY << endl;
+			velocity.x = 0.f;
+			body.setPosition(bodyX + 0.75f, bodyY);
 		}
 		else {
 			if (ramped) {
