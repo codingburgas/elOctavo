@@ -18,7 +18,7 @@ This is an adventitious game about the story of Kurabirov
   - [QA Documentation]()
   - [Test plan]()
 ### Docs
-- [Documentation]()
+- [Documentation](https://codingburgas-my.sharepoint.com/:w:/g/personal/smtashev20_codingburgas_bg/ESupdHF1u1lCre08ZWwMnBcB1LgOgWQd70dJKM60CZan8w?e=SJXTxj)
 - [Presentation]()
 - [Doxygen]()
 
