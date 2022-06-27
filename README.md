@@ -1,4 +1,5 @@
-# Team El Octavo
+<p align = "center">
+  <img src="Program/Images and fonts/Logo/El8 - Logo.png"/>
 
 <p align = "center">
    <img src = "https://img.shields.io/github/milestones/open/codingburgas/finalProject-elOctavo?style=flat-square">
