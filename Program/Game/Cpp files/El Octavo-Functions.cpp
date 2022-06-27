@@ -342,18 +342,18 @@ void setVars()
     cutsceneText.setFont(font);
 
     for (int i = 0; i < 11; i++) {
-        points[i] = RectangleShape(Vector2f(10, 10));
-        points[i].setOrigin(5, 5);
-        points2[i] = RectangleShape(Vector2f(10, 10));
-        points2[i].setOrigin(5, 5);
+        points[i] = RectangleShape(Vector2f(14, 14));
+        points[i].setOrigin(7, 7);
+        points2[i] = RectangleShape(Vector2f(14, 14));
+        points2[i].setOrigin(7, 7);
 
         if (i == 0) {
             points[i].setPosition(ramp.getPosition().x, ramp.getPosition().y + 110);
             points2[i].setPosition(ramp2.getPosition().x, ramp2.getPosition().y + 110);
         }
         else {
-            points[i].setPosition(points[i - 1].getPosition().x + 10, points[i - 1].getPosition().y - 10);
-            points2[i].setPosition(points2[i - 1].getPosition().x + 10, points2[i - 1].getPosition().y - 10);
+            points[i].setPosition(points[i - 1].getPosition().x + 9, points[i - 1].getPosition().y - 9);
+            points2[i].setPosition(points2[i - 1].getPosition().x + 9, points2[i - 1].getPosition().y - 9);
 
         }
 
@@ -496,7 +496,7 @@ void setup(RenderWindow& window)
                 {
                     timer.restart();
 
-                    if (talkSound.getStatus() == 0 && isAudioRunning(audioToggle)) {
+                    if (talkSound.getStatus() == 0 && isAudioRunning(audioToggle) && dialogTurn < 4) {
                         talkSound.play();
                     }
 
@@ -504,7 +504,7 @@ void setup(RenderWindow& window)
 
                     textDialogScript.setString(string(dialogScript.substr(0, character)));
 
-                    if (character == dialogScript.length() && isAudioRunning(audioToggle))
+                    if (character == dialogScript.length() && isAudioRunning(audioToggle) && dialogTurn >= 5)
                     {
                         talkSound.stop();
                     }
@@ -518,6 +518,7 @@ void setup(RenderWindow& window)
             cutsceneText.setString("");
             drawBubble = false;
             isMoving = true;
+            talkSound.stop();
         }
 
 

@@ -249,15 +249,12 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 			}
 		}
 
-
 		if (checkCollideWithRamp(body) && !jumped) {
 			//if (bodyY == 490) {
 			//	body.setPosition(bodyX, 480);
 			//	bodyY = body.getPosition().y;
 			//	//cout << bodyY << endl;
 			//}
-
-			//cout << jumped << endl;
 
 			if (Keyboard::isKeyPressed(Keyboard::D)) {
 				if (-velocity.x < 999) {
