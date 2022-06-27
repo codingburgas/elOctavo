@@ -320,7 +320,7 @@ void setVars()
     ramp.setPosition(800, 430);
     ramp2.setTexture(rampT);
     ramp2.setOrigin(0, 0);
-    ramp2.setPosition(4342, 428);
+    ramp2.setPosition(4342, 430);
 
     jumpBuffer.loadFromFile("../Audios/Jump.wav");
     walkBuffer.loadFromFile("../Audios/Walk.wav");
@@ -576,10 +576,7 @@ void setup(RenderWindow& window)
             if (dialogTurnTwo == 6)
             {
                 talkSound.stop();
-
                 if (endG == false) {
-                    talkSound.stop();
-                    timerTwo.restart();
                     endG = true;
                 }
 
@@ -593,7 +590,7 @@ void setup(RenderWindow& window)
                 {
                     timerTwo.restart();
 
-                    if (talkSound.getStatus() == 0 && isAudioRunning(audioToggle)) {
+                    if (talkSound.getStatus() == 0 && isAudioRunning(audioToggle) && dialogTurnTwo < 6) {
                         talkSound.play();
                     }
 
@@ -610,6 +607,8 @@ void setup(RenderWindow& window)
 
         }
 
+        
+
         if (dialogueOverTwo)
         {
             cutsceneTextTwo.setString("");
@@ -624,6 +623,7 @@ void setup(RenderWindow& window)
 
         window.draw(adventureBgImage);
         window.draw(ramp);
+        window.draw(ramp2);
 
         for (int i = 0; i < 8; i++) {
             window.draw(blocks[i].hitbox);
@@ -656,9 +656,10 @@ void setup(RenderWindow& window)
 
         window.draw(cutsceneText);
 
-        /*for (int i = 0; i < 11; i++) {
+        for (int i = 0; i < 11; i++) {
             window.draw(points[i]);
-        }*/
+            window.draw(points2[i]);
+        }
 
         // draw message bubble
         if (drawBubble) {
@@ -761,6 +762,7 @@ void moveStaticImages(RectangleShape& body, RenderWindow& window, Npc& test, Spr
             //make images static
             messageImage.move(-(225.0f * deltaTime), 0.f);
             ramp.move(-(225.0f * deltaTime), 0.f);
+            ramp2.move(-(225.0f * deltaTime), 0.f);
             test.moveX(-(225.0f * deltaTime));
             messageImageTwo.move(-(225.0f * deltaTime), 0.f);
 
@@ -768,8 +770,9 @@ void moveStaticImages(RectangleShape& body, RenderWindow& window, Npc& test, Spr
                 blocks[i].hitbox.move(-(225.0f * deltaTime), 0.f);
             }
 
-            for (int i = 0; i < 11; i++) {
+            for (int i = 0; i < 12; i++) {
                 points[i].move(-(225.0f * deltaTime), 0.f);
+                points2[i].move(-(225.0f * deltaTime), 0.f);
             }
 
             for (int i = 0; i < 8; i++) {
@@ -787,14 +790,16 @@ void resetStaticImages(float& offset, RectangleShape& npcBody, Sprite& adventure
     messageImage.setPosition(500 - 1101, 300);
     messageImageTwo.setPosition(6319 - 1101, 159);
     ramp.setPosition(800 - 1101, 430);
+    ramp2.setPosition(4342 - 1101, 430);
     npcBody.setPosition(1849.0f - 1101, 538.0f - 90.0f / 2);
 
     for (int i = 0; i < 8; i++) {
         blocks[i].hitbox.setPosition(blocksCopy[i].x - 1101, blocksCopy[i].y);
     }
 
-    for (int i = 0; i < 11; i++) {
+    for (int i = 0; i < 12; i++) {
         points[i].setPosition(pointsCopy[i].x - 1101, pointsCopy[i].y);
+        points2[i].setPosition(pointsCopy2[i].x - 1101, pointsCopy2[i].y);
     }
 
     for (int i = 0; i < 8; i++) {
