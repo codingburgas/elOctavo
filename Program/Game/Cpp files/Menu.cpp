@@ -64,6 +64,7 @@ void setupVars(RenderWindow& window)
     music.setLoop(true);
 }
 
+//initialising option menu
 void optionMenu(Event& ev, Texture texture, RenderWindow& window)
 {
     texture.loadFromFile("../Images and fonts/Bg/OptionsMenu.png");
@@ -149,6 +150,7 @@ void optionMenu(Event& ev, Texture texture, RenderWindow& window)
     }
 }
 
+//main menu/setup function
 void setupMenu(RenderWindow& window)
 {
     setupVars(window);

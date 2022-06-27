@@ -10,6 +10,7 @@ void changeFPS(int FPS, RenderWindow& window)
 	window.setFramerateLimit(FPS);
 }
 
+//add windows icon
 void addIcon(RenderWindow& window)
 {
 	Image icon;

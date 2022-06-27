@@ -31,6 +31,7 @@ Npc::Npc(Texture* texture, Vector2u imageCount, float switchTime, float speed, s
     this->body.setTexture(texture);
 }
 
+//Npc destructor
 Npc::~Npc() {
 }
 
@@ -73,6 +74,7 @@ void Npc::update(int row, float deltaTime, bool delay) {
     body.setTextureRect(uvRect);
 }
 
+//move npc
 void Npc::moveTo(float pos[], float deltaTime, bool& done, bool& faceLeft, RectangleShape& plrBody, bool jumped, Sprite& adventureBgImage) {
 
     if (abs(body.getPosition().x - plrBody.getPosition().x) < 300 && abs(plrBody.getPosition().y - body.getPosition().y) < 80.0f && (pos[0] < body.getPosition().x && pos[1] > body.getPosition().x) && !jumped) {
@@ -82,6 +84,7 @@ void Npc::moveTo(float pos[], float deltaTime, bool& done, bool& faceLeft, Recta
         plrFound = false;
     }
 
+    //npc will start hut you when you are on 45 pixels distance
     if (plrFound) {
         if (plrBody.getPosition().x > body.getPosition().x) {
             distance = plrBody.getPosition().x - body.getPosition().x;

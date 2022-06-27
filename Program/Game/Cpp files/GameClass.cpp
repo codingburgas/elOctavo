@@ -78,6 +78,7 @@ void Player::moveCameraFirstStage(Sprite& adventureBgImage, float& deltaTime)
 	adventureBgImage.move(-(225.0f * deltaTime), 0.f);
 }
 
+//moving camera with the character
 void Player::moveCharacter(int& keyTime, RenderWindow& window, Sprite& adventureBgImage, float& deltaTime)
 {
 	if (keyTime < 1)
@@ -204,7 +205,6 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 
 		if (checkCollideWithGround(body) && !ramped) {
 			body.setPosition(body.getPosition().x, 490.0f);
-			//cout << "set" << endl;
 		}
 
 		if (checkCollideWithGround(body) && !jumped && !ramped) {
@@ -213,11 +213,6 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 
 		float bodyY = body.getPosition().y;
 		float bodyX = body.getPosition().x;
-		
-
-		// idk how this works and why it works
-		// please kill me
-		// this took 2 hours
 
 		for (int i = 0; i < 8; i++) {
 			if (blocks[i].checkForCollision(body, npcBody, image)) {
@@ -255,11 +250,7 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 		}
 
 
-		// ok this is taking way too long i give up
-		// ramp collision = good enough
-
 		if (checkCollideWithRamp(body) && !jumped) {
-			//cout << "ez mi e" << endl;
 			//if (bodyY == 490) {
 			//	body.setPosition(bodyX, 480);
 			//	bodyY = body.getPosition().y;
@@ -284,7 +275,6 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 				velocity.y = -velocity.x;
 			}
 			ramped = true;
-			//cout << velocity.y << " " << velocity.x << endl;
 		}
 		else if (bodyX > getRampPos().x + 110 && (bodyX - (getRampPos().x + 110) < 30.0f) && bodyY > 450 && !ramped) {
 			cout << bodyY << endl;
