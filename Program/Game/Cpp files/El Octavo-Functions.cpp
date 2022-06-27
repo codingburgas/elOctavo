@@ -24,7 +24,6 @@ Npc::Npc(Texture* texture, Vector2u imageCount, float switchTime, float speed, s
     this->faceLeft = true;
     this->row = 0;
 
-
     this->body.setSize(Vector2f(81.0f, 90.0f));
     this->body.setOrigin(81.0f / 2, 90.0f / 2);
     this->body.setPosition(1849.0f, 538.0f - 90.0f / 2);
