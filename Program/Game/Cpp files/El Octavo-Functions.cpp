@@ -5,7 +5,7 @@
 #include "../Header files/Menu.h"
 
 // Npc class
-Npc::Npc(Texture* texture, Vector2u imageCount, float switchTime, float speed, string name) {
+Npc::Npc(Texture* texture, Vector2u imageCount, float switchTime, float speed, string name, float posX, float posY) {
     this->imageCount = imageCount;
     this->switchTime = switchTime;
     this->speed = speed;
@@ -26,7 +26,7 @@ Npc::Npc(Texture* texture, Vector2u imageCount, float switchTime, float speed, s
 
     this->body.setSize(Vector2f(81.0f, 90.0f));
     this->body.setOrigin(81.0f / 2, 90.0f / 2);
-    this->body.setPosition(1849.0f, 538.0f - 90.0f / 2);
+    this->body.setPosition(posX, posY - 90.0f / 2);
     this->body.setTexture(texture);
 }
 
@@ -74,7 +74,7 @@ void Npc::update(int row, float deltaTime, bool delay) {
 }
 
 //move npc
-void Npc::moveTo(float pos[], float deltaTime, bool& done, bool& faceLeft, RectangleShape& plrBody, bool jumped, Sprite& adventureBgImage) {
+void Npc::moveTo(float pos[], float deltaTime, bool& faceLeft, RectangleShape& plrBody, bool jumped, Sprite& adventureBgImage, RectangleShape& npcBody2) {
 
     if (abs(body.getPosition().x - plrBody.getPosition().x) < 300 && abs(plrBody.getPosition().y - body.getPosition().y) < 80.0f && (pos[0] < body.getPosition().x && pos[1] > body.getPosition().x) && !jumped) {
         plrFound = true;
@@ -144,7 +144,7 @@ void Npc::moveTo(float pos[], float deltaTime, bool& done, bool& faceLeft, Recta
     }
     else {
         if (distance <= 40.5f && abs(plrBody.getPosition().y - body.getPosition().y) < 64.5) {
-            respawnPlayer(plrBody, body, adventureBgImage);
+            respawnPlayer(plrBody, body, npcBody2, adventureBgImage);
         }
     }
 }
@@ -158,10 +158,10 @@ CollisionBlock::CollisionBlock(Vector2f pos, Vector2f size) {
 CollisionBlock::~CollisionBlock() {
 }
 
-bool CollisionBlock::checkForCollision(RectangleShape& body, RectangleShape& npcBody, Sprite adventureBgImage) {
+bool CollisionBlock::checkForCollision(RectangleShape& body, RectangleShape& npcBody, RectangleShape& npcBody2, Sprite adventureBgImage) {
     if (body.getGlobalBounds().intersects(hitbox.getGlobalBounds())) {
         if (body.getPosition().y > 538) {
-            respawnPlayer(body, npcBody, adventureBgImage);
+            respawnPlayer(body, npcBody, npcBody2, adventureBgImage);
         }
         return true;
     }
@@ -235,14 +235,14 @@ namespace variables {
     Text fpsCounter;
     int roundedFps;
 
-    string cutsceneStr = "Press Q to talk with the mafia.", cutsceneStrTwo = "Press Q to talk with nestashev.";
+    string cutsceneStr = "Press Q to talk with the mafia.", cutsceneStrTwo = "Press Q to talk with Nestashev.";
     Text cutsceneText, cutsceneTextTwo;
 
     bool drawBubble, drawBubbleTwo;
 
-    CollisionBlock blocks[8] = { {Vector2f(2882, 490), Vector2f(117, 34)}, {Vector2f(1428, 338), Vector2f(211, 43)}, {Vector2f(3074, 443), Vector2f(181, 34)}, {Vector2f(3323, 395), Vector2f(181, 34)}, {Vector2f(4071, 441), Vector2f(109, 34)}, {Vector2f(5435, 461), Vector2f(117, 34)}, {Vector2f(5667, 380), Vector2f(171, 34)}, {Vector2f(5938, 305), Vector2f(474, 34)} };
+    CollisionBlock blocks[8] = { {Vector2f(2882, 490), Vector2f(117, 34)}, {Vector2f(1428, 338), Vector2f(211, 43)}, {Vector2f(3094, 443), Vector2f(161, 34)}, {Vector2f(3343, 395), Vector2f(161, 34)}, {Vector2f(4071, 441), Vector2f(109, 34)}, {Vector2f(5435, 461), Vector2f(117, 34)}, {Vector2f(5667, 380), Vector2f(171, 34)}, {Vector2f(5938, 305), Vector2f(474, 34)} };
 
-    Vector2f blocksCopy[8] = { Vector2f(2882, 490), Vector2f(1428, 338), Vector2f(3074, 443), Vector2f(3323, 395), Vector2f(4071, 441), Vector2f(5435, 461), Vector2f(5667, 380), Vector2f(5938, 305) };
+    Vector2f blocksCopy[8] = { Vector2f(2882, 490), Vector2f(1428, 338), Vector2f(3094, 443), Vector2f(3343, 395), Vector2f(4071, 441), Vector2f(5435, 461), Vector2f(5667, 380), Vector2f(5938, 305) };
 
     bool done;
 
@@ -281,8 +281,6 @@ namespace variables {
 
 
 using namespace variables;
-
-void moveStaticImages(RectangleShape& body, RenderWindow& window, Npc& test, Sprite& adventureBgImage);
 
 Vector2f getRampPos();
 
@@ -393,7 +391,8 @@ void setup(RenderWindow& window)
 
     Clock clock;
     Player plr(&plrT, Vector2u(3, 2), 0.3f, 225.0f);
-    Npc test(&npcT, Vector2u(3, 1), 0.3f, 170.0f, "Test");
+    Npc npc1(&npcT, Vector2u(3, 1), 0.3f, 170.0f, "Npc", 1849.0f, 538.0f);
+    Npc npc2(&npcT, Vector2u(3, 1), 0.3f, 170.0f, "Npc", 4588.0f, 538.0f);
 
     window.setFramerateLimit(60);
 
@@ -404,6 +403,7 @@ void setup(RenderWindow& window)
         window.setKeyRepeatEnabled(true);
 
         float moveToPos[2] = { blocks[1].hitbox.getPosition().x + 200, blocks[2].hitbox.getPosition().x - 800 };
+        float moveToPos2[2] = {ramp2.getPosition().x + 120, blocks[5].hitbox.getPosition().x - 667};
 
         while (window.pollEvent(ev))
         {
@@ -473,13 +473,13 @@ void setup(RenderWindow& window)
 
             if (dialogTurn == 3)
             {
-                dialogScript = "Yes this is the order.\nNow go this way and you will reach nestashev.";
+                dialogScript = "Yes this is the order.\nNow go this way and you will reach Nestashev.";
                 imageTurn = false;
             }
 
             if (dialogTurn == 4)
             {
-                dialogScript = "All right, I'll go. See you later.\nI have to beat nestashev for money!";
+                dialogScript = "All right, I'll go. See you later.\nI have to beat Nestashev for money!";
                 imageTurn = true;
             }
 
@@ -626,7 +626,8 @@ void setup(RenderWindow& window)
         if (isMoving || isMovingTwo)
         {
             plr.updateMovement(deltaTime, window, adventureBgImage, soundWalk, soundJump, movementToggle, blocks, blocksSize);
-            test.update(0, deltaTime, test.delay);
+            npc1.update(0, deltaTime, npc1.delay);
+            npc2.update(0, deltaTime, npc2.delay);
         }
         
         window.clear(Color::Green);
@@ -635,19 +636,21 @@ void setup(RenderWindow& window)
         //window.draw(ramp);
         window.draw(ramp2);
 
-        for (int i = 0; i < 8; i++) {
+        /*for (int i = 0; i < 8; i++) {
             window.draw(blocks[i].hitbox);
-        }
+        }*/
 
         /*for (int i = 0; i < 8; i++) {
             ground[i].drawHitbox(window);
         }*/
 
-        window.draw(test.body);
+        window.draw(npc1.body);
+        window.draw(npc2.body);
 
         plr.draw(window);
 
-        test.moveTo(moveToPos, deltaTime, done, test.faceLeft, plr.body, plr.jumped, adventureBgImage);
+        npc1.moveTo(moveToPos, deltaTime, npc1.faceLeft, plr.body, plr.jumped, adventureBgImage, npc2.body);
+        npc2.moveTo(moveToPos2, deltaTime, npc2.faceLeft, plr.body, plr.jumped, adventureBgImage, npc1.body);
 
         // calculate fps
         fpsCurrentTime = fpsClock.getElapsedTime();
@@ -666,10 +669,9 @@ void setup(RenderWindow& window)
 
         window.draw(cutsceneText);
 
-        for (int i = 0; i < 11; i++) {
-            //window.draw(points[i]);
-            window.draw(points2[i]);
-        }
+        //for (int i = 0; i < 11; i++) {
+        //    window.draw(points2[i]);
+        //}
 
         // draw message bubble
         if (drawBubble) {
@@ -680,7 +682,7 @@ void setup(RenderWindow& window)
             window.draw(messageImageTwo);
         }
 
-        moveStaticImages(plr.body, window, test, adventureBgImage);
+        moveStaticImages(plr.body, window, npc1.body, npc2.body, adventureBgImage);
 
         if (enterDialogue)
         {
@@ -706,7 +708,7 @@ void setup(RenderWindow& window)
 
 
         if (plr.body.getPosition().y > 538) {
-            respawnPlayer(plr.body, test.body, adventureBgImage);
+            respawnPlayer(plr.body, npc1.body, npc2.body, adventureBgImage);
         }
 
         window.draw(textDialogScript);
@@ -725,7 +727,7 @@ void setup(RenderWindow& window)
 bool checkCollideWithGround(RectangleShape& body) {
     bool intersects = false;
     for (int i = 0; i < 8; i++) {
-        if (ground[i].checkForCollision(body, crutch, adventureBgImage)) {
+        if (ground[i].checkForCollision(body, crutch, crutch, adventureBgImage)) {
             intersects = true;
         }
     }
@@ -764,7 +766,7 @@ Vector2f getRamp2Pos() {
     return ramp2.getPosition();
 }
 
-void moveStaticImages(RectangleShape& body, RenderWindow& window, Npc& test, Sprite& adventureBgImage)
+void moveStaticImages(RectangleShape& body, RenderWindow& window, RectangleShape& npcBody, RectangleShape& npcBody2, Sprite& adventureBgImage)
 {
     if (Keyboard::isKeyPressed(Keyboard::D) && adventureBgImage.getPosition().x > -5582)
     {
@@ -774,7 +776,8 @@ void moveStaticImages(RectangleShape& body, RenderWindow& window, Npc& test, Spr
             messageImage.move(-(225.0f * deltaTime), 0.f);
             //ramp.move(-(225.0f * deltaTime), 0.f);
             ramp2.move(-(225.0f * deltaTime), 0.f);
-            test.moveX(-(225.0f * deltaTime));
+            npcBody.move(-(225.0f * deltaTime), 0.f);
+            npcBody2.move(-(225.0f * deltaTime), 0.f);
             messageImageTwo.move(-(225.0f * deltaTime), 0.f);
 
             for (int i = 0; i < 8; i++) {
@@ -797,12 +800,13 @@ void moveStaticImages(RectangleShape& body, RenderWindow& window, Npc& test, Spr
     }
 }
 
-void resetStaticImages(float& offset, RectangleShape& npcBody, Sprite& adventureBgImage) {
+void resetStaticImages(float& offset, RectangleShape& npcBody, RectangleShape& npcBody2, Sprite& adventureBgImage) {
     messageImage.setPosition(500 - 1101, 300);
     messageImageTwo.setPosition(6319 - 1101, 159);
     //ramp.setPosition(800 - 1101, 430);
     ramp2.setPosition(4342 - 1101, 430);
     npcBody.setPosition(1849.0f - 1101, 538.0f - 90.0f / 2);
+    npcBody2.setPosition(4601.0f- 1101, 538.0f - 90.0f / 2);
 
     for (int i = 0; i < 8; i++) {
         blocks[i].hitbox.setPosition(blocksCopy[i].x - 1101, blocksCopy[i].y);
@@ -820,7 +824,7 @@ void resetStaticImages(float& offset, RectangleShape& npcBody, Sprite& adventure
     adventureBgImage.setPosition(0.f - 1101, 0.f);
 }
 
-void respawnPlayer(RectangleShape& body, RectangleShape& npcBody, Sprite& adventureBgImage) {
+void respawnPlayer(RectangleShape& body, RectangleShape& npcBody, RectangleShape& npcBody2, Sprite& adventureBgImage) {
     body.setPosition(150, 720 / 2);
-    resetStaticImages(moved, npcBody, adventureBgImage);
+    resetStaticImages(moved, npcBody, npcBody2, adventureBgImage);
 }

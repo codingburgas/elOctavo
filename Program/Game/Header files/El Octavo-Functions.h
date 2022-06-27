@@ -9,11 +9,10 @@ void setup(RenderWindow& window);
 
 bool checkCollideWithRamp(RectangleShape& body);
 
-void respawnPlayer(RectangleShape& body, RectangleShape& npcBody, Sprite& adventureBgImage);
+void respawnPlayer(RectangleShape& body, RectangleShape& npcBody, RectangleShape& npcBody2, Sprite& adventureBgImage);
+void moveStaticImages(RectangleShape& body, RenderWindow& window, RectangleShape& npcBody, RectangleShape& npcBody2, Sprite& adventureBgImage);
 
-void resetStaticImages(float& offset, RectangleShape& npcBody, Sprite& adventureBgImage);
-
-Vector2f getRampPos();
+void resetStaticImages(float& offset, RectangleShape& npcBody, RectangleShape& npcBody2, Sprite& adventureBgImage);
 
 Vector2f getRamp2Pos();
 
@@ -27,7 +26,7 @@ public:
 
     void drawHitbox(RenderWindow& window);
 
-    bool checkForCollision(RectangleShape& body, RectangleShape& npcBody, Sprite adventureBgImage);
+    bool checkForCollision(RectangleShape& body, RectangleShape& npcBody, RectangleShape& npcBody2, Sprite adventureBgImage);
 };
 
 class Npc {
@@ -38,7 +37,6 @@ private:
     float switchTime;
     
     string name;
-    string nestashev = "NESTASHEV";
 
     Vector2u imageCount;
     Vector2u currentImage;
@@ -56,7 +54,6 @@ private:
 
     bool reset;
 
-
 public:
     bool faceLeft;
     IntRect uvRect;
@@ -65,11 +62,11 @@ public:
     bool delay;
     bool plrFound;
 
-    Npc(Texture* texture, Vector2u imageCount, float switchTime, float speed, string name);
+    Npc(Texture* texture, Vector2u imageCount, float switchTime, float speed, string name, float posX, float posY);
     ~Npc();
 
     void draw(RenderWindow& window);
     void moveX(float amount);
     void update(int row, float deltaTime, bool delay);
-    void moveTo(float pos[], float deltaTime, bool& done, bool& faceLeft, RectangleShape& plrBody, bool jumped, Sprite& adventureBgImage);
+    void moveTo(float pos[], float deltaTime, bool& faceLeft, RectangleShape& plrBody, bool jumped, Sprite& adventureBgImage, RectangleShape& npcBody2);
 };

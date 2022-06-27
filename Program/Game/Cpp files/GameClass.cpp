@@ -9,6 +9,7 @@ namespace vars {
 	int keyTime = 0;
 	int frameJumped = 0;
 	RectangleShape npcBody;
+	RectangleShape npcBody2;
 	Sprite image;
 }
 
@@ -215,7 +216,7 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 		float bodyX = body.getPosition().x;
 
 		for (int i = 0; i < 8; i++) {
-			if (blocks[i].checkForCollision(body, npcBody, image)) {
+			if (blocks[i].checkForCollision(body, npcBody,npcBody2,image)) {
 				float hitboxX = blocks[i].hitbox.getPosition().x;
 				float hitboxY = blocks[i].hitbox.getPosition().y;
 				float hitboxSizeX = blocks[i].hitbox.getSize().x;
@@ -277,7 +278,6 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 			cout << bodyY << endl;
 			velocity.x = 0.f;
 			body.setPosition(bodyX + 0.75f, bodyY);
-
 		}
 		else {
 			if (checkCollideWithRamp(body) && frameJumped > 0) {
