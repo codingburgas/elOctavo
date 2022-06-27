@@ -375,15 +375,9 @@ void setup(RenderWindow& window)
 
     int blocksSize = sizeof(blocks) / sizeof(*blocks);
 
-    // start of sussy variables
-
     Clock clock;
     Player plr(&plrT, Vector2u(3, 2), 0.3f, 225.0f);
     Npc test(&npcT, Vector2u(3, 1), 0.3f, 170.0f, "Test");
-    //bgImage.setPosition(window.getSize().x / 2, window.getSize().y / 2);
-
-
-    // end of sussy variables
 
     window.setFramerateLimit(60);
 
@@ -418,7 +412,6 @@ void setup(RenderWindow& window)
             }
 
         }
-
 
         //mafia dialogue
         if (plr.body.getPosition().x >= messageImage.getPosition().x - 200.0f && plr.body.getPosition().x <= messageImage.getPosition().x + 200.0f)
@@ -601,9 +594,9 @@ void setup(RenderWindow& window)
         window.draw(adventureBgImage);
         window.draw(ramp);
 
-        /*for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 8; i++) {
             window.draw(blocks[i].hitbox);
-        }*/
+        }
 
         /*for (int i = 0; i < 8; i++) {
             ground[i].drawHitbox(window);
@@ -760,8 +753,6 @@ void moveStaticImages(RectangleShape& body, RenderWindow& window, Npc& test, Spr
 }
 
 void resetStaticImages(float& offset, RectangleShape& npcBody, Sprite& adventureBgImage) {
-    cout << offset << endl;
-
     messageImage.setPosition(500 - 1101, 300);
     messageImageTwo.setPosition(6319 - 1101, 159);
     ramp.setPosition(800 - 1101, 430);
