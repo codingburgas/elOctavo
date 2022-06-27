@@ -5,7 +5,7 @@
 #include "../Header files/Menu.h"
 
 // Npc class
-Npc::Npc(Texture * texture, Vector2u imageCount, float switchTime, float speed, string name) {
+Npc::Npc(Texture* texture, Vector2u imageCount, float switchTime, float speed, string name) {
     this->imageCount = imageCount;
     this->switchTime = switchTime;
     this->speed = speed;
@@ -74,8 +74,8 @@ void Npc::update(int row, float deltaTime, bool delay) {
 }
 
 void Npc::moveTo(float pos[], float deltaTime, bool& done, bool& faceLeft, RectangleShape& plrBody, bool jumped, Sprite& adventureBgImage) {
-    
-    if (abs(body.getPosition().x - plrBody.getPosition().x) < 300 && abs(plrBody.getPosition().y - body.getPosition().y) < 80.0f && (pos[0] < body.getPosition().x && pos[1] > body.getPosition().x ) && !jumped) {
+
+    if (abs(body.getPosition().x - plrBody.getPosition().x) < 300 && abs(plrBody.getPosition().y - body.getPosition().y) < 80.0f && (pos[0] < body.getPosition().x && pos[1] > body.getPosition().x) && !jumped) {
         plrFound = true;
     }
     else {
@@ -117,16 +117,16 @@ void Npc::moveTo(float pos[], float deltaTime, bool& done, bool& faceLeft, Recta
                 reset = true;
                 delay = true;
 
-                if (faceLeft) 
+                if (faceLeft)
                 {
                     faceLeft = false;
                 }
                 else {
                     faceLeft = true;
                 }
-            
+
             }
-        
+
             npcCurrentTime = npcClock.getElapsedTime();
 
             if (npcCurrentTime.asSeconds() >= 0.3) {
@@ -198,10 +198,10 @@ namespace variables {
     // player / npc
     Texture plrT;
     Texture npcT;
-   
+
     //ground
     CollisionBlock ground[8] = { {Vector2f(0, 538), Vector2f(1484, 102)}, {Vector2f(1600, 538), Vector2f(690, 102)}, {Vector2f(2394, 538), Vector2f(219, 102)}, {Vector2f(2696, 538), Vector2f(191, 102)}, {Vector2f(3598, 538), Vector2f(382, 102)}, {Vector2f(4277, 538), Vector2f(622, 102)}, {Vector2f(5010, 538), Vector2f(159, 102)}, {Vector2f(5266, 538), Vector2f(95, 102)} };
-    Vector2f groundCopy[8] = { Vector2f(0, 538), Vector2f(1600, 538), Vector2f(2394, 538), Vector2f(2696, 538), Vector2f(3598, 538), Vector2f(4277, 538), Vector2f(5010, 538), Vector2f(5266, 538)};
+    Vector2f groundCopy[8] = { Vector2f(0, 538), Vector2f(1600, 538), Vector2f(2394, 538), Vector2f(2696, 538), Vector2f(3598, 538), Vector2f(4277, 538), Vector2f(5010, 538), Vector2f(5266, 538) };
     //ramp
     Texture rampT;
     Sprite ramp;
@@ -236,8 +236,8 @@ namespace variables {
     bool drawBubble, drawBubbleTwo;
 
     CollisionBlock blocks[8] = { {Vector2f(2882, 490), Vector2f(117, 34)}, {Vector2f(1428, 338), Vector2f(211, 43)}, {Vector2f(3074, 443), Vector2f(181, 34)}, {Vector2f(3323, 395), Vector2f(181, 34)}, {Vector2f(4071, 441), Vector2f(109, 34)}, {Vector2f(5435, 461), Vector2f(117, 34)}, {Vector2f(5667, 380), Vector2f(171, 34)}, {Vector2f(5938, 305), Vector2f(474, 34)} };
-    
-    Vector2f blocksCopy[8] = {Vector2f(2882, 490), Vector2f(1428, 338), Vector2f(3074, 443), Vector2f(3323, 395), Vector2f(4071, 441), Vector2f(5435, 461), Vector2f(5667, 380), Vector2f(5938, 305)};
+
+    Vector2f blocksCopy[8] = { Vector2f(2882, 490), Vector2f(1428, 338), Vector2f(3074, 443), Vector2f(3323, 395), Vector2f(4071, 441), Vector2f(5435, 461), Vector2f(5667, 380), Vector2f(5938, 305) };
 
     bool done;
 
@@ -351,7 +351,7 @@ void setVars()
     mafiaTexture.loadFromFile("../Images and fonts/Dialogues/MobsterDialogue.png");
     nestashevTexture.loadFromFile("../Images and fonts/Dialogues/NestashevDialogue.png");
 
-    kurabirovCutscene.setTexture(kurabirovTexture); 
+    kurabirovCutscene.setTexture(kurabirovTexture);
     mafiaCutscene.setTexture(mafiaTexture);
     nestashevCutscene.setTexture(nestashevTexture);
 
@@ -376,7 +376,7 @@ void setup(RenderWindow& window)
 
     Clock clock;
     Player plr(&plrT, Vector2u(3, 2), 0.3f, 225.0f);
-    Npc test(&npcT, Vector2u(3,1), 0.3f, 170.0f, "Test");
+    Npc test(&npcT, Vector2u(3, 1), 0.3f, 170.0f, "Test");
     //bgImage.setPosition(window.getSize().x / 2, window.getSize().y / 2);
 
 
@@ -390,7 +390,7 @@ void setup(RenderWindow& window)
 
         window.setKeyRepeatEnabled(true);
 
-        float moveToPos[2] = {blocks[1].hitbox.getPosition().x + 200, blocks[2].hitbox.getPosition().x - 800};
+        float moveToPos[2] = { blocks[1].hitbox.getPosition().x + 200, blocks[2].hitbox.getPosition().x - 800 };
 
         while (window.pollEvent(ev))
         {
@@ -429,7 +429,7 @@ void setup(RenderWindow& window)
             {
                 enterDialogue = true;
             }
-                    
+
         }
         else {
             cutsceneText.setString("");
@@ -439,7 +439,7 @@ void setup(RenderWindow& window)
         if (enterDialogue) {
             if (Keyboard::isKeyPressed(Keyboard::Enter) && !enterPressed)
             {
-                dialogTurn++; 
+                dialogTurn++;
 
                 enterPressed = true;
                 character = 0;
@@ -454,10 +454,10 @@ void setup(RenderWindow& window)
 
             if (dialogTurn == 2)
             {
-                dialogScript = "Two days ago, you refused to give a netractor certificate to my boss.";
+                dialogScript = "Two days ago, you refused to give a \nnetractor certificate to my boss.";
                 imageTurn = true;
             }
-           
+
             if (dialogTurn == 3)
             {
                 dialogScript = "Yes this is the order.\nNow go this way and you will reach nestashev.";
@@ -488,7 +488,7 @@ void setup(RenderWindow& window)
                     textDialogScript.setString(string(dialogScript.substr(0, character)));
                 }
             }
-            
+
         }
 
         if (dialogueOver)
@@ -510,7 +510,7 @@ void setup(RenderWindow& window)
             {
                 enterDialogueTwo = true;
             }
-                    
+
         }
         else {
             cutsceneTextTwo.setString("");
@@ -520,8 +520,8 @@ void setup(RenderWindow& window)
         if (enterDialogueTwo) {
             if (Keyboard::isKeyPressed(Keyboard::Enter) && !enterPressedTwo)
             {
-                dialogTurnTwo++; 
-                
+                dialogTurnTwo++;
+
                 cout << dialogTurnTwo;
                 enterPressedTwo = true;
                 characterTwo = 0;
@@ -535,10 +535,10 @@ void setup(RenderWindow& window)
 
             if (dialogTurnTwo == 2)
             {
-                dialogScriptTwo = "Two days ago, you refused to give a netractor certificate to my boss.";
+                dialogScriptTwo = "Two days ago, you refused to give a \nnetractor certificate to my boss.";
                 imageTurnTwo = true;
             }
-           
+
             if (dialogTurnTwo == 3)
             {
                 dialogScriptTwo = "Yes, because he can't drive a tractor,\nhe paid BGN 50, then he bribed me and I refused.";
@@ -547,7 +547,7 @@ void setup(RenderWindow& window)
 
             if (dialogTurnTwo == 4)
             {
-                dialogScriptTwo = "Okay, but I'll beat you if you don't give it to me.";
+                dialogScriptTwo = "Okay, but I'll beat you if you don't \ngive it to me.";
                 imageTurnTwo = true;
             }
 
@@ -580,7 +580,7 @@ void setup(RenderWindow& window)
                     textDialogScriptTwo.setString(string(dialogScriptTwo.substr(0, characterTwo)));
                 }
             }
-            
+
         }
 
         if (dialogueOverTwo)
@@ -588,10 +588,10 @@ void setup(RenderWindow& window)
             cutsceneTextTwo.setString("");
             drawBubbleTwo = false;
         }
-        
+
 
         plr.updateMovement(deltaTime, window, adventureBgImage, soundWalk, soundJump, movementToggle, blocks, blocksSize);
-        test.update(0, deltaTime,test.delay);
+        test.update(0, deltaTime, test.delay);
 
         window.clear(Color::Green);
 
@@ -626,7 +626,7 @@ void setup(RenderWindow& window)
         {
             window.draw(fpsCounter);
         }
-        
+
         window.draw(cutsceneText);
 
         /*for (int i = 0; i < 11; i++) {
@@ -727,7 +727,7 @@ Vector2f getRampPos() {
 
 void moveStaticImages(RectangleShape& body, RenderWindow& window, Npc& test, Sprite& adventureBgImage)
 {
-    if (Keyboard::isKeyPressed(Keyboard::D) && adventureBgImage.getPosition().x > - 5582)
+    if (Keyboard::isKeyPressed(Keyboard::D) && adventureBgImage.getPosition().x > -5582)
     {
         if (body.getPosition().x >= window.getSize().x / 2)
         {
@@ -758,8 +758,9 @@ void moveStaticImages(RectangleShape& body, RenderWindow& window, Npc& test, Spr
 
 void resetStaticImages(float& offset, RectangleShape& npcBody, Sprite& adventureBgImage) {
     cout << offset << endl;
-    
+
     messageImage.setPosition(500 - 1101, 300);
+    messageImageTwo.setPosition(6319 - 1101, 159);
     ramp.setPosition(800 - 1101, 430);
     npcBody.setPosition(1849.0f - 1101, 538.0f - 90.0f / 2);
 
