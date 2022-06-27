@@ -206,10 +206,10 @@ namespace variables {
     Vector2f groundCopy[8] = { Vector2f(0, 538), Vector2f(1600, 538), Vector2f(2394, 538), Vector2f(2696, 538), Vector2f(3598, 538), Vector2f(4277, 538), Vector2f(5010, 538), Vector2f(5266, 538) };
     //ramp
     Texture rampT;
-    Sprite ramp;
+    //Sprite ramp;
     Sprite ramp2;
-    RectangleShape points[11];
-    Vector2f pointsCopy[11];
+    //RectangleShape points[11];
+    //Vector2f pointsCopy[11];
     RectangleShape points2[11];
     Vector2f pointsCopy2[11];
 
@@ -317,9 +317,9 @@ void setVars()
     endImage.setTexture(endTexture);
 
     rampT.loadFromFile("../Images and fonts/Ramp Test.png");
-    ramp.setTexture(rampT);
+    /*ramp.setTexture(rampT);
     ramp.setOrigin(0, 0);
-    ramp.setPosition(800, 430);
+    ramp.setPosition(800, 430);*/
     ramp2.setTexture(rampT);
     ramp2.setOrigin(0, 0);
     ramp2.setPosition(4342, 430);
@@ -342,22 +342,22 @@ void setVars()
     cutsceneText.setFont(font);
 
     for (int i = 0; i < 11; i++) {
-        points[i] = RectangleShape(Vector2f(14, 14));
-        points[i].setOrigin(7, 7);
+        /*points[i] = RectangleShape(Vector2f(14, 14));
+        points[i].setOrigin(7, 7);*/
         points2[i] = RectangleShape(Vector2f(14, 14));
         points2[i].setOrigin(7, 7);
 
         if (i == 0) {
-            points[i].setPosition(ramp.getPosition().x, ramp.getPosition().y + 110);
+            //points[i].setPosition(ramp.getPosition().x, ramp.getPosition().y + 110);
             points2[i].setPosition(ramp2.getPosition().x, ramp2.getPosition().y + 110);
         }
         else {
-            points[i].setPosition(points[i - 1].getPosition().x + 9, points[i - 1].getPosition().y - 9);
+            //points[i].setPosition(points[i - 1].getPosition().x + 9, points[i - 1].getPosition().y - 9);
             points2[i].setPosition(points2[i - 1].getPosition().x + 9, points2[i - 1].getPosition().y - 9);
 
         }
 
-        pointsCopy[i] = points[i].getPosition();
+        //pointsCopy[i] = points[i].getPosition();
         pointsCopy2[i] = points2[i].getPosition();
     }
 
@@ -632,7 +632,7 @@ void setup(RenderWindow& window)
         window.clear(Color::Green);
 
         window.draw(adventureBgImage);
-        window.draw(ramp);
+        //window.draw(ramp);
         window.draw(ramp2);
 
         for (int i = 0; i < 8; i++) {
@@ -667,11 +667,9 @@ void setup(RenderWindow& window)
         window.draw(cutsceneText);
 
         for (int i = 0; i < 11; i++) {
-            window.draw(points[i]);
+            //window.draw(points[i]);
             window.draw(points2[i]);
         }
-
-        cout << points2[0].getPosition().x << " " << points2[0].getPosition().y << endl;
 
         // draw message bubble
         if (drawBubble) {
@@ -753,7 +751,7 @@ bool checkCollideWithRamp(RectangleShape& body) {
     }*/
 
     for (int i = 0; i < 11; i++) {
-        if ((points[i].getGlobalBounds().intersects(body.getGlobalBounds()) && body.getPosition().x <= ramp.getPosition().x + 110) or (points2[i].getGlobalBounds().intersects(body.getGlobalBounds()) && body.getPosition().x <= ramp2.getPosition().x + 110)) {
+        if ((points2[i].getGlobalBounds().intersects(body.getGlobalBounds()) && body.getPosition().x <= ramp2.getPosition().x + 110)) {
             return true;
         }
     }
@@ -761,9 +759,6 @@ bool checkCollideWithRamp(RectangleShape& body) {
     return false;
 }
 
-Vector2f getRampPos() {
-    return ramp.getPosition();
-}
 
 Vector2f getRamp2Pos() {
     return ramp2.getPosition();
@@ -777,7 +772,7 @@ void moveStaticImages(RectangleShape& body, RenderWindow& window, Npc& test, Spr
         {
             //make images static
             messageImage.move(-(225.0f * deltaTime), 0.f);
-            ramp.move(-(225.0f * deltaTime), 0.f);
+            //ramp.move(-(225.0f * deltaTime), 0.f);
             ramp2.move(-(225.0f * deltaTime), 0.f);
             test.moveX(-(225.0f * deltaTime));
             messageImageTwo.move(-(225.0f * deltaTime), 0.f);
@@ -787,7 +782,7 @@ void moveStaticImages(RectangleShape& body, RenderWindow& window, Npc& test, Spr
             }
 
             for (int i = 0; i < 11; i++) {
-                points[i].move(-(225.0f * deltaTime), 0.f);
+                //points[i].move(-(225.0f * deltaTime), 0.f);
                 points2[i].move(-(225.0f * deltaTime), 0.f);
             }
 
@@ -805,7 +800,7 @@ void moveStaticImages(RectangleShape& body, RenderWindow& window, Npc& test, Spr
 void resetStaticImages(float& offset, RectangleShape& npcBody, Sprite& adventureBgImage) {
     messageImage.setPosition(500 - 1101, 300);
     messageImageTwo.setPosition(6319 - 1101, 159);
-    ramp.setPosition(800 - 1101, 430);
+    //ramp.setPosition(800 - 1101, 430);
     ramp2.setPosition(4342 - 1101, 430);
     npcBody.setPosition(1849.0f - 1101, 538.0f - 90.0f / 2);
 
@@ -814,7 +809,7 @@ void resetStaticImages(float& offset, RectangleShape& npcBody, Sprite& adventure
     }
 
     for (int i = 0; i < 11; i++) {
-        points[i].setPosition(pointsCopy[i].x - 1101, pointsCopy[i].y);
+        //points[i].setPosition(pointsCopy[i].x - 1101, pointsCopy[i].y);
         points2[i].setPosition(pointsCopy2[i].x - 1101, pointsCopy2[i].y);
     }
 
