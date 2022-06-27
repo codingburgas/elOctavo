@@ -15,6 +15,8 @@ void resetStaticImages(float& offset, RectangleShape& npcBody, Sprite& adventure
 
 Vector2f getRampPos();
 
+Vector2f getRamp2Pos();
+
 class CollisionBlock {
 public:
     RectangleShape hitbox;

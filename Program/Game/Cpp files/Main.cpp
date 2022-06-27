@@ -9,7 +9,7 @@
 int main()
 {
 	HWND hWnd = GetConsoleWindow();
-	ShowWindow(hWnd, SW_HIDE);
+	ShowWindow(hWnd, SW_SHOW);
 
 	RenderWindow window(VideoMode(1280, 720), "The legend of Kurabirov", Style::Titlebar | Style::Close);
 

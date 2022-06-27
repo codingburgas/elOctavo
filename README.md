@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <h1 align = "center"> Team</h1>
 <br>
  <p align = "center">
@@ -5,6 +6,11 @@
  </p>
  
  
+=======
+<p align = "center">
+  <img src="Program/Images and fonts/Logo/El8 - Logo.png"/>
+
+>>>>>>> 5a355fe5405359a5f10109864c45f3ec9a605c33
 <p align = "center">
    <img src = "https://img.shields.io/github/milestones/open/codingburgas/finalProject-elOctavo?style=flat-square">
    <img src = "https://img.shields.io/github/contributors/codingburgas/2122-finalProject-elOctavo?style=flat-square">

@@ -140,7 +140,7 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 				{
 					soundJump.play();
 				}
-				
+
 				vars::clock.restart();
 				jumpY = body.getPosition().y;
 				jump(deltaTime, 600);
@@ -235,7 +235,7 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 						velocity.y = 0.f;
 					}
 					jumped = false;
-					
+
 					body.setPosition(bodyX, hitboxY - 64.0f);
 				}
 				else if (((bodyY > hitboxY && not bodyX < hitboxX) or (bodyY > hitboxY && not bodyX < bodyX >= hitboxX + hitboxSizeX)) && i != 0) {
@@ -276,15 +276,15 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 			}
 			ramped = true;
 		}
-		else if (bodyX > getRampPos().x + 110 && (bodyX - (getRampPos().x + 110) < 30.0f) && bodyY > 450 && !ramped) {
+		else if (((bodyX > getRampPos().x + 110 && (bodyX - (getRampPos().x + 110) < 30.0f)) or (bodyX > getRamp2Pos().x + 110 && (bodyX - (getRamp2Pos().x + 110) < 30.0f)) && bodyY > 450 && !ramped)) {
 			cout << bodyY << endl;
-			velocity.x = 0.f;
-			body.setPosition(bodyX + 0.75f, bodyY);
+				velocity.x = 0.f;
+				body.setPosition(bodyX + 0.75f, bodyY);
 		}
 		else {
 			if (checkCollideWithRamp(body) && frameJumped > 0) {
 				cout << frameJumped << endl;
-				jumped = false;
+					jumped = false;
 			}
 			if (ramped) {
 				ramped = false;
