@@ -207,8 +207,11 @@ namespace variables {
     //ramp
     Texture rampT;
     Sprite ramp;
+    Sprite ramp2;
     RectangleShape points[12];
     Vector2f pointsCopy[12];
+    RectangleShape points2[12];
+    Vector2f pointsCopy2[12];
 
 
     //sound
@@ -269,6 +272,9 @@ namespace variables {
     Texture endTexture;
 
     bool endG = false;
+
+    Sound talkSound;
+    SoundBuffer talkBuffer;
 };
 
 
@@ -312,6 +318,9 @@ void setVars()
     ramp.setTexture(rampT);
     ramp.setOrigin(0, 0);
     ramp.setPosition(800, 430);
+    ramp2.setTexture(rampT);
+    ramp2.setOrigin(0, 0);
+    ramp2.setPosition(4342, 428);
 
     jumpBuffer.loadFromFile("../Audios/Jump.wav");
     walkBuffer.loadFromFile("../Audios/Walk.wav");
@@ -333,19 +342,18 @@ void setVars()
     for (int i = 0; i < 12; i++) {
         points[i] = RectangleShape(Vector2f(10, 10));
         points[i].setOrigin(5, 5);
-    }
+        points2[i] = RectangleShape(Vector2f(10, 10));
+        points2[i].setOrigin(5, 5);
 
-    for (int i = 0; i < 12; i++) {
         if (i == 0) {
             points[i].setPosition(ramp.getPosition().x, ramp.getPosition().y + 110);
         }
         else {
             points[i].setPosition(points[i - 1].getPosition().x + 10, points[i - 1].getPosition().y - 10);
         }
-    }
 
-    for (int i = 0; i < 12; i++) {
         pointsCopy[i] = points[i].getPosition();
+        pointsCopy2[i] = points2[i].getPosition();
     }
 
     //cutscene setup
@@ -366,6 +374,10 @@ void setVars()
     textDialogScriptTwo.setFillColor(Color(0, 0, 0));
     textDialogScriptTwo.setPosition(100, 540);
     textDialogScriptTwo.setCharacterSize(50);
+
+    talkBuffer.loadFromFile("../Audios/Talk.wav");
+    talkSound.setBuffer(talkBuffer);
+    talkSound.setVolume(5);
 }
 
 void setup(RenderWindow& window)
@@ -478,9 +490,18 @@ void setup(RenderWindow& window)
                 {
                     timer.restart();
 
+                    if (talkSound.getStatus() == 0 && isAudioRunning(audioToggle)) {
+                        talkSound.play();
+                    }
+
                     character++;
 
                     textDialogScript.setString(string(dialogScript.substr(0, character)));
+
+                    if (character == dialogScript.length() && isAudioRunning(audioToggle))
+                    {
+                        talkSound.stop();
+                    }
                 }
             }
 
@@ -554,10 +575,12 @@ void setup(RenderWindow& window)
 
             if (dialogTurnTwo == 6)
             {
+                talkSound.stop();
+
                 if (endG == false) {
+                    talkSound.stop();
                     timerTwo.restart();
                     endG = true;
-
                 }
 
                 if (timerTwo.getElapsedTime().asSeconds() > 5) {
@@ -570,9 +593,18 @@ void setup(RenderWindow& window)
                 {
                     timerTwo.restart();
 
+                    if (talkSound.getStatus() == 0 && isAudioRunning(audioToggle)) {
+                        talkSound.play();
+                    }
+
                     characterTwo++;
 
                     textDialogScriptTwo.setString(string(dialogScriptTwo.substr(0, characterTwo)));
+
+                    if ((characterTwo == dialogScriptTwo.length() && isAudioRunning(audioToggle)) || (dialogTurnTwo == 6 && isAudioRunning(audioToggle)))
+                    {
+                        talkSound.stop();
+                    }
                 }
             }
 
