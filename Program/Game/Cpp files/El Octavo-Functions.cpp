@@ -28,6 +28,13 @@ Npc::Npc(Texture* texture, Vector2u imageCount, float switchTime, float speed, s
     this->body.setOrigin(81.0f / 2, 90.0f / 2);
     this->body.setPosition(posX, posY - 90.0f / 2);
     this->body.setTexture(texture);
+
+    if (posX == 4588.0f) {
+        this->npcNum = 2;
+    }
+    else {
+        this->npcNum = 1;
+    }
 }
 
 //Npc destructor
@@ -144,7 +151,12 @@ void Npc::moveTo(float pos[], float deltaTime, bool& faceLeft, RectangleShape& p
     }
     else {
         if (distance <= 40.5f && abs(plrBody.getPosition().y - body.getPosition().y) < 64.5) {
-            respawnPlayer(plrBody, body, npcBody2, adventureBgImage);
+            if (this->npcNum == 1) {
+                respawnPlayer(plrBody, body, npcBody2, adventureBgImage);
+            }
+            else {
+                respawnPlayer(plrBody, npcBody2, body, adventureBgImage);
+            }
         }
     }
 }
@@ -320,7 +332,7 @@ void setVars()
     ramp.setPosition(800, 430);*/
     ramp2.setTexture(rampT);
     ramp2.setOrigin(0, 0);
-    ramp2.setPosition(4342, 430);
+    ramp2.setPosition(760, 430);
 
     jumpBuffer.loadFromFile("../Audios/Jump.wav");
     walkBuffer.loadFromFile("../Audios/Walk.wav");
@@ -401,9 +413,11 @@ void setup(RenderWindow& window)
         deltaTime = clock.restart().asSeconds();
 
         window.setKeyRepeatEnabled(true);
-
+        
         float moveToPos[2] = { blocks[1].hitbox.getPosition().x + 200, blocks[2].hitbox.getPosition().x - 800 };
-        float moveToPos2[2] = {ramp2.getPosition().x + 120, blocks[5].hitbox.getPosition().x - 667};
+        float moveToPos2[2] = {blocks[4].hitbox.getPosition().x + 250, blocks[5].hitbox.getPosition().x - 700};
+
+        cout << blocks[2].hitbox.getPosition().x << endl;
 
         while (window.pollEvent(ev))
         {
@@ -625,9 +639,9 @@ void setup(RenderWindow& window)
 
         //if (isMoving || isMovingTwo)
         //{
-            plr.updateMovement(deltaTime, window, adventureBgImage, soundWalk, soundJump, movementToggle, blocks, blocksSize);
-            npc1.update(0, deltaTime, npc1.delay);
-            npc2.update(0, deltaTime, npc2.delay);
+        plr.updateMovement(deltaTime, window, adventureBgImage, soundWalk, soundJump, movementToggle, blocks, blocksSize);
+        npc1.update(0, deltaTime, npc1.delay);
+        npc2.update(0, deltaTime, npc2.delay);
         //}
         
         window.clear(Color::Green);
@@ -806,7 +820,7 @@ void resetStaticImages(float& offset, RectangleShape& npcBody, RectangleShape& n
     //ramp.setPosition(800 - 1101, 430);
     ramp2.setPosition(4342 - 1101, 430);
     npcBody.setPosition(1849.0f - 1101, 538.0f - 90.0f / 2);
-    npcBody2.setPosition(4601.0f- 1101, 538.0f - 90.0f / 2);
+    npcBody2.setPosition(4601.0f - 1101, 538.0f - 90.0f / 2);
 
     for (int i = 0; i < 8; i++) {
         blocks[i].hitbox.setPosition(blocksCopy[i].x - 1101, blocksCopy[i].y);

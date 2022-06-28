@@ -61,6 +61,7 @@ public:
     Vector2f velocity;
     bool delay;
     bool plrFound;
+    int npcNum;
 
     Npc(Texture* texture, Vector2u imageCount, float switchTime, float speed, string name, float posX, float posY);
     ~Npc();
