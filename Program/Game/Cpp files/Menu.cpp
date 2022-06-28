@@ -12,6 +12,11 @@ namespace variables {
     Texture textureMenu;
     Sprite bgImageMenu;
 
+    Texture confirmationT;
+    Sprite confirmation;
+
+    RectangleShape blackEffect(Vector2f(1280, 720));
+
     Music music;
 
     Texture texture;
@@ -21,6 +26,7 @@ namespace variables {
     Sprite checkButtonImage[2];
 
     bool setPositionByDefault = true;
+    bool displayConfirmation = false;
 }
 
 using namespace variables;
@@ -33,7 +39,7 @@ void setupVars(RenderWindow& window)
     {
         cout << "Error" << endl;
     }
-     
+
     if (audioToggle)
     {
         music.play();
@@ -58,7 +64,12 @@ void setupVars(RenderWindow& window)
     else {
         cout << "";
     }
-    
+
+    confirmationT.loadFromFile("../Images and fonts/Bg/Confirmation.png");
+    confirmation.setTexture(confirmationT);
+    confirmation.setOrigin(0, 0);
+    confirmation.setPosition(0, 0);
+    blackEffect.setFillColor(Color(0, 0, 0, 120));
 
     addIcon(window);
     music.setLoop(true);
@@ -140,7 +151,7 @@ void optionMenu(Event& ev, Texture texture, RenderWindow& window)
         }
 
         window.draw(sprite);
-        
+
         for (int i = 0; i < 2; i++)
         {
             window.draw(checkButtonImage[i]);
@@ -167,12 +178,22 @@ void setupMenu(RenderWindow& window)
 
             if (evMenu.type == Event::Closed)
             {
-                window.close();
+                if (!displayConfirmation) {
+                    displayConfirmation = true;
+                }
+                else {
+                    window.close();
+                }
             }
 
             if (evMenu.type == Event::KeyPressed && evMenu.key.code == Keyboard::Escape)
             {
-                window.close();
+                if (!displayConfirmation) {
+                    displayConfirmation = true;
+                }
+                else {
+                    window.close();
+                }
             }
 
             switch (evMenu.type)
@@ -185,31 +206,57 @@ void setupMenu(RenderWindow& window)
 
                     if (evMenu.mouseButton.x >= 530 && evMenu.mouseButton.x <= 750)
                     {
-                        if (evMenu.mouseButton.y >= 335 && evMenu.mouseButton.y <= 392)
-                        {
-                            music.stop();
-                           
-                            backstory(window, backstoryTexture, backstoryImage);
-                            setup(window);
+
+                        if (!displayConfirmation) {
+                            if (evMenu.mouseButton.y >= 335 && evMenu.mouseButton.y <= 392)
+                            {
+                                music.stop();
+
+                                backstory(window, backstoryTexture, backstoryImage);
+                                setup(window);
+                            }
+
+                            if (evMenu.mouseButton.y >= 459 && evMenu.mouseButton.y <= 516)
+                            {
+                                optionMenu(evMenu, texture, window);
+                            }
+
+                            if (evMenu.mouseButton.y >= 581 && evMenu.mouseButton.y <= 638)
+                            {
+                                displayConfirmation = true;
+
+                            }
                         }
 
-                        if (evMenu.mouseButton.y >= 459 && evMenu.mouseButton.y <= 516)
-                        {
-                            optionMenu(evMenu, texture, window);  
-                        }
+                        // 541, 397
+                        // 594, 421
 
-                        if (evMenu.mouseButton.y >= 581 && evMenu.mouseButton.y <= 638)
-                        {
-                            window.close();
+                        // 638, 397
+                        // 722, 421
+                        if (evMenu.mouseButton.y <= 524 && evMenu.mouseButton.y >= 381) {
+                            if (evMenu.mouseButton.x >= 541 && evMenu.mouseButton.x <= 594) {
+                                window.close();
+                            }
+                            if (evMenu.mouseButton.x >= 659 && evMenu.mouseButton.x <= 738) {
+                                displayConfirmation = false;
+                            }
                         }
                     }
                     break;
-                }    
+                }
             }
             }
         }
 
         window.draw(bgImageMenu);
+
+        if (displayConfirmation) {
+            window.draw(blackEffect);
+        }
+
+        if (displayConfirmation) {
+            window.draw(confirmation);
+        }
 
         window.display();
     }
