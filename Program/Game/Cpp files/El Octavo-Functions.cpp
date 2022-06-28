@@ -637,12 +637,12 @@ void setup(RenderWindow& window)
             isMovingTwo = true;
         }
 
-        //if (isMoving || isMovingTwo)
-        //{
-        plr.updateMovement(deltaTime, window, adventureBgImage, soundWalk, soundJump, movementToggle, blocks, blocksSize);
-        npc1.update(0, deltaTime, npc1.delay);
-        npc2.update(0, deltaTime, npc2.delay);
-        //}
+        if (!enterDialogue && !enterDialogueTwo)
+        {
+            plr.updateMovement(deltaTime, window, adventureBgImage, soundWalk, soundJump, movementToggle, blocks, blocksSize);
+            npc1.update(0, deltaTime, npc1.delay);
+            npc2.update(0, deltaTime, npc2.delay);
+        }
         
         window.clear(Color::Green);
 
