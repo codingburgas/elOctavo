@@ -604,7 +604,8 @@ void setup(RenderWindow& window)
                 }
 
                 if (timerTwo.getElapsedTime().asSeconds() > 5) {
-                    window.close();
+                    //dialogTurnTwo = 0;
+                    setupMenu(window);
                 }
             }
 
@@ -650,9 +651,9 @@ void setup(RenderWindow& window)
         //window.draw(ramp);
         window.draw(ramp2);
 
-        for (int i = 0; i < 8; i++) {
+        /*for (int i = 0; i < 8; i++) {
             window.draw(blocks[i].hitbox);
-        }
+        }*/
 
         /*for (int i = 0; i < 8; i++) {
             ground[i].drawHitbox(window);
