@@ -30,6 +30,7 @@
 This is an adventitious game about the story of Kurabirov
 
 # Documents 
+  - [Presentation](https://codingburgas-my.sharepoint.com/:p:/g/personal/dndonchev20_codingburgas_bg/EcZoArWVZhREsfJeQlHDAg8BfqiK_xcGb-ODT9a1aEZbUg?rtime=5vF7PNtY2kg)
   - [Documentation](https://codingburgas-my.sharepoint.com/:w:/g/personal/smtashev20_codingburgas_bg/ESupdHF1u1lCre08ZWwMnBcB1LgOgWQd70dJKM60CZan8w?e=SJXTxj)
   - [QA Documentation](https://codingburgas-my.sharepoint.com/:x:/g/personal/smtashev20_codingburgas_bg/EcmU-Wo3BztPgxTmNkHqwBoBzxOA03y1N1mWBNpu-zj1Ww?e=Wdd0ZJ)
   - [Test plan](https://codingburgas-my.sharepoint.com/:w:/g/personal/smtashev20_codingburgas_bg/Ec1NtqxnH2NNqofxITJAzCkBWB-nc8GKQoxF9gzbTUjZ-g?e=Qq7LuX)
