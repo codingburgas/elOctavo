@@ -83,7 +83,7 @@ void Npc::update(int row, float deltaTime, bool delay) {
 //move npc
 void Npc::moveTo(float pos[], float deltaTime, bool& faceLeft, RectangleShape& plrBody, bool jumped, Sprite& adventureBgImage, RectangleShape& npcBody2) {
 
-    if (abs(body.getPosition().x - plrBody.getPosition().x) < 300 && abs(plrBody.getPosition().y - body.getPosition().y) < 80.0f && (pos[0] < body.getPosition().x && pos[1] > body.getPosition().x) && !jumped) {
+    if (abs(body.getPosition().x - plrBody.getPosition().x) < 300 && abs(plrBody.getPosition().y - body.getPosition().y) < 80.0f && (pos[0] < plrBody.getPosition().x && pos[1] > plrBody.getPosition().x) && !jumped) {
         plrFound = true;
     }
     else {
