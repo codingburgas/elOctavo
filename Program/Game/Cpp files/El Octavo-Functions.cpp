@@ -504,7 +504,7 @@ void setup(RenderWindow& window)
 
                     textDialogScript.setString(string(dialogScript.substr(0, character)));
 
-                    if (character == dialogScript.length() && isAudioRunning(audioToggle) && dialogTurn >= 5)
+                    if ((character == dialogScript.length() && isAudioRunning(audioToggle)) && (dialogTurn >= 5 || isAudioRunning(audioToggle)))
                     {
                         talkSound.stop();
                     }
