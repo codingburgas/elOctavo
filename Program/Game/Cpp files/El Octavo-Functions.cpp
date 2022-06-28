@@ -252,7 +252,7 @@ namespace variables {
 
     bool drawBubble, drawBubbleTwo;
 
-    CollisionBlock blocks[8] = { {Vector2f(2882, 490), Vector2f(117, 34)}, {Vector2f(1428, 338), Vector2f(211, 43)}, {Vector2f(3094, 443), Vector2f(161, 34)}, {Vector2f(3343, 395), Vector2f(161, 34)}, {Vector2f(4071, 441), Vector2f(109, 34)}, {Vector2f(5435, 461), Vector2f(117, 34)}, {Vector2f(5667, 380), Vector2f(171, 34)}, {Vector2f(5938, 305), Vector2f(474, 34)} };
+    CollisionBlock blocks[8] = { {Vector2f(2882, 490), Vector2f(117, 34)}, {Vector2f(1428, 338), Vector2f(211, 43)}, {Vector2f(3094, 443), Vector2f(141, 34)}, {Vector2f(3343, 395), Vector2f(141, 34)}, {Vector2f(4071, 441), Vector2f(89, 34)}, {Vector2f(5435, 461), Vector2f(117, 34)}, {Vector2f(5667, 380), Vector2f(171, 34)}, {Vector2f(5938, 305), Vector2f(474, 34)} };
 
     Vector2f blocksCopy[8] = { Vector2f(2882, 490), Vector2f(1428, 338), Vector2f(3094, 443), Vector2f(3343, 395), Vector2f(4071, 441), Vector2f(5435, 461), Vector2f(5667, 380), Vector2f(5938, 305) };
 
@@ -650,9 +650,9 @@ void setup(RenderWindow& window)
         //window.draw(ramp);
         window.draw(ramp2);
 
-        /*for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 8; i++) {
             window.draw(blocks[i].hitbox);
-        }*/
+        }
 
         /*for (int i = 0; i < 8; i++) {
             ground[i].drawHitbox(window);
