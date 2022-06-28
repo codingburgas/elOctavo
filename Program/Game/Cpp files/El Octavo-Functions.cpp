@@ -818,7 +818,7 @@ void resetStaticImages(float& offset, RectangleShape& npcBody, RectangleShape& n
     messageImage.setPosition(500 - 1101, 300);
     messageImageTwo.setPosition(6319 - 1101, 159);
     //ramp.setPosition(800 - 1101, 430);
-    ramp2.setPosition(4342 - 1101, 430);
+    ramp2.setPosition(760 - 1101, 430);
     npcBody.setPosition(1849.0f - 1101, 538.0f - 90.0f / 2);
     npcBody2.setPosition(4601.0f - 1101, 538.0f - 90.0f / 2);
 
