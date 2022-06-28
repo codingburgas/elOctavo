@@ -623,12 +623,12 @@ void setup(RenderWindow& window)
             isMovingTwo = true;
         }
 
-        if (isMoving || isMovingTwo)
-        {
+        //if (isMoving || isMovingTwo)
+        //{
             plr.updateMovement(deltaTime, window, adventureBgImage, soundWalk, soundJump, movementToggle, blocks, blocksSize);
             npc1.update(0, deltaTime, npc1.delay);
             npc2.update(0, deltaTime, npc2.delay);
-        }
+        //}
         
         window.clear(Color::Green);
 
@@ -813,7 +813,6 @@ void resetStaticImages(float& offset, RectangleShape& npcBody, RectangleShape& n
     }
 
     for (int i = 0; i < 11; i++) {
-        //points[i].setPosition(pointsCopy[i].x - 1101, pointsCopy[i].y);
         points2[i].setPosition(pointsCopy2[i].x - 1101, pointsCopy2[i].y);
     }
 

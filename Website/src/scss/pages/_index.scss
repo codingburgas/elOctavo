@@ -147,60 +147,6 @@
     color: white;
 }
 
-.sponsor__section {
-    margin-top: 70px;
-    width: 100%;
-    @include flex(column, center, center);
-}
-
-.sponsor__text {
-    font-size: $normalFontSize + 5;
-    letter-spacing: $normalLetterSpacing;
-}
-
-.sponsor__img-wrapper-outline {
-    width: 900px;
-    height: 130px;
-    @include flex(row, space-around, center);
-
-    img {
-        width: 100%;
-        height: 100%;
-    }
-}
-
-.sponsor__img-wrapper {
-    img {
-        width: 100%;
-        height: 100%;
-    }
-}
-
-.sponsor__steam {
-    width: 60px;
-    height: 60px;
-}
-
-.sponsor__epic-games {
-    width: 60px;
-    height: 60px;
-}
-
-.sponsor__unity {
-    width: unset;
-    height: 60px;
-}
-
-.sponsor__nintendo {
-    width: unset;
-    height: 60px;
-}
-
-.sponsor__xbox_one_logo {
-    width: unset;
-    height: 60px;
-}
-
 
 //Responsive from 1920px to 1201px
 @media only screen and (max-width:1300px) {
@@ -503,59 +449,7 @@
         color: white;
     }
 
-    .sponsor__section {
-        margin-top: 70px;
-        width: 100%;
-        @include flex(column, center, center);
-    }
-
-    .sponsor__text {
-        font-size: $normalFontSize + 5;
-        letter-spacing: $normalLetterSpacing;
-    }
-
-    .sponsor__img-wrapper-outline {
-        width: 600px;
-        height: 130px;
-        @include flex(row, space-around, center);
-        flex-wrap: wrap;
-
-        img {
-            width: 100%;
-            height: 100%;
-        }
-    }
-
-    .sponsor__img-wrapper {
-        img {
-            width: 100%;
-            height: 100%;
-        }
-    }
-
-    .sponsor__steam {
-        width: 60px;
-        height: 60px;
-    }
-
-    .sponsor__epic-games {
-        width: 60px;
-        height: 60px;
-    }
-
-    .sponsor__unity {
-        width: unset;
-        height: 60px;
-    }
-
-    .sponsor__nintendo {
-        width: unset;
-        height: 60px;
-    }
-
-    .sponsor__xbox_one_logo {
-        display: none;
-    }
+   
 }
 
 //Responsive from 767px to 576px
@@ -709,61 +603,6 @@
         color: white;
     }
 
-    .sponsor__section {
-        margin-top: 70px;
-        width: 100%;
-        @include flex(column, center, center);
-        display: none;
-    }
-
-    .sponsor__text {
-        font-size: $normalFontSize + 5;
-        letter-spacing: $normalLetterSpacing;
-    }
-
-    .sponsor__img-wrapper-outline {
-        width: 500px;
-        height: 130px;
-        @include flex(row, space-around, center);
-        flex-wrap: wrap;
-
-        img {
-            width: 100%;
-            height: 100%;
-        }
-    }
-
-    .sponsor__img-wrapper {
-        img {
-            width: 100%;
-            height: 100%;
-        }
-    }
-
-    .sponsor__steam {
-        width: 60px;
-        height: 60px;
-    }
-
-    .sponsor__epic-games {
-        width: 60px;
-        height: 60px;
-    }
-
-    .sponsor__unity {
-        width: unset;
-        height: 60px;
-        display: none;
-    }
-
-    .sponsor__nintendo {
-        width: unset;
-        height: 60px;
-    }
-
-    .sponsor__xbox_one_logo {
-        display: none;
-    }
 }
 
 //Responsive to 575px 
