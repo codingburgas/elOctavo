@@ -86,6 +86,27 @@ void optionMenu(Event& ev, Texture texture, RenderWindow& window)
 
         while (window.pollEvent(ev))
         {
+
+            if (ev.type == Event::Closed)
+            {
+                if (!displayConfirmation) {
+                    displayConfirmation = true;
+                }
+                else {
+                    window.close();
+                }
+            }
+
+            if (ev.type == Event::KeyPressed && evMenu.key.code == Keyboard::Escape)
+            {
+                if (!displayConfirmation) {
+                    displayConfirmation = true;
+                }
+                else {
+                    window.close();
+                }
+            }
+
             switch (ev.type)
             {
             case Event::MouseButtonPressed:
@@ -142,6 +163,16 @@ void optionMenu(Event& ev, Texture texture, RenderWindow& window)
                     {
                         setupMenu(window);
                     }
+
+                    if (evMenu.mouseButton.y <= 524 && evMenu.mouseButton.y >= 381) {
+                        if (evMenu.mouseButton.x >= 541 && evMenu.mouseButton.x <= 594) {
+                            window.close();
+                        }
+                        if (evMenu.mouseButton.x >= 659 && evMenu.mouseButton.x <= 738) {
+                            displayConfirmation = false;
+                        }
+                    }
+
                     break;
                 }
                 break;
@@ -155,6 +186,14 @@ void optionMenu(Event& ev, Texture texture, RenderWindow& window)
         for (int i = 0; i < 2; i++)
         {
             window.draw(checkButtonImage[i]);
+        }
+
+        if (displayConfirmation) {
+            window.draw(blackEffect);
+        }
+
+        if (displayConfirmation) {
+            window.draw(confirmation);
         }
 
         window.display();
@@ -217,7 +256,7 @@ void setupMenu(RenderWindow& window)
                             }
 
                             if (evMenu.mouseButton.y >= 459 && evMenu.mouseButton.y <= 516)
-                            {
+                            {         
                                 optionMenu(evMenu, texture, window);
                             }
 
@@ -227,18 +266,14 @@ void setupMenu(RenderWindow& window)
 
                             }
                         }
-
-                        // 541, 397
-                        // 594, 421
-
-                        // 638, 397
-                        // 722, 421
-                        if (evMenu.mouseButton.y <= 524 && evMenu.mouseButton.y >= 381) {
-                            if (evMenu.mouseButton.x >= 541 && evMenu.mouseButton.x <= 594) {
-                                window.close();
-                            }
-                            if (evMenu.mouseButton.x >= 659 && evMenu.mouseButton.x <= 738) {
-                                displayConfirmation = false;
+                        else {
+                            if (evMenu.mouseButton.y <= 524 && evMenu.mouseButton.y >= 381) {
+                                if (evMenu.mouseButton.x >= 541 && evMenu.mouseButton.x <= 594) {
+                                    window.close();
+                                }
+                                if (evMenu.mouseButton.x >= 659 && evMenu.mouseButton.x <= 738) {
+                                    displayConfirmation = false;
+                                }
                             }
                         }
                     }

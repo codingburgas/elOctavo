@@ -351,6 +351,10 @@ void setVars()
     cutsceneText.setCharacterSize(30);
     cutsceneText.setFont(font);
 
+    cutsceneTextTwo.setPosition(20, 20);
+    cutsceneTextTwo.setCharacterSize(30);
+    cutsceneTextTwo.setFont(font);
+
     for (int i = 0; i < 11; i++) {
         /*points[i] = RectangleShape(Vector2f(14, 14));
         points[i].setOrigin(7, 7);*/
@@ -503,6 +507,8 @@ void setup(RenderWindow& window)
                 enterDialogue = false;
                 dialogueOver = true;
                 imageTurn = true;
+
+                dialogTurn = 0;
             }
 
             if (enterDialogue) {
@@ -607,6 +613,8 @@ void setup(RenderWindow& window)
                     //dialogTurnTwo = 0;
                     setupMenu(window);
                 }
+
+                dialogTurnTwo = 0;
             }
 
             if (enterDialogueTwo) {
@@ -683,6 +691,7 @@ void setup(RenderWindow& window)
         }
 
         window.draw(cutsceneText);
+        window.draw(cutsceneTextTwo);
 
         //for (int i = 0; i < 11; i++) {
         //    window.draw(points2[i]);
@@ -731,6 +740,11 @@ void setup(RenderWindow& window)
 
         if (endG) {
             window.draw(endImage);
+
+            if ((ev.mouseButton.x >= 402 && ev.mouseButton.x <= 874) && (ev.mouseButton.y >= 473 && ev.mouseButton.y <= 611))
+            {
+                setupMenu(window);
+            }
         }
 
         window.display();
