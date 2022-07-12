@@ -251,12 +251,6 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 		}
 
 		if (checkCollideWithRamp(body) && !jumped) {
-			//if (bodyY == 490) {
-			//	body.setPosition(bodyX, 480);
-			//	bodyY = body.getPosition().y;
-			//	//cout << bodyY << endl;
-			//}
-
 			if (Keyboard::isKeyPressed(Keyboard::D)) {
 				if (-velocity.x < 999) {
 					velocity.x = abs(speed - 500.0f) * deltaTime;
@@ -275,13 +269,11 @@ void Player::updateMovement(float deltaTime, RenderWindow& window, Sprite& adven
 			ramped = true;
 		}
 		else if (((bodyX > getRamp2Pos().x + 110 && (bodyX - (getRamp2Pos().x + 110) < 30.0f)) && bodyY > 450 && !ramped)) {
-			cout << bodyY << endl;
 			velocity.x = 0.f;
 			body.setPosition(bodyX + 0.75f, bodyY);
 		}
 		else {
 			if (checkCollideWithRamp(body) && frameJumped > 0) {
-				cout << frameJumped << endl;
 				jumped = false;
 			}
 			if (ramped) {

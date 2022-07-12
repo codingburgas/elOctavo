@@ -6,10 +6,15 @@
 #define _WIN32_WINNT 0x0500
 #include <windows.h>
 
-int main()
+void hideConsole()
 {
 	HWND hWnd = GetConsoleWindow();
 	ShowWindow(hWnd, SW_HIDE);
+}
+
+int main()
+{
+	hideConsole();
 
 	RenderWindow window(VideoMode(1280, 720), "The legend of Kurabirov", Style::Titlebar | Style::Close);
 

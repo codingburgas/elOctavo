@@ -103,7 +103,13 @@ void optionMenu(Event& ev, Texture texture, RenderWindow& window)
                     displayConfirmation = true;
                 }
                 else {
-                    window.close();
+                    if (ev.type == Event::KeyPressed && ev.key.code == Keyboard::Escape)
+                    {
+                        displayConfirmation = false;
+                    }
+                    else {
+                        window.close();
+                    }
                 }
             }
 
@@ -231,7 +237,19 @@ void setupMenu(RenderWindow& window)
                     displayConfirmation = true;
                 }
                 else {
-                    window.close();
+                    if (evMenu.type == Event::KeyPressed && evMenu.key.code == Keyboard::Escape)
+                    {
+                        displayConfirmation = false;
+                    }
+                    else {
+                        if (evMenu.type == Event::KeyPressed && evMenu.key.code == Keyboard::Escape)
+                        {
+                            displayConfirmation = false;
+                        }
+                        else {
+                            window.close();
+                        }
+                    }
                 }
             }
 

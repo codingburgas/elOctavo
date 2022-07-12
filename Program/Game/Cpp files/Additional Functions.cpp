@@ -5,6 +5,13 @@
 Texture backstoryTexture;
 Sprite backstoryImage;
 
+Texture confirmationT;
+Sprite confirmation;
+
+bool displayConfirmation = false;
+
+RectangleShape blackEffect(Vector2f(1280, 720));
+
 void changeFPS(int FPS, RenderWindow& window)
 {
 	window.setFramerateLimit(FPS);
@@ -44,6 +51,7 @@ void backstory(RenderWindow& window, Texture backstoryTexture, Sprite backstoryI
 	textBackstory.setFillColor(Color(0, 0, 0));
 	textBackstory.setPosition(81, 205);
 
+	blackEffect.setFillColor(Color(0, 0, 0, 120));
 	//frame timing
 	Clock timer;
 	unsigned int character = 0;
@@ -58,6 +66,11 @@ void backstory(RenderWindow& window, Texture backstoryTexture, Sprite backstoryI
 	soundWrite.setVolume(200);
 	Event ev;
 
+	confirmationT.loadFromFile("../Images and fonts/Bg/Confirmation.png");
+	confirmation.setTexture(confirmationT);
+	confirmation.setOrigin(0, 0);
+	confirmation.setPosition(0, 0);
+
 	while (window.isOpen())
 	{
 		while (window.pollEvent(ev))
@@ -65,12 +78,28 @@ void backstory(RenderWindow& window, Texture backstoryTexture, Sprite backstoryI
 
 			if (ev.type == Event::Closed)
 			{
-				window.close();
+				if (!displayConfirmation) {
+					displayConfirmation = true;
+				}
+				else {
+					window.close();
+				}
 			}
 
 			if (ev.type == Event::KeyPressed && ev.key.code == Keyboard::Escape)
 			{
-				window.close();
+				if (!displayConfirmation) {
+					displayConfirmation = true;
+				}
+				else {
+					if (ev.type == Event::KeyPressed && ev.key.code == Keyboard::Escape)
+					{
+						displayConfirmation = false;
+					}
+					else {
+						window.close();
+					}
+				}
 			}
 
 			if (ev.type == Event::KeyReleased && ev.key.code == Keyboard::Enter) {
@@ -95,9 +124,28 @@ void backstory(RenderWindow& window, Texture backstoryTexture, Sprite backstoryI
 			textBackstory.setString(String(Backstory.substr(0, Backstory.length())));
 		}
 
+		if (ev.mouseButton.y <= 524 && ev.mouseButton.y >= 381) {
+			if (ev.mouseButton.x >= 541 && ev.mouseButton.x <= 594) {
+				window.close();
+			}
+			if (ev.mouseButton.x >= 659 && ev.mouseButton.x <= 738) {
+				displayConfirmation = false;
+			}
+		}
+
+
 		window.clear();
 		window.draw(backstoryImage);
 		window.draw(textBackstory);
+
+		if (displayConfirmation) {
+			window.draw(blackEffect);
+		}
+
+		if (displayConfirmation) {
+			window.draw(confirmation);
+		}
+
 		window.display();
 
 		if (isTouchedForBreak == true)

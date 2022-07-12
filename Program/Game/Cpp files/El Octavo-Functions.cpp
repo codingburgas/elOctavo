@@ -187,6 +187,7 @@ void CollisionBlock::drawHitbox(RenderWindow& window) {
 }
 
 namespace variables {
+    bool is_open;
 
     RectangleShape crutch;
 
@@ -289,12 +290,16 @@ namespace variables {
     SoundBuffer talkBuffer;
 
     bool isMoving = true, isMovingTwo = true;
+
+    Texture confirmationTF;
+    Sprite confirmationF;
+
+    bool displayConfirmationF = false;
+    RectangleShape blackEffectF(Vector2f(1280, 720));
+
 };
 
-
 using namespace variables;
-
-Vector2f getRampPos();
 
 void setVars()
 {
@@ -327,9 +332,7 @@ void setVars()
     endImage.setTexture(endTexture);
 
     rampT.loadFromFile("../Images and fonts/Ramp Test.png");
-    /*ramp.setTexture(rampT);
-    ramp.setOrigin(0, 0);
-    ramp.setPosition(800, 430);*/
+    
     ramp2.setTexture(rampT);
     ramp2.setOrigin(0, 0);
     ramp2.setPosition(760, 430);
@@ -356,22 +359,17 @@ void setVars()
     cutsceneTextTwo.setFont(font);
 
     for (int i = 0; i < 11; i++) {
-        /*points[i] = RectangleShape(Vector2f(14, 14));
-        points[i].setOrigin(7, 7);*/
         points2[i] = RectangleShape(Vector2f(14, 14));
         points2[i].setOrigin(7, 7);
 
         if (i == 0) {
-            //points[i].setPosition(ramp.getPosition().x, ramp.getPosition().y + 110);
             points2[i].setPosition(ramp2.getPosition().x, ramp2.getPosition().y + 110);
         }
         else {
-            //points[i].setPosition(points[i - 1].getPosition().x + 9, points[i - 1].getPosition().y - 9);
             points2[i].setPosition(points2[i - 1].getPosition().x + 9, points2[i - 1].getPosition().y - 9);
 
         }
 
-        //pointsCopy[i] = points[i].getPosition();
         pointsCopy2[i] = points2[i].getPosition();
     }
 
@@ -397,6 +395,12 @@ void setVars()
     talkBuffer.loadFromFile("../Audios/Talk.wav");
     talkSound.setBuffer(talkBuffer);
     talkSound.setVolume(5);
+
+    confirmationTF.loadFromFile("../Images and fonts/Bg/Confirmation.png");
+    confirmationF.setTexture(confirmationTF);
+    confirmationF.setOrigin(0, 0);
+    confirmationF.setPosition(0, 0);
+    blackEffectF.setFillColor(Color(0, 0, 0, 120));
 }
 
 void setup(RenderWindow& window)
@@ -417,28 +421,55 @@ void setup(RenderWindow& window)
         deltaTime = clock.restart().asSeconds();
 
         window.setKeyRepeatEnabled(true);
-        
-        float moveToPos[2] = { blocks[1].hitbox.getPosition().x + 200, blocks[2].hitbox.getPosition().x - 800 };
-        float moveToPos2[2] = {blocks[4].hitbox.getPosition().x + 250, blocks[5].hitbox.getPosition().x - 700};
 
-        cout << blocks[2].hitbox.getPosition().x << endl;
+        float moveToPos[2] = { blocks[1].hitbox.getPosition().x + 200, blocks[2].hitbox.getPosition().x - 800 };
+        float moveToPos2[2] = { blocks[4].hitbox.getPosition().x + 250, blocks[5].hitbox.getPosition().x - 700 };
 
         while (window.pollEvent(ev))
         {
             if (ev.type == Event::Closed)
             {
-                window.close();
+                is_open = true;
+
+                if (!displayConfirmationF) {
+                    displayConfirmationF = true;
+                    is_open = false;
+                }
+                else {
+                    window.close();
+                }
             }
 
             if (ev.type == Event::KeyPressed && ev.key.code == Keyboard::Escape)
             {
-                window.close();
+                is_open = true;
+
+                if (!displayConfirmationF) {
+                    displayConfirmationF = true;
+                    is_open = false;
+                }
+                else {
+                    if (ev.type == Event::KeyPressed && ev.key.code == Keyboard::Escape)
+                    {
+                        displayConfirmationF = false;
+
+                    }
+                    else {
+                        if (ev.type == Event::KeyPressed && ev.key.code == Keyboard::Escape)
+                        {
+                            displayConfirmationF = false;
+                        }
+                        else {
+                            window.close();
+                        }
+                    }       
+                }
             }
 
             if (ev.type == Event::KeyReleased && ev.key.code == Keyboard::Enter) {
                 if (enterDialogue) {
                     enterPressed = false;
-
+                    
                 }
                 else if (enterDialogueTwo) {
                     enterPressedTwo = false;
@@ -460,7 +491,6 @@ void setup(RenderWindow& window)
             {
                 enterDialogue = true;
             }
-
         }
         else {
             cutsceneText.setString("");
@@ -541,7 +571,6 @@ void setup(RenderWindow& window)
             talkSound.stop();
         }
 
-
         //nestashev dialogue
         if (plr.body.getPosition().x >= messageImageTwo.getPosition().x - 200.0f && plr.body.getPosition().x <= messageImageTwo.getPosition().x + 200.0f)
         {
@@ -567,7 +596,6 @@ void setup(RenderWindow& window)
             {
                 dialogTurnTwo++;
 
-                cout << dialogTurnTwo;
                 enterPressedTwo = true;
                 characterTwo = 0;
             }
@@ -610,7 +638,6 @@ void setup(RenderWindow& window)
                 }
 
                 if (timerTwo.getElapsedTime().asSeconds() > 5) {
-                    //dialogTurnTwo = 0;
                     setupMenu(window);
                 }
 
@@ -646,17 +673,17 @@ void setup(RenderWindow& window)
             isMovingTwo = true;
         }
 
-        if (!enterDialogue && !enterDialogueTwo)
+        if (!enterDialogue && !enterDialogueTwo || is_open)
         {
             plr.updateMovement(deltaTime, window, adventureBgImage, soundWalk, soundJump, movementToggle, blocks, blocksSize);
             npc1.update(0, deltaTime, npc1.delay);
             npc2.update(0, deltaTime, npc2.delay);
         }
-        
+
         window.clear(Color::Green);
 
         window.draw(adventureBgImage);
-        //window.draw(ramp);
+
         window.draw(ramp2);
 
         /*for (int i = 0; i < 8; i++) {
@@ -693,10 +720,6 @@ void setup(RenderWindow& window)
         window.draw(cutsceneText);
         window.draw(cutsceneTextTwo);
 
-        //for (int i = 0; i < 11; i++) {
-        //    window.draw(points2[i]);
-        //}
-
         // draw message bubble
         if (drawBubble) {
             window.draw(messageImage);
@@ -707,6 +730,23 @@ void setup(RenderWindow& window)
         }
 
         moveStaticImages(plr.body, window, npc1.body, npc2.body, adventureBgImage);
+
+        if (ev.mouseButton.y <= 524 && ev.mouseButton.y >= 381) {
+            if (ev.mouseButton.x >= 541 && ev.mouseButton.x <= 594) {
+                window.close();
+            }
+            if (ev.mouseButton.x >= 659 && ev.mouseButton.x <= 738) {
+                displayConfirmationF = false;
+            }
+        }
+
+        if (displayConfirmationF) {
+            window.draw(blackEffectF);
+        }
+
+        if (displayConfirmationF) {
+            window.draw(confirmationF);
+        }
 
         if (enterDialogue)
         {
@@ -803,7 +843,6 @@ void moveStaticImages(RectangleShape& body, RenderWindow& window, RectangleShape
         {
             //make images static
             messageImage.move(-(225.0f * deltaTime), 0.f);
-            //ramp.move(-(225.0f * deltaTime), 0.f);
             ramp2.move(-(225.0f * deltaTime), 0.f);
             npcBody.move(-(225.0f * deltaTime), 0.f);
             npcBody2.move(-(225.0f * deltaTime), 0.f);
@@ -814,7 +853,6 @@ void moveStaticImages(RectangleShape& body, RenderWindow& window, RectangleShape
             }
 
             for (int i = 0; i < 11; i++) {
-                //points[i].move(-(225.0f * deltaTime), 0.f);
                 points2[i].move(-(225.0f * deltaTime), 0.f);
             }
 
@@ -832,7 +870,6 @@ void moveStaticImages(RectangleShape& body, RenderWindow& window, RectangleShape
 void resetStaticImages(float& offset, RectangleShape& npcBody, RectangleShape& npcBody2, Sprite& adventureBgImage) {
     messageImage.setPosition(500 - 1101, 300);
     messageImageTwo.setPosition(6319 - 1101, 159);
-    //ramp.setPosition(800 - 1101, 430);
     ramp2.setPosition(760 - 1101, 430);
     npcBody.setPosition(1849.0f - 1101, 538.0f - 90.0f / 2);
     npcBody2.setPosition(4601.0f - 1101, 538.0f - 90.0f / 2);
